@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
+
 const routes: Routes = [
   {
     path: 'home',
@@ -50,7 +51,43 @@ const routes: Routes = [
   {
     path: 'user-role',
     loadChildren: () => import('./user-role/user-role.module').then( m => m.UserRolePageModule)
+  },  {
+    path: 'card-payment',
+    loadChildren: () => import('./card-payment/card-payment.module').then( m => m.CardPaymentPageModule)
   },
+  {
+    path: 'order-history',
+    loadChildren: () => import('./order-history/order-history.module').then( m => m.OrderHistoryPageModule)
+  },
+  {
+    path: 'faqs',
+    loadChildren: () => import('./faqs/faqs.module').then( m => m.FaqsPageModule)
+  },
+  {
+    path: 'terms-andconditions',
+    loadChildren: () => import('./terms-andconditions/terms-andconditions.module').then( m => m.TermsAndconditionsPageModule)
+  },
+  {
+    path: 'home-second',
+    loadChildren: () => import('./home-second/home-second.module').then( m => m.HomeSecondPageModule)
+  },
+  {
+    path: 'become-a-driver',
+    loadChildren: () => import('./become-a-driver/become-a-driver.module').then( m => m.BecomeADriverPageModule)
+  },
+  {
+    path: 'about-med-dash',
+    loadChildren: () => import('./about-med-dash/about-med-dash.module').then( m => m.AboutMedDashPageModule)
+  },
+  {
+    path: 'covid-19',
+    loadChildren: () => import('./covid-19/covid-19.module').then( m => m.Covid19PageModule)
+  },
+  {
+    path: 'forgot-password',
+    loadChildren: () => import('./forgot-password/forgot-password.module').then( m => m.ForgotPasswordPageModule)
+  },
+
 ];
 
 @NgModule({

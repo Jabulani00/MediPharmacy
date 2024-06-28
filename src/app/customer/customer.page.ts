@@ -11,5 +11,4 @@ export class CustomerPage implements OnInit {
 
   ngOnInit() {
   }
-
 }
