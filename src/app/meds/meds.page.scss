@@ -1,0 +1,36 @@
+ion-content {
+    --background: #f4f4f4; /* Light background */
+  }
+  
+  ion-avatar {
+    --border-radius: 8px; /* Rounded avatar images */
+  }
+  
+  ion-label {
+    font-size: 14px;
+  }
+  
+  ion-button {
+    margin-top: 10px;
+  }
+  
+  ion-item {
+    background-color: #ffffff; /* White background for each item */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  }
+  
+  h2 {
+    font-size: 18px;
+    margin-bottom: 5px;
+  }
+  
+  p {
+    font-size: 14px;
+    margin: 0;
+    color: #555555; /* Dark gray text */
+  }
+  
+  p.prescription-required {
+    color: #ff6347; /* Red color for prescription required text */
+  }
+  

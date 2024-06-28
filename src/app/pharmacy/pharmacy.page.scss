@@ -1,0 +1,72 @@
+ion-content {
+    --background: #f3f4f6; /* Light background color for the dashboard */
+  }
+  
+  .dashboard-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  
+    h1 {
+      font-size: 32px;
+      color: #c24d2c;
+      margin-bottom: 20px;
+    }
+  
+    .card {
+      width: 90%;
+      max-width: 400px;
+      padding: 20px;
+      margin: 10px 0;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+  
+      ion-icon {
+        font-size: 50px;
+        color: #c24d2c;
+        margin-bottom: 10px;
+      }
+  
+      h2 {
+        font-size: 24px;
+        color: #333333;
+        margin-bottom: 5px;
+      }
+  
+      p {
+        font-size: 16px;
+        color: #666666;
+      }
+  
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      }
+    }
+  
+    .chronic-meds {
+      border-left: 5px solid #c24d2c;
+    }
+  
+    .otc-meds {
+      border-left: 5px solid #28a745;
+    }
+  
+    .antibiotics {
+      border-left: 5px solid #1e90ff;
+    }
+  
+    .painkillers {
+      border-left: 5px solid #ff4500;
+    }
+  
+    .fever {
+      border-left: 5px solid #ffd700;
+    }
+  }
+  
