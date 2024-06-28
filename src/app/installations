@@ -1,0 +1,2 @@
+Firebase Specific Dependencies
+npm install firebase @angular/fire --save

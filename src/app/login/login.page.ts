@@ -16,8 +16,8 @@ export class LoginPage implements OnInit {
   password: string = '';
 
   // Default admin credentials
-  defaultAdminEmail: string = 'admin@best.com';
-  defaultAdminPassword: string = '@bestB1234';
+  defaultAdminEmail: string = 'medi@pharm.com';
+  defaultAdminPassword: string = '@MediP1234';
 
   constructor(
     private router: Router,
