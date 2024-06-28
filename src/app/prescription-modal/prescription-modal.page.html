@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Prescription Upload</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()">Close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-list>
+    <ion-item>
+      <ion-label position="stacked">Upload Prescription Letter</ion-label>
+      <input type="file" accept="image/*" (change)="onFileSelected($event)">
+    </ion-item>
+
+    <ion-button expand="block" (click)="uploadPrescription()">Upload Prescription</ion-button>
+  </ion-list>
+</ion-content>

@@ -7,12 +7,14 @@ import { IonicModule } from '@ionic/angular';
 import { PharmacyPageRoutingModule } from './pharmacy-routing.module';
 
 import { PharmacyPage } from './pharmacy.page';
+import { ReactiveFormsModule } from '@angular/forms'; // <-- Add this line
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    ReactiveFormsModule,
     PharmacyPageRoutingModule
   ],
   declarations: [PharmacyPage]

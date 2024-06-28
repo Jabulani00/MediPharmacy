@@ -51,6 +51,14 @@ const routes: Routes = [
     path: 'user-role',
     loadChildren: () => import('./user-role/user-role.module').then( m => m.UserRolePageModule)
   },
+  {
+    path: 'meds',
+    loadChildren: () => import('./meds/meds.module').then(m => m.MedsPageModule)
+  },
+  {
+    path: 'prescription-modal',
+    loadChildren: () => import('./prescription-modal/prescription-modal.module').then(m => m.PrescriptionModalPageModule)
+  }
 ];
 
 @NgModule({

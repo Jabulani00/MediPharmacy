@@ -12,9 +12,14 @@ export class HomePage implements OnInit {
   constructor(private router: Router, private loadingController: LoadingController) {}
 
   async ngOnInit() {
-    setTimeout(() => {
-      this.router.navigate(['/login']); // Navigate to the login page after a delay
-    }, 3000);
+
+    //-----------------------------------------------------------------------------------
+    // setTimeout(() => {
+    //   this.router.navigate(['/login']); // Navigate to the login page after a delay
+    // }, 3000);
+    //-----------------------------------------------------------------------------------
+
+    
   }
 
 }
