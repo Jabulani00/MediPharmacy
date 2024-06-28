@@ -1,0 +1,63 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-title>{{ user.name }}'s Documents</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismissModal()">
+        <ion-icon name="close-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-list>
+    <ion-item *ngIf="user.vehicleDoc" class="document-item">
+      <ion-icon name="car-outline" slot="start"></ion-icon>
+      <ion-label>Vehicle Document</ion-label>
+      <ion-button fill="clear" (click)="openDocument(user.vehicleDoc)" class="view-button">
+        <ion-icon name="eye-outline" slot="start"></ion-icon>
+        View
+      </ion-button>
+    </ion-item>
+    <ion-item *ngIf="user.licenseDoc" class="document-item">
+      <ion-icon name="id-card-outline" slot="start"></ion-icon>
+      <ion-label>License Document</ion-label>
+      <ion-button fill="clear" (click)="openDocument(user.licenseDoc)" class="view-button">
+        <ion-icon name="eye-outline" slot="start"></ion-icon>
+        View
+      </ion-button>
+    </ion-item>
+    <ion-item *ngIf="user.pdpDoc" class="document-item">
+      <ion-icon name="document-text-outline" slot="start"></ion-icon>
+      <ion-label>PDP Document</ion-label>
+      <ion-button fill="clear" (click)="openDocument(user.pdpDoc)" class="view-button">
+        <ion-icon name="eye-outline" slot="start"></ion-icon>
+        View
+      </ion-button>
+    </ion-item>
+    <ion-item *ngIf="user.registrationDoc" class="document-item">
+      <ion-icon name="clipboard-outline" slot="start"></ion-icon>
+      <ion-label>Registration Document</ion-label>
+      <ion-button fill="clear" (click)="openDocument(user.registrationDoc)" class="view-button">
+        <ion-icon name="eye-outline" slot="start"></ion-icon>
+        View
+      </ion-button>
+    </ion-item>
+    <ion-item *ngIf="user.certificateDoc" class="document-item">
+      <ion-icon name="ribbon-outline" slot="start"></ion-icon>
+      <ion-label>Certificate</ion-label>
+      <ion-button fill="clear" (click)="openDocument(user.certificateDoc)" class="view-button">
+        <ion-icon name="eye-outline" slot="start"></ion-icon>
+        View
+      </ion-button>
+    </ion-item>
+    <ion-item *ngIf="user.proofOfAddressDoc" class="document-item">
+      <ion-icon name="home-outline" slot="start"></ion-icon>
+      <ion-label>Proof of Address</ion-label>
+      <ion-button fill="clear" (click)="openDocument(user.proofOfAddressDoc)" class="view-button">
+        <ion-icon name="eye-outline" slot="start"></ion-icon>
+        View
+      </ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>

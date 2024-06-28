@@ -1,0 +1,94 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Sign Up</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form (ngSubmit)="Register()">
+    <ion-list>
+      <ion-item>
+        <ion-label position="floating">Full Name</ion-label>
+        <ion-input type="text" [(ngModel)]="name" name="name" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Email</ion-label>
+        <ion-input type="email" [(ngModel)]="email" name="email" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Password</ion-label>
+        <ion-input type="password" [(ngModel)]="password" name="password" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Confirm Password</ion-label>
+        <ion-input type="password" [(ngModel)]="confirm_password" name="confirm_password" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Select Role</ion-label>
+        <ion-select [(ngModel)]="selectedRole" name="role" required>
+          <ion-select-option value="Customer">Customer</ion-select-option>
+          <ion-select-option value="Pharmacy">Pharmacy</ion-select-option>
+          <ion-select-option value="Driver">Driver</ion-select-option>
+          <ion-select-option value="Dispatcher">Dispatcher</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <!-- Driver specific fields -->
+      <ng-container *ngIf="selectedRole === 'Driver'">
+        <ion-item>
+          <ion-label>Vehicle Document</ion-label>
+          <ion-input type="file" (change)="onFileSelected($event, 'vehicle')" required></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>License Document</ion-label>
+          <ion-input type="file" (change)="onFileSelected($event, 'license')" required></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>PDP Document</ion-label>
+          <ion-input type="file" (change)="onFileSelected($event, 'pdp')" required></ion-input>
+        </ion-item>
+      </ng-container>
+
+      <!-- Pharmacy specific fields -->
+      <ng-container *ngIf="selectedRole === 'Pharmacy'">
+        <ion-item>
+          <ion-label>Registration Document</ion-label>
+          <ion-input type="file" (change)="onFileSelected($event, 'registration')" required></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>Certificate</ion-label>
+          <ion-input type="file" (change)="onFileSelected($event, 'certificate')" required></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>Proof of Address</ion-label>
+          <ion-input type="file" (change)="onFileSelected($event, 'proofOfAddress')" required></ion-input>
+        </ion-item>
+      </ng-container>
+
+      <!-- Dispatcher specific fields -->
+      <ng-container *ngIf="selectedRole === 'Dispatcher'">
+        <ion-item>
+          <ion-label position="floating">Dispatcher ID</ion-label>
+          <ion-input type="text" [(ngModel)]="dispatcherId" name="dispatcherId" required></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">System ID</ion-label>
+          <ion-input type="text" [(ngModel)]="dispatcherSystemId" name="dispatcherSystemId" required></ion-input>
+        </ion-item>
+      </ng-container>
+    </ion-list>
+
+    <div class="ion-padding">
+      <ion-button expand="block" type="submit">Sign Up</ion-button>
+    </div>
+  </form>
+
+  <div class="ion-text-center ion-padding-top">
+    <p>Already have an account? <a routerLink="/login">Login</a></p>
+    <p>Forgot your password? <a routerLink="/reset">Reset Password</a></p>
+  </div>
+</ion-content>
