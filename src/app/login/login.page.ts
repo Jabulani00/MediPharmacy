@@ -99,7 +99,7 @@ export class LoginPage implements OnInit {
             // Role-based navigation
             switch (userData['role']) {
               case 'Customer':
-                this.router.navigate(['/customer']);
+                this.router.navigate(['/home-second']);
                 break;
               case 'Pharmacy':
                 this.router.navigate(['/pharmacy']);
@@ -140,5 +140,9 @@ export class LoginPage implements OnInit {
         this.presentToast('You are not allowed in the system', 'danger');
       }
     }
+  }
+
+  goHomePage() {
+    this.router.navigate(['/home']);
   }
 }

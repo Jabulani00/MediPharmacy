@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { CustomerPageRoutingModule } from './customer-routing.module';
-
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CustomerPage } from './customer.page';
 
 @NgModule({
@@ -15,6 +15,7 @@ import { CustomerPage } from './customer.page';
     IonicModule,
     CustomerPageRoutingModule
   ],
-  declarations: [CustomerPage]
+  declarations: [CustomerPage],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class CustomerPageModule {}

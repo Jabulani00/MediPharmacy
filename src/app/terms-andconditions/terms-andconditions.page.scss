@@ -1,0 +1,90 @@
+ion-header {
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+  }
+
+  #backButton {
+    margin: 1em;
+    border-radius: 20px;
+    background-color: red;
+    color: white;
+}
+  
+  ion-toolbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 56px;
+    padding: 0 16px;
+  }
+  
+  ion-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  ion-content {
+    --padding-top: 20px;
+    --padding-end: 20px;
+    --padding-bottom: 20px;
+    --padding-start: 20px;
+    background-color: #f4f4f4;
+  }
+  
+  ion-card {
+    --background: white;
+    --border-radius: 8px;
+    --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
+  
+  ion-card-header {
+    background-color: #007bff;
+    color: white;
+    --border-radius: 8px 8px 0 0;
+    padding: 16px;
+  }
+  
+  ion-card-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  ion-item {
+    --inner-padding-end: 0;
+    --inner-padding-start: 0;
+  }
+  
+  ion-text h2 {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color:#007bff;
+  }
+  
+  ion-text p,
+  ion-text ul {
+    font-size: 1em;
+    line-height: 1.6em;
+    margin-bottom: 10px;
+  }
+
+  a:hover{
+    text-decoration: underline;
+    color: red;
+    cursor: hand;
+  }
+  
+  ion-text ul {
+    list-style-type: disc;
+    padding-left: 20px;
+  }
+  
+  ion-text ul li {
+    margin-bottom: 8px;
+  }
+  

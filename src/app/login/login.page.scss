@@ -2,6 +2,14 @@
 ion-content {
     --ion-background-color: var(--ion-color-light);
   }
+
+  .head {
+    display: block;
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: white;
+  }
   
   .container {
     display: flex;
@@ -52,6 +60,7 @@ ion-content {
     padding: 10px;
     border: 1px solid var(--ion-color-medium);
     border-radius: 5px;
+    color:#c24d2c;
   }
   
   button {

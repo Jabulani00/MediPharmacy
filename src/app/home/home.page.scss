@@ -1,6 +1,6 @@
 /* Base styles */
 ion-header{
-  --background: #fff;
+  background-color: #fff;
 }
 
 .logo {
@@ -21,6 +21,32 @@ ion-header{
   padding: 1px 10px 5px 10px;
 }
 
+#btnNavLogin {
+  width: auto;
+  color: #da1a20;
+  border: none;
+  margin: 5px 10px;
+  padding: 5px 10px;
+}
+
+#btnNavRegister {
+  width: auto;
+  color: black;
+  background: rgb(21, 133, 202);
+  border-radius: 20px;
+  margin: 5px 10px;
+  padding: 5px 10px;
+}
+
+#btnNavLogin:hover {
+  color: rgb(21, 133, 202);
+  text-decoration: underline;
+}
+
+#btnNavRegister:hover {
+  background: #ff5a5f;
+  transition: background-color 0.3s ease, rgb(21, 133, 202) 0.3s ease;
+}
 
 .nav-container {
   color: skyblue;

@@ -1,6 +1,9 @@
 <ion-header>
-  <ion-toolbar >
-    <ion-title>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goHomePage()" class="back-button">Back</ion-button>
+    </ion-buttons>
+    <ion-title class="head">
       Login
     </ion-title>
   </ion-toolbar>
@@ -22,8 +25,8 @@
         </div>
         <button (click)="login()">LOGIN</button>
       </form>
-      <p>Don't have an account? <a routerLink="/register">sign-up</a></p>
-      <p>........................<a routerLink="/reset">reset</a></p>
+      <p>Don't have an account? <a routerLink="/register"> Sign-up</a></p>
+      <p>Can't login?<a routerLink="/reset"> Forgot Password</a></p>
     </div>
   </div>
 </ion-content>

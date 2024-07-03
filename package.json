@@ -65,6 +65,7 @@
     "postcss-loader": "^8.1.1",
     "resolve-url-loader": "^5.0.0",
     "sass-loader": "^14.2.1",
+    "style-loader": "^4.0.0",
     "typescript": "~5.4.0"
   },
   "description": "An Ionic project"

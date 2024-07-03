@@ -20,9 +20,14 @@ export class ProfilePage implements OnInit {
   user$: Observable<any> = of(null);
 
   constructor(
-    private firestore: AngularFirestore,private loadingController: LoadingController, private auth:AngularFireAuth,private navCtrl: NavController ,private afs: AngularFirestore,private alertController: AlertController,
-    private toastController: ToastController,private modalController: ModalController
-   
+    private firestore: AngularFirestore,
+    private loadingController: LoadingController, 
+    private auth:AngularFireAuth,
+    private navCtrl: NavController,
+    private afs: AngularFirestore,
+    private alertController: AlertController,
+    private toastController: ToastController,
+    private modalController: ModalController
   ) {
 
     

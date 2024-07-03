@@ -1,13 +1,31 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>faqs</ion-title>
+    <ion-buttons slot="end">
+      <ion-button id="backButton" (click)="closeMenu($event)" >Back</ion-button>
+    </ion-buttons>
+    <ion-title class="title">FAQs</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">faqs</ion-title>
+      <ion-title size="large">Frequently Asked Questions</ion-title>
     </ion-toolbar>
   </ion-header>
+
+  <div class="faq-container">
+    <h1>How can we help you?</h1>
+    <p class="intro-text">Whether you have an idea, complaint or compliment, we want to hear from you!</p>
+    <div class="panel">
+      <p class="panel-header">Choose a reason for contacting us</p>
+      <ion-button color="primary" class="faq-button" (click)="goToCOVID19()" routerLink="/covid19">COVID-19</ion-button>
+      <ion-button color="primary" class="faq-button">Orders</ion-button>
+      <ion-button color="primary" class="faq-button">Payments</ion-button>
+      <ion-button color="primary" class="faq-button">App and Web Support</ion-button>
+      <ion-button color="primary" class="faq-button">Compliment</ion-button>
+      <ion-button color="primary" class="faq-button">Complaint</ion-button>
+      <ion-button color="primary" class="faq-button">General Enquiry</ion-button>
+    </div>
+  </div>
 </ion-content>

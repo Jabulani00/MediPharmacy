@@ -1,13 +1,153 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>home-second</ion-title>
+<ion-header class="nav-container">
+  <ion-toolbar class="top">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title class="logo">Med Dash</ion-title>
+    <ion-title class="slogan">Delivered to your doorstep</ion-title>
+    <ion-buttons slot="end" class="Profile">
+      <ion-icon (click)="goToPROFILE()" (click)="closeMenu($event)" routerLink="/profile" name="person-circle-outline" slot="start"></ion-icon>
+      <ion-label><a (click)="goToPROFILE()" (click)="closeMenu($event)" routerLink="/profile">Profile</a></ion-label>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">home-second</ion-title>
+<ion-content>
+  <ion-menu side="start" content-id="main-content">
+    <ion-header>
+      <ion-toolbar class="menu">
+        <ion-title>Menu</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="MenuLinks">
+      <ion-list >
+        <ion-item>
+          <ion-icon name="bag-outline" slot="start"></ion-icon>
+          <ion-label><a>Shop for Products</a></ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-icon (click)="goToCARDPAYMENT()" routerLink="/card-payment" name="card-outline" slot="start"></ion-icon>
+          <ion-label><a (click)="goToCARDPAYMENT()" routerLink="/card-payment">Card Payment</a></ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-icon (click)="  goToORDERHISTORY()" routerLink="/order-history" name="receipt-outline" slot="start"></ion-icon>
+          <ion-label><a (click)="  goToORDERHISTORY()" routerLink="/order-history">Order History</a></ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-icon (click)=" goToFAQS()" routerLink="/faqs" name="help-circle-outline" slot="start"></ion-icon>
+          <ion-label><a (click)=" goToFAQS()" routerLink="/faqs">FAQs</a></ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-icon (click)="goToTERMSANDCONDITIONS()" routerLink="/terms-andconditions" name="document-text-outline" slot="start"></ion-icon>
+          <ion-label><a (click)="goToTERMSANDCONDITIONS()" routerLink="/terms-andconditions">Terms and Conditions</a></ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-icon (click)="goToHOMESECOND()" routerLink="/home-second" name="home-outline" slot="start"></ion-icon>
+          <ion-label><a (click)="goToHOMESECOND()" routerLink="/home-second">Home</a></ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-icon href="about.html?source=home-second" (click)=" goToABOUTMEDDASH()" routerLink="/about-med-dash" name="information-outline" slot="start"></ion-icon>
+          <ion-label><a href="about.html?source=home-second" (click)=" goToABOUTMEDDASH()" routerLink="/about-med-dash" >About Med Dash</a></ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-icon (click)="  goToBECOMEADRIVER()" routerLink="/become-a-driver" name="car-outline" slot="start"></ion-icon>
+          <ion-label><a (click)="  goToBECOMEADRIVER()" routerLink="/become-a-driver">Become a Driver</a></ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-icon (click)="goToREGISTERYOURPHARMACY()" routerLink="/register-your-pharmacy" name="document-text-outline" slot="start"></ion-icon>
+          <ion-label><a (click)="goToREGISTERYOURPHARMACY()" routerLink="/register-your-pharmacy">Register your Pharmacy</a></ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-icon (click)=" goToHELP()" routerLink="/help" name="help-outline" slot="start"></ion-icon>
+          <ion-label><a (click)=" goToHELP()" routerLink="/help">Help</a></ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-button  (click)="closeMenu($event)" id="signout-btn" >Sign out</ion-button>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+
+  <div id="main-content" class="ion-padding">
+    <div class="search">
+      <ion-icon (click)="closeMenu($event)" class="locate-icon" name="location-outline"></ion-icon>
+      <ion-searchbar (click)="closeMenu($event)" class="lookup" placeholder="Search your location"></ion-searchbar>
+      <ion-button (click)="closeMenu($event)" class="order-now-button">Order Now</ion-button>
+    </div>
+  </div>
+
+  <div>
+    <swiper-container
+      (slidechange)="swiperSlideChanged($event)"
+      [loop]="true"
+      [pagination]="true">
+      <swiper-slide *ngFor="let image of images">
+        <img [src]="image" alt="advert_images"/>
+      </swiper-slide>
+    </swiper-container>
+  </div>
+
+  <ion-content class="discount">
+    <ion-title >...Discount Offers...</ion-title>
+  </ion-content>
+
+  <ion-content class="HIW">
+    <div class="Board">
+      <ion-title class="BrdTitle">How it works</ion-title>
+      <div class="grid-container">
+        <div class="grid-item">
+          <img [src]="image1" alt="Phone">
+          <p>1. Search for the medications and health products you need.</p>
+        </div>
+        <div class="grid-item">
+          <img [src]="image2" alt="Hand_Press">
+          <p>2. Purchase medication and health products in a click of a button.</p>
+        </div>
+        <div class="grid-item">
+          <img [src]="image3" alt="Delivery_guy">
+          <p>3. Track your orders.</p>
+        </div>
+        <div class="grid-item">
+          <img [src]="image4" alt="Package">
+          <p>4. Collect your order at your doorstep.</p>
+        </div>
+      </div>
+    </div>
+    <div class="Board2">
+      <div class="container">
+        <div class="imagePos">
+          <img [src]="image5" alt="delivery">
+        </div>
+        <div class="set">
+          <ion-title class="BRDtitle">Delivery 7 days a week</ion-title>
+          <ul class="infoPos">
+            <li>Monday - Saturday: 8am - 4:30pm</li>
+            <li>Sunday & Public holidays: 9am - 1pm</li>
+          </ul>
+        </div>
+      </div>
+      <div class="container">
+        <div class="imagePos">
+          <img [src]="image6" alt="support">
+        </div>
+        <div class="set">
+          <ion-title class="BRDtitle">Med Dash Queries</ion-title>
+          <ul class="infoPos">
+            <li>Monday - Saturday: 8am - 5pm</li>
+            <li>Sunday & Public holidays: 9am - 1pm</li>
+          </ul>
+          <p class="contact-number">031 749 8394</p>
+        </div>
+      </div>
+    </div>
+    
+
+  </ion-content>
+  
+
+  <ion-footer>
+    <ion-toolbar id="bottom">
+      <ion-label>...FOOTER...</ion-label>
     </ion-toolbar>
-  </ion-header>
+  </ion-footer>
 </ion-content>

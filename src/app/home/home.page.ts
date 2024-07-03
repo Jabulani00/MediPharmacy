@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoadingController } from '@ionic/angular';
 import { MenuController, Platform } from '@ionic/angular';
-
+//import { FireauthService } from '../services/fireauth.service';
 
 @Component({
   selector: 'app-home',
@@ -11,27 +10,18 @@ import { MenuController, Platform } from '@ionic/angular';
 })
 export class HomePage implements OnInit {
 
-  image1 = 'https://img.icons8.com/?size=100&id=96378&format=png&color=000000';
-  image2 = 'https://img.icons8.com/?size=100&id=96369&format=png&color=000000';
-  image3 = 'https://img.icons8.com/?size=100&id=3KZLbUW2c5k8&format=png&color=000000';
-  image4 = 'https://img.icons8.com/?size=100&id=w2QWoSZwRbBC&format=png&color=000000';
-  image5 = 'https://img.icons8.com/?size=100&id=IqOjfaWLBgco&format=png&color=000000';
-  image6 = 'https://img.icons8.com/?size=100&id=YiP7pNVh3jYW&format=png&color=000000';
-
-  constructor(private router: Router, private loadingController: LoadingController, private menu: MenuController, private platform: Platform) {}
-
-  async ngOnInit() {
-    // setTimeout(() => {
-    //   this.router.navigate(['/login']); // Navigate to the login page after a delay
-    // }, 3000);
-
-    
-  }
+  constructor(//private fireAuth: FireauthService,
+    private router: Router, 
+    private menu: MenuController, 
+    private platform: Platform
+  ) {}
 
   closeMenu(event: Event){
     this.menu.close('main-content');
     event.stopPropagation();
   }
+
+  ngOnInit() { }
 
   goLogin() {
     this.router.navigate(['/login']);
@@ -41,6 +31,17 @@ export class HomePage implements OnInit {
     this.router.navigate(['/signup']);
   }
 
+  //Logout Method
+  // logout(){
+  //   this.fireAuth.logout();
+  // }
+
+  // goToLOGIN(){
+  //   {this.router.navigate(['/login']).then(() => {window.location.reload();});  
+  // }}
+  // goToSIGNUP(){
+  //   {this.router.navigate(['/signup']).then(() => {window.location.reload();});  
+  // }}
   goToPROFILE(){
     {this.router.navigate(['/profile']).then(() => {window.location.reload();});  
   }}  
@@ -83,5 +84,18 @@ export class HomePage implements OnInit {
     'https://i.pinimg.com/originals/5f/68/87/5f6887f6061b674e822c3340622c25f4.png',
     'https://livinghealthy24.com/manager/assets/images/offer4.png',
   ];
+
+  image1 = [
+    'https://www.flaticon.com/free-icon/chat-bubbles_13874995?k=1717093363603&log-in=google',
+  ];
+  image2 = [
+    'https://www.flaticon.com/free-icon/yes_1582114?term=hand+press&page=3&position=26&origin=search&related_id=1582114',
+  ];
+  image3 = [
+    'https://www.flaticon.com/free-icon/delivery-boy_2331708?term=delivery+motorbike&page=1&position=28&origin=search&related_id=2331708',
+  ];
+  image4 = [
+    'https://www.flaticon.com/free-icon/delivery-box_6615107?term=delivery+package&page=1&position=6&origin=search&related_id=6615107',
+  ]
 
 }
