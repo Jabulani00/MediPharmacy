@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AlertController, IonicModule, LoadingController, ModalController, NavController, ToastController } from '@ionic/angular';
 import { Observable, of } from 'rxjs';
-
+import { MenuController, Platform } from '@ionic/angular';
+import { Router } from '@angular/router';
 import { finalize, switchMap } from 'rxjs/operators';
 import { AngularFirestore, QuerySnapshot } from '@angular/fire/compat/firestore';
 import firebase from 'firebase/compat/app';
@@ -27,7 +28,10 @@ export class ProfilePage implements OnInit {
     private afs: AngularFirestore,
     private alertController: AlertController,
     private toastController: ToastController,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private router: Router,
+    private menu: MenuController,
+    private platform: Platform
   ) {
 
     
@@ -67,9 +71,32 @@ export class ProfilePage implements OnInit {
 
   }
 
-  ngOnInit() {
-   
+  ngOnInit(): void {
+    this.platform.backButton.subscribeWithPriority(0, () => {
+      this.menu.isOpen('main-content').then(isOpen => {
+        if (isOpen) {
+          this.menu.close('main-content');
+        }
+      });
+    });
+
+    document.getElementById('backButton')?.addEventListener('click', this.goBack.bind(this));
   }
 
+  getQueryParam(param: string): string | null {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+  }
+
+  goBack(): void {
+    const source = this.getQueryParam('source');
+    if (source === 'login') {
+      this.router.navigateByUrl('/login');
+    } else if (source === 'home-second') {
+      this.router.navigateByUrl('/home-second');
+    } else {
+      window.history.back();
+    }
+  }
  
 }

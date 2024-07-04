@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { ToastController } from '@ionic/angular';
+import { MenuController, Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-reset',
@@ -12,10 +13,17 @@ export class ResetPage implements OnInit {
 
   constructor(
     private auth: AngularFireAuth,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private menu: MenuController,
+    private platform: Platform
   ) {}
 
   ngOnInit() {}
+
+  closeMenu(event: Event){
+    this.menu.close('main-content');
+    event.stopPropagation();
+  }
 
   async presentToast(message: string, color: string) {
     const toast = await this.toastController.create({

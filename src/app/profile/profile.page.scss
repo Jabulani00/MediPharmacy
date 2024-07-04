@@ -8,6 +8,13 @@ ion-content {
     flex-grow: 1;
     position: relative; /* Add this line */
   }
+
+  #backButton {
+    margin: 1em;
+    border-radius: 20px;
+    background-color: red;
+    color: white;
+}
   
   .profile-card {
     --background: #c24d2c;

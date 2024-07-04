@@ -1,5 +1,8 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button id="backButton" (click)="closeMenu($event)" routerLink="/register" >Back</ion-button>
+    </ion-buttons>
     <ion-title>Reset Password</ion-title>
   </ion-toolbar>
 </ion-header>

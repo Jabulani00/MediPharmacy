@@ -28,7 +28,7 @@ export class HomePage implements OnInit {
   }
 
   goSignUp() {
-    this.router.navigate(['/signup']);
+    this.router.navigate(['/register']);
   }
 
   //Logout Method
