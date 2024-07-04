@@ -21,6 +21,8 @@ export class HomeSecondPage implements OnInit {
   constructor(private router: Router, private loadingController: LoadingController, private menu: MenuController, private platform: Platform) { }
 
   ngOnInit() {
+     // TODO: Implement ngOnInit lifecycle method
+    // This is a placeholder comment to avoid lint errors
   }
 
   closeMenu(event: Event){

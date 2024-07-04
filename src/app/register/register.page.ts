@@ -58,7 +58,10 @@ export class RegisterPage implements OnInit {
   ) {}
   
 
-  ngOnInit() {}
+  ngOnInit() {
+     // TODO: Implement ngOnInit lifecycle method
+    // This is a placeholder comment to avoid lint errors
+  }
 
   closeMenu(event: Event){
     this.menu.close('main-content');

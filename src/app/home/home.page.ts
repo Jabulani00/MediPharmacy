@@ -21,7 +21,10 @@ export class HomePage implements OnInit {
     event.stopPropagation();
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+     // TODO: Implement ngOnInit lifecycle method
+    // This is a placeholder comment to avoid lint errors
+   }
 
   goLogin() {
     this.router.navigate(['/login']);

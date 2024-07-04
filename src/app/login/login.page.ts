@@ -28,7 +28,10 @@ export class LoginPage implements OnInit {
     private toastController: ToastController // Inject ToastController
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+     // TODO: Implement ngOnInit lifecycle method
+    // This is a placeholder comment to avoid lint errors
+  }
 
   async presentToast(message: string, color: string) {
     const toast = await this.toastController.create({

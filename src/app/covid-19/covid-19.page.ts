@@ -10,6 +10,8 @@ export class Covid19Page implements OnInit {
   constructor() { }
 
   ngOnInit() {
+     // TODO: Implement ngOnInit lifecycle method
+    // This is a placeholder comment to avoid lint errors
   }
 
 }

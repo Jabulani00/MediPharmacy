@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { AlertController, LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-admin',
@@ -6,30 +8,58 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./admin.page.scss'],
 })
 export class AdminPage implements OnInit {
+  pendingUsers: any[] = [];
 
-  constructor() { }
+  constructor(
+    private db: AngularFirestore,
+    private alertController: AlertController,
+    private loadingController: LoadingController
+  ) {}
 
   ngOnInit() {
+    this.loadPendingUsers();
   }
 
-  // export.sendActivationEmail = function.firestore.document('users/{userId}')
-  // .onUpdate((change, context) => {
-  //   const newValue = change.after.data();
-  //   const previousValue = change.before.data();
+  async loadPendingUsers() {
+    const loader = await this.loadingController.create({
+      message: 'Loading pending users...',
+    });
+    await loader.present();
 
-  //   if(newValue.status === 'active' && previousValue! == 'active')
-  //     {
-  //       //Send email 
-  //       const msg = {
-  //         to: newValue.email,
-  //         from: 'medi@pharm.com';
-  //         subject: 'Account Activation',
-  //         text: 'Your account is now active and is ready to use.';
-  //       };
-  //       //send the email
-  //       return sgMail.send(msg);
-  //     }
-  //     return null;
-  // });
+    this.db.collection('Users', ref => ref.where('status', '==', 'pending')).snapshotChanges().subscribe(data => {
+      this.pendingUsers = data.map(e => {
+        return {
+          id: e.payload.doc.id,
+          ...e.payload.doc.data() as any
+        };
+      });
+      loader.dismiss();
+    });
+  }
 
+  async approveUser(user: any) {
+    const loader = await this.loadingController.create({
+      message: 'Approving user...',
+    });
+    await loader.present();
+
+    try {
+      await this.db.collection('Users').doc(user.id).update({ status: 'active' });
+      loader.dismiss();
+      this.presentAlert('User approved successfully');
+    } catch (error: any) { // Explicitly typing error as any
+      loader.dismiss();
+      this.presentAlert('Error approving user: ' + error.message);
+    }
+  }
+
+  async presentAlert(message: string) {
+    const alert = await this.alertController.create({
+      header: 'Alert',
+      message: message,
+      buttons: ['OK']
+    });
+
+    await alert.present();
+  }
 }

@@ -22,6 +22,8 @@ export class CustomerPage implements OnInit {
   }
 
   ngOnInit() {
+     // TODO: Implement ngOnInit lifecycle method
+    // This is a placeholder comment to avoid lint errors
   }
 
   goLogin() {
