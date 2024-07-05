@@ -3,6 +3,9 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
 import { ModalController } from '@ionic/angular';
 import { UserDocumentsModalComponent } from '../user-documents-modal/user-documents-modal.component';
+import { ApprovalModalComponent } from '../approval-modal/approval-modal.component';
+import { DeclineModalComponent } from '../decline-modal/decline-modal.component';
+import { EmailService } from '../services/email.service';
 
 interface User {
   email: string;
@@ -28,7 +31,8 @@ export class UserRolePage implements OnInit {
 
   constructor(
     private firestore: AngularFirestore,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private emailService: EmailService
   ) { }
 
   ngOnInit() {
@@ -45,50 +49,60 @@ export class UserRolePage implements OnInit {
     return await modal.present();
   }
 
-  approveUser(user: User) {
-    const usersRef = this.firestore.collection('Users', ref =>
-      ref.where('email', '==', user.email)
-    );
-  
-    usersRef.get().toPromise().then(querySnapshot => {
-      if (querySnapshot && !querySnapshot.empty) {
-        const docId = querySnapshot.docs[0].id;
-        const userDocRef = this.firestore.collection('Users').doc(docId);
-  
-        userDocRef.update({ status: 'active' })
-          .then(() => console.log('User approved successfully'))
-          .catch(error => {
-            console.error('Error updating user:', error);
-          });
-      } else {
-        console.error('User document with the provided email does not exist');
+  async approveUser(user: User) {
+    const modal = await this.modalController.create({
+      component: ApprovalModalComponent,
+      componentProps: {
+        email: user.email,
+        message: 'Your account is now active and is ready for use'
       }
-    }).catch(error => {
-      console.error('Error fetching user document:', error);
     });
-  }
-  
-  declineUser(user: User) {
-    const usersRef = this.firestore.collection('Users', ref =>
-      ref.where('email', '==', user.email)
-    );
-  
-    usersRef.get().toPromise().then(querySnapshot => {
-      if (querySnapshot && !querySnapshot?.empty) {
-        const docId = querySnapshot.docs[0].id;
-        const userDocRef = this.firestore.collection('Users').doc(docId);
-  
-        userDocRef.update({ status: 'denied' })
-          .then(() => console.log('User declined successfully'))
-          .catch(error => {
-            console.error('Error updating user:', error);
+
+    modal.onDidDismiss().then((result) => {
+      if (result.data.sendEmail) {
+        const templateParams = {
+          to_email: user.email,
+          message: result.data.message
+        };
+
+        this.emailService.sendEmail(templateParams)
+          .then(() => {
+            console.log('Approval email sent successfully');
+          })
+          .catch((error) => {
+            console.error('Failed to send approval email:', error);
           });
-      } else {
-        console.error('User document with the provided email does not exist');
       }
-    }).catch(error => {
-      console.error('Error fetching user document:', error);
     });
+
+    return await modal.present();
   }
 
+  async declineUser(user: User) {
+    const modal = await this.modalController.create({
+      component: DeclineModalComponent,
+      componentProps: {
+        email: user.email
+      }
+    });
+
+    modal.onDidDismiss().then((result) => {
+      if (result.data.sendEmail) {
+        const templateParams = {
+          to_email: user.email,
+          message: result.data.message
+        };
+
+        this.emailService.sendEmail(templateParams)
+          .then(() => {
+            console.log('Decline email sent successfully');
+          })
+          .catch((error) => {
+            console.error('Failed to send decline email:', error);
+          });
+      }
+    });
+
+    return await modal.present();
+  }
 }

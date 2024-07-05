@@ -90,13 +90,21 @@ export class ProfilePage implements OnInit {
 
   goBack(): void {
     const source = this.getQueryParam('source');
-    if (source === 'login') {
+    if (source === 'login') 
+    {
       this.router.navigateByUrl('/login');
-    } else if (source === 'home-second') {
+    }
+    else if (source === 'register') 
+    {
+      this.router.navigateByUrl('/register');
+    } 
+    else if (source === 'home-second') 
+    {
       this.router.navigateByUrl('/home-second');
-    } else {
+    } 
+    else 
+    {
       window.history.back();
     }
   }
- 
 }

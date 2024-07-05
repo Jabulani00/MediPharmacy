@@ -1,13 +1,199 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>about-med-dash</ion-title>
+    <ion-buttons slot="end">
+      <ion-button id="backButton" (click)="closeMenu($event)" >Back</ion-button>
+    </ion-buttons>
+    <ion-title>About Med Dash</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">about-med-dash</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <div class="content">
+    <section class="background">
+      <h2>Introduction</h2>
+      <p>The <em class="title">Medicine Delivery System</em> helps people stick to their treatment plans better.You can <a (click)="goToSIGNUP()" routerLink="/signup">Sign up</a> here, or you can <a (click)="goToLOGIN()" routerLink="/login" >Login</a> here. By making it easier to get meds, it can help folks stay healthier and avoid unnecessary hospital visits and it's not just for some people. It's for everyone, no matter where they live or how they get around. Medicine Delivery System project is a significant change in how we access healthcare especially for the Rural areas in South Africa.</p>
+    </section>
+
+    <section class="project-definition">
+      <h2>Project Definition</h2>
+      <p>The Medicine Delivery System project tackles these challenges using new mobile and web technology. With a simple app and website, patients can order prescribed meds or other medical drugs with just a few taps or clicks. It's like having a pharmacy in your pocket, with info about each drug, dosage instructions, and potential side effects. One great thing about the Medicine Delivery System is that it's fast and secure. It connects with pharmacy databases to show what meds are available and their prices. Plus, it keeps your personal and payment info safe, so you can feel confident using it.</p>
+    </section>
+
+    <section class="objectives">
+      <h2>Objectives</h2>
+      <p>The Medicine Delivery System project is driven by a core set of objectives and goals aimed at advancing healthcare accessibility, patient care, operational efficiency, and data security. </p>
+      <ul>
+        <li><strong>Enhancing Access to Medications</strong></li>
+        <li><strong>Improving Medication Adherence and Patient Outcomes</strong></li>
+        <li><strong>Optimizing Delivery Operations</strong></li>
+        <li><strong>Ensuring Data Security and Confidentiality</strong></li>
+      </ul>
+    </section>
+
+    <section class="project-deliverables">
+      <h2>Project Deliverables</h2>
+      <p>The Medication Delivery System project aims to make managing medications easier and more convenient for patients. We'll create a simple app for scheduling medication doses, allowing patients to view their schedules, set reminders, and make changes easily. We'll also set up a system for delivering prescriptions directly to patients' homes, ensuring they get their medications on time and securely. Alongside, we'll provide educational materials to help patients understand their medications better. Our goal is to improve medication adherence, patient satisfaction, and overall health outcomes for everyone involved.</p>
+    </section>
+
+    <section class="scope">
+      <h2>Scope</h2>
+      <p>The Medicine Delivery System project encompasses a wide array of components aimed at revolutionizing the way medications are accessed and delivered to patients. Below are the key components included within the scope of this project.</p>
+    </section>
+
+    <section class="constraints">
+      <h2>Constraints</h2>
+      <p>The Medication Delivery System project faces several limitations that could affect its planning and success. These include the need to follow healthcare regulations like patient privacy laws and medication safety rules. We also have to stick to a set budget, which might limit what we can do. Time is another constraint—we have deadlines to meet, and delays could impact patient care. We must work with the technology we have, considering any compatibility issues or technical challenges. Keeping patient data safe is crucial, as is managing expectations from different stakeholders like patients and regulators. We need to make the most of the resources we have and consider logistical challenges, like delivering medicine to remote areas. To handle these constraints, we'll need careful planning, risk management, and flexibility throughout the project</p>
+    </section>
+
+    <section class="acceptance-criterias">
+      <h2>Acceptance Criterias</h2>
+      <p><em class="title">Technical Feasibility.</em>
+        The Medication Delivery System must demonstrate reliable functionality, secure data transmission, and compatibility with existing healthcare systems and technologies.
+        <em class="title">Operational Efficiency.</em> 
+        The system should streamline medication acquisition and delivery processes, minimize errors, and provide timely support and assistance to users.
+        <em class="title">Economic Viability.</em>
+        The project must demonstrate a positive return on investment, cost-effectiveness in comparison to traditional medication acquisition methods, and potential for long-term sustainability.
+        <em class="title">Legal Compliance.</em> 
+        The system must adhere to healthcare regulations, patient privacy laws and obtain necessary licenses and approvals for operation. 
+        </p>
+    </section>
+
+    <section class="project-approach">
+      <h2>Project Approach</h2>
+      <p>The Medicine Delivery System project will follow a structured and iterative approach to software development, drawing upon best practices and collaborative methodologies to achieve project objectives effectively. Such as the following: <strong>Iterative Development</strong>, <strong>Collaborative Planning</strong>, <strong>Regular Meetings and Demonstrations</strong>, Continuous <strong>Feedback and Improvement</strong> and following <strong>Agile Principles</strong>. </p>
+    </section>
+
+    <section class="interfaces">
+      <h2>Interfaces</h2>
+      <p><strong>Development of Mobile Application and Web Interface</strong>
+        The mobile application will cater to users who prefer accessing the service through smartphones or tablets, while the web interface will provide an alternative option for those who prefer using desktop or laptop computers.
+        <strong>Integration with Pharmacy Databases</strong>
+        The integration with pharmacy databases to ensure seamless access to real-time inventory information, pricing details, and medication availability. By integrating with these databases, users will be able to view up-to-date information about the medications they wish to order, including their availability in stock, current prices, and any alternative options that may be available.
+        <strong>Implementation of Robust Security Measures</strong>
+        The implementation of robust security measures to safeguard sensitive data from unauthorized access or misuse. This will involve the use of encryption protocols, secure authentication mechanisms, and adherence to industry best practices for data protection. By prioritizing security, the project aims to instill trust and confidence among users, thereby promoting widespread adoption of the Medicine Delivery System.
+        <strong>Design and Implementation of Logistics Infrastructure</strong>
+        As part of the project scope, a logistics infrastructure will be designed and implemented to optimize delivery routes and ensure timely and secure medication delivery to patients' doorsteps. This will involve the use of advanced routing algorithms, real-time tracking systems, and coordination with logistics partners to minimize delivery times and ensure the safe handling of medications during transit.
+        </p>
+    </section>
+
+    <section class="assumptions">
+      <h2>Assumptions</h2>
+      <p>The MasterPiece Tech Medication Delivery System project is based on a few key ideas that help guide how we plan and carry it out. These ideas include assuming that patients will want to use our system because it makes managing their health easier. We also expect healthcare providers to support our system because it helps them coordinate patient care better. We believe we can make the technology work within our budget and time limits. We're also sure that our system will meet all the rules and standards for healthcare. We assume patients have the right technology to use our system and that we can get their medicine to them reliably. We promise to keep their private information safe and to help them understand how to use our system for better health.</p>
+    </section>
+
+    <section class="business-case">
+      <h2>Business Case</h2>
+      <p>Medicine Delivery System project is being undertaken to bring significant changes in how we access healthcare in South Africa. It's all about using tech to make things better for patients. By using technology and considering people's needs, this project can make a real difference in how meds reach people and improve healthcare for everyone. We're tackling this because many people struggle to take their medicine correctly, which can worsen their health and increase expenses. By delivering prescriptions to their homes, we're easing the burden of frequent clinic visits.</p>
+    </section>
+
+    <section class="project-organizational-structure">
+      <h2>Project organizational structure</h2>
+      <p><em class="title">Project Executive/Sponsor:</em>
+        <strong>Nkosingiphile Phila Mteshana: CEO</strong>
+        <strong>Asande Zondi: CTO</strong>
+        <strong>Ntando: COO</strong>
+        <strong>Mrs Pillay: Member of the Board of Directors</strong>
+        <strong>Miss Dlamini: Vice President</strong>
+        This individual provides leadership, strategic direction, and support for the project, ensuring alignment with organizational goals and objectives.
+        
+        <em class="title">Project Manager:</em>
+        Nkosingiphile Phila Mteshana: Responsible for overseeing the day-to-day operations and implementation of the project.
+        
+        <em class="title">Project Team:</em>
+        Nkosingiphile Phila Mteshana: CEO
+        Asande Zondi: CTO
+        S Nontando Zuma: COO
+        The project team comprises various roles and positions essential for the successful development and implementation of the Medication System. This includes software developers, hardware engineers, quality assurance testers, user experience (UX) designers, system administrators, data analysts, and project coordinators. Each team member contributes their expertise to deliver the project's objectives effectively.
+        
+        <em class="title">Stakeholders:</em> 
+        Stakeholders in the Medication System project include internal stakeholders within the organization, such as executives, managers, and employees, as well as external stakeholders such as healthcare providers, patients, regulatory authorities, and investors. Effective engagement with stakeholders is crucial for gathering requirements, gaining support, and ensuring project success.
+        </p>
+    </section>
+
+    <section class="stakeholders">
+      <h2>Stakeholders</h2>
+      <h3>Internal Stakeholders</h3>
+      <p><em class="title">Product Development Team.</em> 
+        This team is responsible for designing and developing the medication delivery system, including software developers, engineers, and designers.
+        <em class="title">Quality Assurance/Operational Team.</em> 
+        Ensures that the system meets quality standards and regulatory requirements before deployment.
+        <em class="title">Marketing Team.</em>
+        The marketing team that come up different ways to promote the medication delivery system and increase its adoption among our target audiences.
+        <em class="title">Customer Support Team.</em>
+        This team helps users and resolves any issues related to the medication delivery system's functionality or usage.
+        <em class="title">Finance Department.</em>
+        This department oversees the budgeting and financial planning for the development and implementation of the medication delivery system.
+        <em class="title">Executive members.</em>
+        Senior executives within the organization who provide strategic direction and support for the project.
+        </p>
+      <h3>External Stakeholders</h3>
+      <p><em class="title">Patients/Customers.</em> 
+        Individuals who will use the medication delivery system to manage their medications and improve their healthcare experience.
+        <em class="title">Healthcare Providers. </em>
+        Physicians, pharmacists, nurses, and other healthcare professionals who interact with patients may recommend or prescribe medications through the system.
+        <em class="title">Health Insurance Companies.</em> 
+        Insurers that may provide coverage or reimbursement for medications delivered through the system.
+        <em class="title">Regulatory Authorities.</em> 
+        Government agencies that are responsible for regulating healthcare and pharmaceutical services, ensuring compliance with laws and standards.
+        </p>
+      <h3>Operational Stakeholders</h3>
+      <p><em class="title">Delivery Personnel.</em> 
+        Individuals are responsible for delivering medications to patients' homes safely and efficiently.
+        <em class="title">Pharmacy Staff.</em>
+        Pharmacists and pharmacy technicians who process prescriptions, dispense medications, and coordinate with patients and healthcare providers.
+        <em class="title">IT Support Team. </em>
+        Provides technical support, troubleshooting, and maintenance for the system's software and hardware components.
+        <em class="title">Logistics Team. </em>
+        Manages inventory, supply chain logistics, and distribution channels to ensure timely delivery of medications.
+        </p>
+      <h3>Executive Stakeholders</h3>
+      <p><em class="title">Board of Directors.</em> 
+        Provides oversight and guidance on the strategic direction of the project and evaluates its alignment with organizational goals.
+        <em class="title">Chief Executive Officer (CEO).</em>
+        Ultimately responsible for the success of the project and ensuring that it delivers value to the organization and its stakeholders.
+        <em class="title">Chief Operating Officer (COO). </em>
+        Oversees the operational aspects of the project, including resource allocation, project management, and risk mitigation.
+        <em class="title">Chief Financial Officer (CFO).</em>
+        Monitors the financial aspects of the project, including budgeting, cost control, and return on investment.
+        <em class="title">Chief Technology Officer (CTO). </em>
+        Provides expertise and leadership in technology strategy, infrastructure development, and innovation for the project.
+        </p>
+    </section>
+
+    <section class="project-manager">
+      <h2>Project Manager</h2>
+      <p>Nkosingiphile Phila Mteshana</p>
+    </section>
+
+    <section class="project-team">
+      <h2>Project Team</h2>
+      <p>Nkosingiphile Phila Mteshana,
+        Asande Zondi and     
+        S. Nontando Zuma
+        </p>
+    </section>
+
+    <section class="sponsors">
+      <h2>Project Executives/Sponsors</h2>
+      <p>Within the framework of the MasterPiece Tech Medication Delivery System project, individuals such as Asande Zondi, Mteshana Nkosi, or S Nontando Zuma, along with our respected lecturer Mrs. Pillay and mentor Miss Dlamini, are well-positioned to assume critical roles. Nkosi Mteshana, with their strong leadership skills, might serve as the CEO, providing overall direction for the project. Asande Zondi, given their expertise in technology, could take on the role of CTO, driving innovation and development. S Nontando Zuma, with their focus on operations, might be well-suited to serve as COO, ensuring smooth integration into existing processes. Mrs. Pillay, our knowledgeable lecturer, could offer valuable guidance as a member of the Board of Directors, contributing strategic oversight. Meanwhile, Miss Dlamini, our supportive mentor, could provide hands-on support and direction as a Senior Vice President or Vice President within MasterPiece Tech's leadership team.</p>
+    </section>
+
+    <section class="qaulity">
+      <h2>Qaulity</h2>
+      <p>To maintain product quality throughout the MasterPiece Tech Medication Delivery System project, various steps and procedures will be enacted:
+        <em class="title">Quality Planning:</em> Establishing quality goals, standards, and assurance methods from project inception.
+        <em class="title">Quality Assurance (QA):</em> Regular monitoring and evaluation of product quality via inspections, reviews, and audits.
+        <em class="title">Quality Control (QC)</em>: Conducting testing and validation to ensure products meet predetermined standards before release.
+        <em class="title">Documentation:</em> Keeping comprehensive records of requirements, specifications, and test outcomes.
+        <em class="title">Risk Management:</em> Identifying and mitigating potential quality-related risks.
+        <em class="title">Training:</em> Providing team members with essential knowledge and skills through training initiatives.
+        <em class="title">Continuous Improvement:</em> Utilizing past project experiences and stakeholder feedback to drive ongoing improvements.
+        <em class="title">Regulatory Compliance:</em> Adhering to healthcare regulations like HIPAA and FDA requirements.
+      </p>
+    </section>
+
+    <h1 class="thanks">Thank you!</h1>
+
+  </div>
 </ion-content>
+

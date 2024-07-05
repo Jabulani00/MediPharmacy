@@ -9,21 +9,24 @@ import { environment } from '../environments/environment';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { ReactiveFormsModule } from '@angular/forms'; // <-- Add this line
-import { AngularFireStorageModule } from '@angular/fire/compat/storage'; 
+import { ReactiveFormsModule } from '@angular/forms';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [
+    AppComponent,
+  ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFirestoreModule, 
+    AngularFirestoreModule,
+    AngularFireStorageModule,
     ReactiveFormsModule,
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

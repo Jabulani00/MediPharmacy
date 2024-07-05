@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Approve User</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form (ngSubmit)="sendApprovalEmail()">
+    <ion-item>
+      <ion-label>Email</ion-label>
+      <ion-input [(ngModel)]="email" name="email" required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Approval Message</ion-label>
+      <ion-textarea [(ngModel)]="message" name="message" required></ion-textarea>
+    </ion-item>
+    <ion-footer>
+      <ion-button expand="full" type="submit">Send Email</ion-button>
+      <ion-button expand="full" color="light" (click)="cancel()">Cancel</ion-button>
+    </ion-footer>
+  </form>
+</ion-content>

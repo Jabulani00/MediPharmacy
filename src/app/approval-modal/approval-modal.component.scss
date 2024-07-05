@@ -1,0 +1,41 @@
+ion-content {
+    background-color: #f4f4f4; /* Light gray background */
+    padding: 20px;
+  
+    .modal-header {
+      text-align: center;
+      padding: 20px 0;
+      border-bottom: 1px solid #ccc; /* Light gray border */
+    }
+  
+    .modal-body {
+      padding: 20px 0;
+  
+      ion-item {
+        --background: #fff; /* White background for items */
+        --border-color: #ccc; /* Light gray border color */
+        --padding-start: 20px; /* Left padding */
+        --padding-end: 20px; /* Right padding */
+  
+        &.email-input {
+          margin-bottom: 20px; /* Space between items */
+        }
+  
+        &.message-input {
+          margin-bottom: 20px; /* Space between items */
+  
+          ion-textarea {
+            min-height: 100px; /* Minimum height for textarea */
+          }
+        }
+      }
+  
+      .send-email-button {
+        margin-top: 20px; /* Space above button */
+        --background: #3880ff; /* Blue background */
+        --color: #fff; /* White text color */
+        --border-radius: 20px; /* Rounded corners */
+      }
+    }
+  }
+  

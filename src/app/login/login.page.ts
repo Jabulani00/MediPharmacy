@@ -102,19 +102,19 @@ export class LoginPage implements OnInit {
             // Role-based navigation
             switch (userData['role']) {
               case 'Customer':
-                this.router.navigate(['/home-second']);
+                this.router.navigate(['/home-second']).then(() => {window.location.reload();});
                 break;
               case 'Pharmacy':
-                this.router.navigate(['/pharmacy']);
+                this.router.navigate(['/pharmacy']).then(() => {window.location.reload();});
                 break;
               case 'Driver':
-                this.router.navigate(['/driver']);
+                this.router.navigate(['/driver']).then(() => {window.location.reload();});
                 break;
               case 'Dispatcher':
-                this.router.navigate(['/dispatcher']);
+                this.router.navigate(['/dispatcher']).then(() => {window.location.reload();});
                 break;
               default:
-                this.router.navigate(['/home']);
+                this.router.navigate(['/home']).then(() => {window.location.reload();});
                 break;
             }
           })
