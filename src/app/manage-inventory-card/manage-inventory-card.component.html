@@ -1,0 +1,43 @@
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>Manage Inventory</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <!-- Form for adding new inventory items -->
+    <form (ngSubmit)="addItem()">
+      <ion-item>
+        <ion-label position="floating">Item Name</ion-label>
+        <ion-input [(ngModel)]="newItem.name" name="name" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Quantity</ion-label>
+        <ion-input [(ngModel)]="newItem.quantity" name="quantity" type="number" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Price</ion-label>
+        <ion-input [(ngModel)]="newItem.price" name="price" type="number" required></ion-input>
+      </ion-item>
+      <ion-button expand="full" type="submit">Add Item</ion-button>
+    </form>
+
+    <!-- Toggle View Inventory Button -->
+    <ion-button expand="full" (click)="toggleInventory()">
+      {{ showInventory ? 'Hide Inventory' : 'View Inventory' }}
+    </ion-button>
+
+    <!-- List of inventory items -->
+    <ion-list *ngIf="showInventory">
+      <ion-list-header>
+        <ion-label>Inventory Items</ion-label>
+      </ion-list-header>
+      <ion-item *ngFor="let item of inventory">
+        <ion-label>
+          <h2>{{ item.name }}</h2>
+          <p>Quantity: {{ item.quantity }}</p>
+          <p>Price: {{ item.price | currency }}</p>
+        </ion-label>
+        <ion-button color="danger" (click)="removeItem(item)">Remove</ion-button>
+      </ion-item>
+    </ion-list>
+  </ion-card-content>
+</ion-card>

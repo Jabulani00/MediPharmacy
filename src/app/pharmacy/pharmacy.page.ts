@@ -10,6 +10,8 @@ import { LoadingController, ToastController } from '@ionic/angular';
 })
 export class PharmacyPage implements OnInit {
 
+  selectedCard: string = '';
+
   medForm!: FormGroup;
   selectedFile: File | null = null;
 
@@ -20,6 +22,10 @@ export class PharmacyPage implements OnInit {
     private loadingController: LoadingController,
     private toastController: ToastController
   ) {}
+
+  selectCard(card: string) {
+    this.selectedCard = card;
+  }
 
   ngOnInit() {
     this.medForm = this.fb.group({

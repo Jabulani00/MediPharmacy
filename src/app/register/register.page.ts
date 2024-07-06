@@ -20,31 +20,125 @@ export class RegisterPage implements OnInit {
   phone: string = '';
   password: string = '';
   confirm_password: string = '';
+  
+  // Additional fields for province, region, and working hours
+  selectedProvince: string = '';
+  selectedRegion: string = '';
+  streetAddress: string = '';
+  pharmacyBrandType: string = '';
+  openingHoursMonFri: string = '';
+  closingHoursMonFri: string = '';
+  openingHoursSat: string = '';
+  closingHoursSat: string = '';
+  openingHoursHolidays: string = '';
+  closingHoursHolidays: string = '';
 
   // Additional fields for document uploads
-  //CUSTOMER DOC
+  // CUSTOMER DOC
   CustomerIDdoc: File | null = null;
   CustomerProofofAddress: File | null = null;
   CustomerBankStatement: File | null = null;
 
-  //DRIVER DOC
+  // DRIVER DOC
   vehicleDoc: File | null = null;
   driverIDdocument: File | null = null;
   licenseDoc: File | null = null;
   pdpDoc: File | null = null;
   DrievrInsuranceDocuments: File | null = null;
 
-  //PHARMACY DOC
+  // PHARMACY DOC
   PharmacyInsuranceDocuments: File | null = null;
   registrationDoc: File | null = null;
   certificateDoc: File | null = null;
   proofOfAddressDoc: File | null = null;
 
-  //DISPATCHER DOC
+  // DISPATCHER DOC
   dispatcherResume: File | null = null;
   dispatcherIDdocument: File | null = null;
   dispacherSAPSdocumnts: File | null = null;
   dispatcherInsuranceDocuments: File | null = null;
+
+  provinces: string[] = [
+    'KwaZulu-Natal', 'Eastern Cape', 'Free State', 'Gauteng',
+    'Limpopo', 'Mpumalanga', 'Northern Cape', 'North West', 'Western Cape'
+  ];
+
+  regions: string[] = [
+
+      '--Gauteng-- City of Johannesburg Metropolitan Municipality',
+      '--Gauteng-- City of Tshwane Metropolitan Municipality',
+      '--Gauteng-- Ekurhuleni Metropolitan Municipality',
+      '--Gauteng-- Sedibeng District Municipality',
+      
+      '--KwaZulu-Natal-- eThekwini Metropolitan Municipality',
+      '--KwaZulu-Natal-- iLembe District Municipality',
+      '--KwaZulu-Natal-- King Cetshwayo District Municipality',
+      '--KwaZulu-Natal-- Ugu District Municipality',
+      '--KwaZulu-Natal-- uMgungundlovu District Municipality',
+      '--KwaZulu-Natal-- uMkhanyakude District Municipality',
+      '--KwaZulu-Natal-- uMzinyathi District Municipality',
+      '--KwaZulu-Natal-- uThukela District Municipality',
+      '--KwaZulu-Natal-- Zululand District Municipality',
+      
+      '--Eastern Cape-- Amatole',
+      '--Eastern Cape-- Chris Hani',
+      '--Eastern Cape-- Joe Gqabi',
+      '--Eastern Cape-- Nelson Mandela Bay Metro',
+      '--Eastern Cape--O.R. Tambo',
+      '--Eastern Cape-- Sarah Baartman',
+      
+      '--Free State-- Fezile Dabi',
+      '--Free State-- Lejweleputswa',
+      '--Free State-- Mangaung',
+      '--Free State-- Thabo Mofutsanyana',
+      
+      '--Limpopo-- Capricorn District Municipality',
+      '--Limpopo-- Mopani District Municipality',
+      '--Limpopo-- Sekhukhune District Municipality',
+      '--Limpopo-- Vhembe District Municipality',
+      '--Limpopo-- Waterberg District Municipality',
+          
+      '--Mpumalanga-- Ehlanzeni District Municipality',
+      '--Mpumalanga-- Gert Sibande District Municipality',
+      '--Mpumalanga-- Nkangala District Municipality',
+      
+      '--Northern Cape-- Frances Baard District Municipality',
+      '--Northern Cape-- John Taolo Gaetsewe District Municipality',
+      '--Northern Cape-- Namakwa District Municipality',
+      '--Northern Cape-- Pixley ka Seme District Municipality',
+      
+      '--North West-- Bojanala Platinum District Municipality',
+      '--North West-- Dr Kenneth Kaunda District Municipality',
+      '--North West-- Dr Ruth Segomotsi Mompati District Municipality',
+      '--North West-- Ngaka Modiri Molema District Municipality',
+      
+      '--Western Cape-- Cape Winelands District Municipality',
+      '--Western Cape-- Central Karoo District Municipality',
+      '--Western Cape-- City of Cape Town Metropolitan Municipality',
+      '--Western Cape-- Garden Route District Municipality',
+      '--Western Cape-- Overberg District Municipality',
+      '--Western Cape-- West Coast District Municipality'
+    ];
+
+
+  pharmacyBrandTypes: string[] = [
+    'Dischem Pharmacy', 
+    'Clicks Pharmacy', 
+    'Medirite Pharmacy', 
+    'Link Pharmacy',
+    'Alpha Pharmacy', 
+    'Pick n Pay Pharmacy', 
+    'Netcare Pharmacy', 
+    'Medicine Shoppe Pharmacy',
+    'Pharmacist Direct', 
+    'Springbok Pharmacy'
+  ];
+
+  times: string[] = [
+    '06:00', '07:00', '08:00', '09:00', '10:00',
+    '11:00', '12:00', '13:00', '14:00', '15:00',
+    '16:00', '17:00', '18:00', '19:00', '20:00'
+  ];
 
   constructor(
     private db: AngularFirestore,
@@ -56,12 +150,12 @@ export class RegisterPage implements OnInit {
     private menu: MenuController,
     private platform: Platform
   ) {}
-  
 
   ngOnInit() {
-     // TODO: Implement ngOnInit lifecycle method
+    // TODO: Implement ngOnInit lifecycle method
     // This is a placeholder comment to avoid lint errors
   }
+
 
   closeMenu(event: Event){
     this.menu.close('main-content');
@@ -109,8 +203,7 @@ export class RegisterPage implements OnInit {
         !this.CustomerProofofAddress ||
         !this.CustomerBankStatement
       )) {
-        this.presentAlert
-        ("Please upload all required documents for Customer role");
+        this.presentAlert("Please upload all required documents for Customer role");
         return;
       }
 
@@ -121,10 +214,8 @@ export class RegisterPage implements OnInit {
         !this.licenseDoc || 
         !this.pdpDoc
       )) {
-      this.presentAlert
-      ("Please upload all required documents for Driver role");
+      this.presentAlert("Please upload all required documents for Driver role");
       return;
-
     }
     if (this.selectedRole === 'Pharmacy' 
       && (
@@ -164,69 +255,52 @@ export class RegisterPage implements OnInit {
         };
 
         // Add role-specific data
-        //DRIVER DOC
+        // DRIVER DOC
         if (this.selectedRole === 'Driver') {
-
-          userData.vehicleDoc = this.vehicleDoc ? 
-          await this.uploadFile(this.vehicleDoc) : null;
-
-          userData.driverIDdocument = this.driverIDdocument ?
-          await this.uploadFile(this.driverIDdocument) : null;
-
-          userData.licenseDoc = this.licenseDoc ? 
-          await this.uploadFile(this.licenseDoc) : null;
-
-          userData.pdpDoc = this.pdpDoc ? 
-          await this.uploadFile(this.pdpDoc) : null;  
-
-          userData.DrievrInsuranceDocuments = this.DrievrInsuranceDocuments ?
-          await this.uploadFile(this.DrievrInsuranceDocuments) : null;
+          userData.vehicleDoc = this.vehicleDoc ? await this.uploadFile(this.vehicleDoc) : null;
+          userData.driverIDdocument = this.driverIDdocument ? await this.uploadFile(this.driverIDdocument) : null;
+          userData.licenseDoc = this.licenseDoc ? await this.uploadFile(this.licenseDoc) : null;
+          userData.pdpDoc = this.pdpDoc ? await this.uploadFile(this.pdpDoc) : null;  
+          userData.DrievrInsuranceDocuments = this.DrievrInsuranceDocuments ? await this.uploadFile(this.DrievrInsuranceDocuments) : null;
         } 
-        //CUSTOMER DOC
-        else if(this.selectedRole === 'Customer') {
-          userData.CustomerIDdoc = this.CustomerIDdoc ?
-          await this.uploadFile(this.CustomerIDdoc) : null;
-
-          userData.CustomerProofofAddress = this.CustomerProofofAddress ?
-          await this.uploadFile(this.CustomerProofofAddress) : null;
-
-          userData.CustomerBankStatement = this.CustomerBankStatement ?
-          await this.uploadFile(this.CustomerBankStatement) : null;
+        // CUSTOMER DOC
+        else if (this.selectedRole === 'Customer') {
+          userData.CustomerIDdoc = this.CustomerIDdoc ? await this.uploadFile(this.CustomerIDdoc) : null;
+          userData.CustomerProofofAddress = this.CustomerProofofAddress ? await this.uploadFile(this.CustomerProofofAddress) : null;
+          userData.CustomerBankStatement = this.CustomerBankStatement ? await this.uploadFile(this.CustomerBankStatement) : null;
         }
-        //PHARMACY DOC
+        // PHARMACY DOC
         else if (this.selectedRole === 'Pharmacy') {
-          userData.PharmacyInsuranceDocuments = this.PharmacyInsuranceDocuments ?
-          await this.uploadFile(this.PharmacyInsuranceDocuments) : null;
+          userData.PharmacyInsuranceDocuments = this.PharmacyInsuranceDocuments ? await this.uploadFile(this.PharmacyInsuranceDocuments) : null;
+          userData.registrationDoc = this.registrationDoc ? await this.uploadFile(this.registrationDoc) : null;
+          userData.certificateDoc = this.certificateDoc ? await this.uploadFile(this.certificateDoc) : null;
+          userData.proofOfAddressDoc = this.proofOfAddressDoc ? await this.uploadFile(this.proofOfAddressDoc) : null;
 
-          userData.registrationDoc = this.registrationDoc ? 
-          await this.uploadFile(this.registrationDoc) : null;
-
-          userData.certificateDoc = this.certificateDoc ? 
-          await this.uploadFile(this.certificateDoc) : null;
-
-          userData.proofOfAddressDoc = this.proofOfAddressDoc ? 
-          await this.uploadFile(this.proofOfAddressDoc) : null;
+          // Province, region, and working hours data
+          userData.province = this.selectedProvince;
+          userData.region = this.selectedRegion;
+          userData.streetAddress = this.streetAddress;
+          userData.pharmacyBrandType = this.pharmacyBrandType;
+          userData.openingHoursMonFri = this.openingHoursMonFri;
+          userData.closingHoursMonFri = this.closingHoursMonFri;
+          userData.openingHoursSat = this.openingHoursSat;
+          userData.closingHoursSat = this.closingHoursSat;
+          userData.openingHoursHolidays = this.openingHoursHolidays;
+          userData.closingHoursHolidays = this.closingHoursHolidays;
         }
-        //DISPATCHER
+        
+        // DISPATCHER
         else if (this.selectedRole === 'Dispatcher') {
-
-          userData.dispatcherResume = this.dispatcherResume ?
-          await this.uploadFile(this.dispatcherResume) : null;
-
-          userData.dispatcherIDdocument = this.dispatcherIDdocument ?
-          await this.uploadFile(this.dispatcherIDdocument) : null;
-
-          userData.dispacherSAPSdocumnts = this.dispacherSAPSdocumnts ?
-          await this.uploadFile(this.dispacherSAPSdocumnts) : null;
-
-          userData.dispatcherInsuranceDocuments = this.dispatcherInsuranceDocuments ?
-          await this.uploadFile(this.dispatcherInsuranceDocuments) : null;
+          userData.dispatcherResume = this.dispatcherResume ? await this.uploadFile(this.dispatcherResume) : null;
+          userData.dispatcherIDdocument = this.dispatcherIDdocument ? await this.uploadFile(this.dispatcherIDdocument) : null;
+          userData.dispacherSAPSdocumnts = this.dispacherSAPSdocumnts ? await this.uploadFile(this.dispacherSAPSdocumnts) : null;
+          userData.dispatcherInsuranceDocuments = this.dispatcherInsuranceDocuments ? await this.uploadFile(this.dispatcherInsuranceDocuments) : null;
         }
 
         await this.db.collection('Users').add(userData);
         loader.dismiss();
         console.log('User data added successfully');
-        this.router.navigate(['/profile']);
+        this.router.navigate(['/profile']).then(() => {window.location.reload();});
       }
     } catch (error: any) {
       loader.dismiss();
@@ -253,7 +327,7 @@ export class RegisterPage implements OnInit {
   onFileSelected(event: any, docType: string) {
     const file = event.target.files[0];
     switch (docType) {
-      //DRIVER DOC
+      // DRIVER DOC
       case 'driverinsurance':
         this.DrievrInsuranceDocuments = file;
         break;
@@ -270,7 +344,7 @@ export class RegisterPage implements OnInit {
         this.pdpDoc = file;
         break;
 
-      //PHARMACY DOC
+      // PHARMACY DOC
       case 'pharmacyinsurance':
         this.PharmacyInsuranceDocuments = file;
         break;
@@ -284,7 +358,7 @@ export class RegisterPage implements OnInit {
         this.proofOfAddressDoc = file;
         break;
 
-      //DISPATCHER DOC
+      // DISPATCHER DOC
       case 'resume':
         this.dispatcherResume = file;
         break;  
@@ -297,8 +371,8 @@ export class RegisterPage implements OnInit {
       case 'dispactherinsurance':
         this.dispatcherInsuranceDocuments = file;
         break;    
-        
-      //CUSTOMER DOC
+
+      // CUSTOMER DOC
       case 'customeriddocucment':
         this.CustomerIDdoc = file;
         break;  

@@ -1,0 +1,38 @@
+ion-card {
+    margin: 16px;
+  
+    ion-card-title {
+      text-align: center;
+      font-size: 1.5em;
+    }
+  
+    form {
+      margin-bottom: 16px;
+  
+      ion-item {
+        margin-bottom: 8px;
+      }
+  
+      ion-button {
+        margin-top: 16px;
+      }
+    }
+  
+    ion-list {
+      margin-top: 16px;
+  
+      ion-item {
+        display: flex;
+        justify-content: space-between;
+  
+        ion-label {
+          flex: 1;
+        }
+  
+        ion-button {
+          margin-left: 16px;
+        }
+      }
+    }
+  }
+  
