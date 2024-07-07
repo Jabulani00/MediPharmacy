@@ -5,9 +5,6 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Router } from '@angular/router';
 import { LoadingController, AlertController } from '@ionic/angular';
 import { MenuController, Platform } from '@ionic/angular';
-import { ToastController } from '@ionic/angular';
-import { ModalController} from '@ionic/angular';
-
 
 @Component({
   selector: 'app-register',
@@ -23,18 +20,6 @@ export class RegisterPage implements OnInit {
   phone: string = '';
   password: string = '';
   confirm_password: string = '';
-  
-  // Additional fields for province, region, and working hours
-  selectedProvince: string = '';
-  selectedRegion: string = '';
-  streetAddress: string = '';
-  pharmacyBrandType: string = '';
-  openingHoursMonFri: string = '';
-  closingHoursMonFri: string = '';
-  openingHoursSat: string = '';
-  closingHoursSat: string = '';
-  openingHoursHolidays: string = '';
-  closingHoursHolidays: string = '';
 
   // Additional fields for document uploads
   // CUSTOMER DOC
@@ -61,96 +46,123 @@ export class RegisterPage implements OnInit {
   dispacherSAPSdocumnts: File | null = null;
   dispatcherInsuranceDocuments: File | null = null;
 
-  provinces: string[] = [
-    'KwaZulu-Natal', 'Eastern Cape', 
-    'Free State', 'Gauteng',
-    'Limpopo', 'Mpumalanga', 
-    'Northern Cape', 'North West', 
-    'Western Cape'
+  // Additional fields for province, region, and working hours
+  selectedProvince: string = '';
+  selectedRegion: string = '';
+  streetAddress: string = '';
+  pharmacyBrandType: string = '';
+  openingHoursMonFri: string = '';
+  closingHoursMonFri: string = '';
+  openingHoursSat: string = '';
+  closingHoursSat: string = '';
+  openingHoursHolidays: string = '';
+  closingHoursHolidays: string = '';
+
+  provinces = [
+    { label: 'Province 1', value: 'KwaZulu-Natal' },
+    { label: 'Province 2', value: 'Eastern Cape' },
+    { label: 'Province 3', value: 'Free State' },
+    { label: 'Province 4', value: 'Gauteng' },
+    { label: 'Province 5', value: 'Limpopo' },
+    { label: 'Province 6', value: 'Mpumalanga' },
+    { label: 'Province 7', value: 'Northern Cape' },
+    { label: 'Province 8', value: 'North West' },
+    { label: 'Province 9', value: 'Western Cape' },
   ];
 
-  regions: string[]  = [
-
-      '--Gauteng-- City of Johannesburg Metropolitan Municipality',
-      '--Gauteng-- City of Tshwane Metropolitan Municipality',
-      '--Gauteng-- Ekurhuleni Metropolitan Municipality',
-      '--Gauteng-- Sedibeng District Municipality',
-      
-      '--KwaZulu-Natal-- eThekwini Metropolitan Municipality',
-      '--KwaZulu-Natal-- iLembe District Municipality',
-      '--KwaZulu-Natal-- King Cetshwayo District Municipality',
-      '--KwaZulu-Natal-- Ugu District Municipality',
-      '--KwaZulu-Natal-- uMgungundlovu District Municipality',
-      '--KwaZulu-Natal-- uMkhanyakude District Municipality',
-      '--KwaZulu-Natal-- uMzinyathi District Municipality',
-      '--KwaZulu-Natal-- uThukela District Municipality',
-      '--KwaZulu-Natal-- Zululand District Municipality',
-      
-      '--Eastern Cape-- Amatole',
-      '--Eastern Cape-- Chris Hani',
-      '--Eastern Cape-- Joe Gqabi',
-      '--Eastern Cape-- Nelson Mandela Bay Metro',
-      '--Eastern Cape--O.R. Tambo',
-      '--Eastern Cape-- Sarah Baartman',
-      
-      '--Free State-- Fezile Dabi',
-      '--Free State-- Lejweleputswa',
-      '--Free State-- Mangaung',
-      '--Free State-- Thabo Mofutsanyana',
-      
-      '--Limpopo-- Capricorn District Municipality',
-      '--Limpopo-- Mopani District Municipality',
-      '--Limpopo-- Sekhukhune District Municipality',
-      '--Limpopo-- Vhembe District Municipality',
-      '--Limpopo-- Waterberg District Municipality',
-          
-      '--Mpumalanga-- Ehlanzeni District Municipality',
-      '--Mpumalanga-- Gert Sibande District Municipality',
-      '--Mpumalanga-- Nkangala District Municipality',
-      
-      '--Northern Cape-- Frances Baard District Municipality',
-      '--Northern Cape-- John Taolo Gaetsewe District Municipality',
-      '--Northern Cape-- Namakwa District Municipality',
-      '--Northern Cape-- Pixley ka Seme District Municipality',
-      
-      '--North West-- Bojanala Platinum District Municipality',
-      '--North West-- Dr Kenneth Kaunda District Municipality',
-      '--North West-- Dr Ruth Segomotsi Mompati District Municipality',
-      '--North West-- Ngaka Modiri Molema District Municipality',
-      
-      '--Western Cape-- Cape Winelands District Municipality',
-      '--Western Cape-- Central Karoo District Municipality',
-      '--Western Cape-- City of Cape Town Metropolitan Municipality',
-      '--Western Cape-- Garden Route District Municipality',
-      '--Western Cape-- Overberg District Municipality',
-      '--Western Cape-- West Coast District Municipality'
-    ];
-
-
-  pharmacyBrandTypes: string[]  = [
-    'Dischem Pharmacy', 
-    'Clicks Pharmacy', 
-    'Medirite Pharmacy', 
-    'Link Pharmacy',
-    'Alpha Pharmacy', 
-    'Pick n Pay Pharmacy', 
-    'Netcare Pharmacy', 
-    'Medicine Shoppe Pharmacy',
-    'Pharmacist Direct', 
-    'Springbok Pharmacy'
+  regions = [
+    { label: 'Region 1', value: '--Gauteng-- City of Johannesburg Metropolitan Municipality' },
+    { label: 'Region 2', value: '--Gauteng-- City of Tshwane Metropolitan Municipality' },
+    { label: 'Region 3', value: '--Gauteng-- Ekurhuleni Metropolitan Municipality' },
+    { label: 'Region 4', value: '--Gauteng-- Sedibeng District Municipality' },
+    { label: 'Region 5', value: '--KwaZulu-Natal-- eThekwini Metropolitan Municipality' },
+    { label: 'Region 6', value: '--KwaZulu-Natal-- iLembe District Municipality' },
+    { label: 'Region 7', value: '--KwaZulu-Natal-- King Cetshwayo District Municipality' },
+    { label: 'Region 8', value: '--KwaZulu-Natal-- Ugu District Municipality' },
+    { label: 'Region 9', value: '--KwaZulu-Natal-- uMgungundlovu District Municipality' },
+    { label: 'Region 10', value: '--KwaZulu-Natal-- uMkhanyakude District Municipality' },
+    { label: 'Region 11', value: '--KwaZulu-Natal-- uMzinyathi District Municipality' },
+    { label: 'Region 12', value: '--KwaZulu-Natal-- uThukela District Municipality' },
+    { label: 'Region 13', value: '--KwaZulu-Natal-- Zululand District Municipality' },
+    { label: 'Region 14', value: '--Eastern Cape-- Amatole' },
+    { label: 'Region 15', value: '--Eastern Cape-- Chris Hani' },
+    { label: 'Region 16', value: '--Eastern Cape-- Joe Gqabi' },
+    { label: 'Region 17', value: '--Eastern Cape-- Nelson Mandela Bay Metro' },
+    { label: 'Region 18', value: '--Eastern Cape-- O.R. Tambo' },
+    { label: 'Region 19', value: '--Eastern Cape-- Sarah Baartman' },
+    { label: 'Region 20', value: '--Free State-- Fezile Dabi' },
+    { label: 'Region 21', value: '--Free State-- Lejweleputswa' },
+    { label: 'Region 22', value: '--Free State-- Mangaung' },
+    { label: 'Region 23', value: '--Free State-- Thabo Mofutsanyana' },
+    { label: 'Region 24', value: '--Limpopo-- Capricorn District Municipality' },
+    { label: 'Region 25', value: '--Limpopo-- Mopani District Municipality' },
+    { label: 'Region 26', value: '--Limpopo-- Sekhukhune District Municipality' },
+    { label: 'Region 27', value: '--Limpopo-- Vhembe District Municipality' },
+    { label: 'Region 28', value: '--Limpopo-- Waterberg District Municipality' },
+    { label: 'Region 29', value: '--Mpumalanga-- Ehlanzeni District Municipality' },
+    { label: 'Region 30', value: '--Mpumalanga-- Gert Sibande District Municipality' },
+    { label: 'Region 31', value: '--Mpumalanga-- Nkangala District Municipality' },
+    { label: 'Region 32', value: '--Northern Cape-- Frances Baard District Municipality' },
+    { label: 'Region 33', value: '--Northern Cape-- John Taolo Gaetsewe District Municipality' },
+    { label: 'Region 34', value: '--Northern Cape-- Namakwa District Municipality' },
+    { label: 'Region 35', value: '--Northern Cape-- Pixley ka Seme District Municipality' },
+    { label: 'Region 36', value: '--North West-- Bojanala Platinum District Municipality' },
+    { label: 'Region 37', value: '--North West-- Dr Kenneth Kaunda District Municipality' },
+    { label: 'Region 38', value: '--North West-- Dr Ruth Segomotsi Mompati District Municipality' },
+    { label: 'Region 39', value: '--North West-- Ngaka Modiri Molema District Municipality' },
+    { label: 'Region 40', value: '--Western Cape-- Cape Winelands District Municipality' },
+    { label: 'Region 41', value: '--Western Cape-- Central Karoo District Municipality' },
+    { label: 'Region 42', value: '--Western Cape-- City of Cape Town Metropolitan Municipality' },
+    { label: 'Region 43', value: '--Western Cape-- Garden Route District Municipality' },
+    { label: 'Region 44', value: '--Western Cape-- Overberg District Municipality' },
+    { label: 'Region 45', value: '--Western Cape-- West Coast District Municipality' },
   ];
 
-  times: string[]  = [
-    '00:00am', '01:00am', '02:00am',
-    '03:00am', '04:00am', '05:00am', 
-    '06:00am', '07:00am', '08:00am', 
-    '09:00am', '10:00am', '11:00am', 
-    '12:00pm', '13:00pm', '14:00pm', 
-    '15:00pm', '16:00pm', '17:00pm', 
-    '18:00pm', '19:00pm', '20:00pm',
-    '21:00pm', '22:00pm', '23:00pm',
-    '24:00pm'
+  pharmacyBrandTypes = [
+    {value:'Dischem Pharmacy'}, 
+    {value:'Clicks Pharmacy'}, 
+    {value:'Medirite Pharmacy'}, 
+    {value:'Link Pharmacy'},
+    {value:'Alpha Pharmacy'}, 
+    {value:'Pick n Pay Pharmacy'}, 
+    {value:'Netcare Pharmacy'}, 
+    {value:'Medicine Shoppe Pharmacy'},
+    {value:'Pharmacist Direct'}, 
+    {value:'Springbok Pharmacy'},
   ];
+
+  times: Array<{ value: string }> = [
+    { value: '00:00 AM' },
+    { value: '01:00 AM' },
+    { value: '02:00 AM' },
+    { value: '03:00 AM' },
+    { value: '04:00 AM' },
+    { value: '05:00 AM' },
+    { value: '06:00 AM' },
+    { value: '07:00 AM' },
+    { value: '08:00 AM' },
+    { value: '09:00 AM' },
+    { value: '10:00 AM' },
+    { value: '12:00 PM' },
+    { value: '13:00 PM' },
+    { value: '14:00 PM' },
+    { value: '15:00 PM' },
+    { value: '16:00 PM' },
+    { value: '17:00 PM' },
+    { value: '18:00 PM' },
+    { value: '19:00 PM' },
+    { value: '20:00 PM' },
+    { value: '21:00 PM' },
+    { value: '22:00 PM' },
+    { value: '23:00 PM' },
+    
+  ];
+
+  // times = [
+  //   '06:00', '07:00', '08:00', '09:00', '10:00',
+  //   '11:00', '12:00', '13:00', '14:00', '15:00',
+  //   '16:00', '17:00', '18:00', '19:00', '20:00'
+  // ];
 
   constructor(
     private db: AngularFirestore,
@@ -168,6 +180,10 @@ export class RegisterPage implements OnInit {
     // This is a placeholder comment to avoid lint errors
   }
 
+  validateRegion(): boolean {
+    const selectedRegionProvince = this.selectedRegion.split('--')[1]?.trim();
+    return selectedRegionProvince === this.selectedProvince;
+  }
 
   closeMenu(event: Event){
     this.menu.close('main-content');
@@ -231,10 +247,9 @@ export class RegisterPage implements OnInit {
     }
     if (this.selectedRole === 'Pharmacy' 
       && (
-        !this.PharmacyInsuranceDocuments ||
         !this.registrationDoc || 
-        !this.certificateDoc ||
-        !this.proofOfAddressDoc
+        !this.certificateDoc || 
+        !this.proofOfAddressDoc 
       )) {
       this.presentAlert("Please upload all required documents for Pharmacy role");
       return;
@@ -289,19 +304,18 @@ export class RegisterPage implements OnInit {
           userData.certificateDoc = this.certificateDoc ? await this.uploadFile(this.certificateDoc) : null;
           userData.proofOfAddressDoc = this.proofOfAddressDoc ? await this.uploadFile(this.proofOfAddressDoc) : null;
 
-        // Province, region, and working hours data
-        userData.province = this.selectedProvince,
-        userData.region = this.selectedRegion,
-        userData.streetAddress = this.streetAddress,
-        userData.pharmacyBrandType = this.pharmacyBrandType,
-        userData.openingHoursMonFri = this.openingHoursMonFri,
-        userData.closingHoursMonFri = this.closingHoursMonFri,
-        userData.openingHoursSat = this.openingHoursSat,
-        userData.closingHoursSat = this.closingHoursSat,
-        userData.openingHoursHolidays = this.openingHoursHolidays,
-        userData.closingHoursHolidays = this.closingHoursHolidays
+          // Add province, region, and working hours data
+          userData.province = this.selectedProvince;
+          userData.region = this.selectedRegion;
+          userData.streetAddress = this.streetAddress;
+          userData.pharmacyBrandType = this.pharmacyBrandType;
+          userData.openingHoursMonFri = this.openingHoursMonFri;
+          userData.closingHoursMonFri = this.closingHoursMonFri;
+          userData.openingHoursSat = this.openingHoursSat;
+          userData.closingHoursSat = this.closingHoursSat;
+          userData.openingHoursHolidays = this.openingHoursHolidays;
+          userData.closingHoursHolidays = this.closingHoursHolidays;
         }
-
         // DISPATCHER
         else if (this.selectedRole === 'Dispatcher') {
           userData.dispatcherResume = this.dispatcherResume ? await this.uploadFile(this.dispatcherResume) : null;
@@ -313,7 +327,7 @@ export class RegisterPage implements OnInit {
         await this.db.collection('Users').add(userData);
         loader.dismiss();
         console.log('User data added successfully');
-        this.router.navigate(['/profile']).then(() => {window.location.reload();});
+        this.router.navigate(['/profile']);
       }
     } catch (error: any) {
       loader.dismiss();
@@ -328,7 +342,7 @@ export class RegisterPage implements OnInit {
     const task = this.storage.upload(filePath, file);
 
     try {
-      await task.snapshotChanges().toPromise();
+      await task;
       const downloadURL = await fileRef.getDownloadURL().toPromise();
       return downloadURL;
     } catch (error) {
@@ -417,5 +431,16 @@ export class RegisterPage implements OnInit {
     this.phone = '';
     this.password = '';
     this.confirm_password = '';
+  }
+
+  onProvinceChange() {
+    if(this.selectedProvince = '' )
+    {
+      this.selectedRegion = '';
+    }else{
+       this.selectedRegion;
+       return;
+    }
+   // Reset the region when the province changes
   }
 }

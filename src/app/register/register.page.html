@@ -133,171 +133,172 @@
         </ion-item>
       </ng-container>
 
-<!-- Pharmacy specific fields -->
-<ng-container *ngIf="selectedRole === 'Pharmacy'">
-  <ion-item>
-    <ion-label position="floating">First Name:</ion-label>
-    <ion-input type="text" [(ngModel)]="firstname" name="firstname" required></ion-input>
-  </ion-item>
+      <!-- Pharmacy specific fields -->
+      <ng-container *ngIf="selectedRole === 'Pharmacy'">
+        <ion-item>
+          <ion-label position="floating">First Name:</ion-label>
+          <ion-input type="text" [(ngModel)]="firstname" name="firstname" required></ion-input>
+        </ion-item>
 
-  <ion-item>
-    <ion-label position="floating">Last Name:</ion-label>
-    <ion-input type="text" [(ngModel)]="lastname" name="lastname" required></ion-input>
-  </ion-item>
+        <ion-item>
+          <ion-label position="floating">Last Name:</ion-label>
+          <ion-input type="text" [(ngModel)]="lastname" name="lastname" required></ion-input>
+        </ion-item>
 
-  <ion-item>
-    <ion-label position="floating">ID Number:</ion-label>
-    <ion-input type="text" [(ngModel)]="idnumber" name="idnumber" required></ion-input>
-  </ion-item>
+        <ion-item>
+          <ion-label position="floating">ID Number:</ion-label>
+          <ion-input type="text" [(ngModel)]="idnumber" name="idnumber" required></ion-input>
+        </ion-item>
 
-  <ion-item>
-    <ion-label position="floating">Email Address:</ion-label>
-    <ion-input type="email" [(ngModel)]="email" name="email" required></ion-input>
-  </ion-item>
+        <ion-item>
+          <ion-label position="floating">Email Address:</ion-label>
+          <ion-input type="email" [(ngModel)]="email" name="email" required></ion-input>
+        </ion-item>
 
-  <ion-item>
-    <ion-label position="floating">Phone Number:</ion-label>
-    <ion-input type="text" [(ngModel)]="phone" name="phone" required></ion-input>
-  </ion-item>
+        <ion-item>
+          <ion-label position="floating">Phone Number:</ion-label>
+          <ion-input type="text" [(ngModel)]="phone" name="phone" required></ion-input>
+        </ion-item>
 
-  <ion-item>
-    <ion-label position="floating">Password:</ion-label>
-    <ion-input type="password" [(ngModel)]="password" name="password" required></ion-input>
-  </ion-item>
+        <ion-item>
+          <ion-label position="floating">Password:</ion-label>
+          <ion-input type="password" [(ngModel)]="password" name="password" required></ion-input>
+        </ion-item>
 
-  <ion-item>
-    <ion-label position="floating">Confirm Password:</ion-label>
-    <ion-input type="password" [(ngModel)]="confirm_password" name="confirm_password" required></ion-input>
-  </ion-item>
+        <ion-item>
+          <ion-label position="floating">Confirm Password:</ion-label>
+          <ion-input type="password" [(ngModel)]="confirm_password" name="confirm_password" required></ion-input>
+        </ion-item>
 
-  <ion-item>
-    <ion-label>Upload Pharmacy Insurance Document:</ion-label>
-    <ion-input type="file" (change)="onFileSelected($event, 'pharmacyinsurance')" required></ion-input>
-  </ion-item>
+        <ion-item>
+          <ion-label position="floating">Upload Pharmacy Insurance Document:</ion-label>
+          <ion-input type="file" (change)="onFileSelected($event, 'pharmacyinsurance')" required></ion-input>
+        </ion-item>
 
-  <ion-item>
-    <ion-label>Upload Registration Document:</ion-label>
-    <ion-input type="file" (change)="onFileSelected($event, 'registration')" required></ion-input>
-  </ion-item>
+        <ion-item>
+          <ion-label position="floating">Upload Registration Document:</ion-label>
+          <ion-input type="file" (change)="onFileSelected($event, 'registration')" required></ion-input>
+        </ion-item>
 
-  <ion-item>
-    <ion-label>Upload Pharmacy approval Certificate:</ion-label>
-    <ion-input type="file" (change)="onFileSelected($event, 'certificate')" required></ion-input>
-  </ion-item>
+        <ion-item>
+          <ion-label position="floating">Upload Pharmacy Approval Certificate:</ion-label>
+          <ion-input type="file" (change)="onFileSelected($event, 'certificate')" required></ion-input>
+        </ion-item>
 
-  <ion-item>
-    <ion-label>Upload Pharmacy Proof of Address:</ion-label>
-    <ion-input type="file" (change)="onFileSelected($event, 'proofOfAddress')" required></ion-input>
-  </ion-item>
+        <ion-item>
+          <ion-label position="floating">Upload Pharmacy Proof of Address:</ion-label>
+          <ion-input type="file" (change)="onFileSelected($event, 'proofOfAddress')" required></ion-input>
+        </ion-item>
 
-<!-- Province Selection -->
-<ion-item>
-  <ion-label>Province:</ion-label>
-  <ion-select [(ngModel)]="selectedProvince"required>
-    <ion-select-option *ngFor="let province of provinces" [value]="province">{{ province }}</ion-select-option>
-  </ion-select>
-</ion-item>
+        <!-- Province Selection -->
+        <!-- (ionChange)="onProvinceChange()" TOOK IT OUT -->
+            <!-- Address Information -->
+    <ion-item>
+      <ion-label>Street Address</ion-label>
+      <ion-input [(ngModel)]="streetAddress" name="streetAddress" required></ion-input>
+    </ion-item>
+        
+        <ion-item>
+          <ion-label>Province:</ion-label>
+          <ion-select [(ngModel)]="selectedProvince" name="selectedProvince" required> 
+            <ion-select-option *ngFor="let province of provinces" [value]="province.value" >{{ province.value  }}</ion-select-option>
+          </ion-select>
+        </ion-item>
+        
+        <!-- Region Selection -->
+        <ion-item>
+          <ion-label>Region:</ion-label>
+          <ion-select [(ngModel)]="selectedRegion" name="selectedRegion" [disabled]="!selectedProvince" required>
+            <ion-select-option *ngFor="let region of regions" [value]="region.value">{{ region.value  }}</ion-select-option>
+          </ion-select>
+        </ion-item>
 
-<!-- Region Selection -->
-<ion-item >
-  <ion-label>Region:</ion-label>
-  <ion-select [(ngModel)]="selectedRegion" required>
-    <ion-select-option *ngFor="let region of regions" [value]="region">{{ region }}</ion-select-option>
-  </ion-select>
-</ion-item>
+        
+          <ion-item>
+            <ion-label>Pharmacy Brand:</ion-label>
+            <ion-select [(ngModel)]="pharmacyBrandType" name="pharmacyBrandType" required>
+              <ion-select-option *ngFor="let brand of pharmacyBrandTypes" [value]="brand.value">{{ brand.value }}</ion-select-option>
+            </ion-select>
+          </ion-item>
 
-  <!-- Street Address -->
-  <ion-item>
-    <ion-label position="floating">Street Address:</ion-label>
-    <ion-input type="text" [(ngModel)]="streetAddress" name="streetAddress" required></ion-input>
-  </ion-item>
-
-  <!-- Pharmacy Brand Type -->
-  <ion-item>
-    <ion-label>Pharmacy Brand Type:</ion-label>
-    <ion-select [(ngModel)]="pharmacyBrandType" required>
-      <ion-select-option *ngFor="let brandType of pharmacyBrandTypes" [value]="brandType">{{ brandType }}</ion-select-option>
-    </ion-select>
-  </ion-item>
-
-  <!-- Pharmacy Working Hours (Monday to Friday) -->
+         <!-- Pharmacy Working Hours (Monday to Friday) -->
   <ion-item>
     <ion-label>Opening Hours (Mon-Fri):</ion-label>
-    <ion-select [(ngModel)]="openingHoursMonFri" required>
-      <ion-select-option *ngFor="let time of times" [value]="time">{{ time }}</ion-select-option>
+    <ion-select [(ngModel)]="openingHoursMonFri" name="openingHoursMonFriequired">
+      <ion-select-option *ngFor="let time of times" [value]="time.value">{{ time.value  }}</ion-select-option>
     </ion-select>
   </ion-item>
   <ion-item>
     <ion-label>Closing Hours (Mon-Fri):</ion-label>
-    <ion-select [(ngModel)]="closingHoursMonFri" required>
-      <ion-select-option *ngFor="let time of times" [value]="time">{{ time }}</ion-select-option>
+    <ion-select [(ngModel)]="closingHoursMonFri" name="closingHoursMonFri" required>
+      <ion-select-option *ngFor="let time of times" [value]="time.value">{{ time.value }}</ion-select-option>
     </ion-select>
   </ion-item>
 
   <!-- Pharmacy Working Hours (Saturday) -->
   <ion-item>
     <ion-label>Opening Hours (Sat):</ion-label>
-    <ion-select [(ngModel)]="openingHoursSat" required>
-      <ion-select-option *ngFor="let time of times" [value]="time">{{ time }}</ion-select-option>
+    <ion-select [(ngModel)]="openingHoursSat" name="openingHoursSat" required>
+      <ion-select-option *ngFor="let time of times" [value]="time.value">{{ time.value }}</ion-select-option>
     </ion-select>
   </ion-item>
   <ion-item>
     <ion-label>Closing Hours (Sat):</ion-label>
-    <ion-select [(ngModel)]="closingHoursSat" required>
-      <ion-select-option *ngFor="let time of times" [value]="time">{{ time }}</ion-select-option>
+    <ion-select [(ngModel)]="closingHoursSat" name="closingHoursSat" required>
+      <ion-select-option *ngFor="let time of times" [value]="time.value">{{ time.value  }}</ion-select-option>
     </ion-select>
   </ion-item>
 
   <!-- Pharmacy Working Hours (Holidays) -->
   <ion-item>
     <ion-label>Opening Hours (Holidays):</ion-label>
-    <ion-select [(ngModel)]="openingHoursHolidays" required>
-      <ion-select-option *ngFor="let time of times" [value]="time">{{ time }}</ion-select-option>
+    <ion-select [(ngModel)]="openingHoursHolidays" name="openingHoursHolidays" required>
+      <ion-select-option *ngFor="let time of times" [value]="time.value">{{ time.value  }}</ion-select-option>
     </ion-select>
   </ion-item>
   <ion-item>
     <ion-label>Closing Hours (Holidays):</ion-label>
-    <ion-select [(ngModel)]="closingHoursHolidays" required>
-      <ion-select-option *ngFor="let time of times" [value]="time">{{ time }}</ion-select-option>
+    <ion-select [(ngModel)]="closingHoursHolidays" name="closingHoursHolidays" required>
+      <ion-select-option *ngFor="let time of times" [value]="time.value">{{ time.value }}</ion-select-option>
     </ion-select>
   </ion-item>
-</ng-container>
+      </ng-container>
 
       <!-- Dispatcher specific fields -->
       <ng-container *ngIf="selectedRole === 'Dispatcher'">
         <ion-item>
           <ion-label position="floating">First Name:</ion-label>
-          <ion-input type="text" [(ngModel)]="firstname" name="dispatcherFirstname" required></ion-input>
+          <ion-input type="text" [(ngModel)]="firstname" name="Firstname" required></ion-input>
         </ion-item>
 
         <ion-item>
           <ion-label position="floating">Last Name:</ion-label>
-          <ion-input type="text" [(ngModel)]="lastname" name="dispatcherLastname" required></ion-input>
+          <ion-input type="text" [(ngModel)]="lastname" name="Lastname" required></ion-input>
         </ion-item>
 
         <ion-item>
           <ion-label position="floating">ID Number:</ion-label>
-          <ion-input type="text" [(ngModel)]="idnumber" name="dispatcherIdnumber" required></ion-input>
+          <ion-input type="text" [(ngModel)]="idnumber" name="idnumber" required></ion-input>
         </ion-item>
 
         <ion-item>
           <ion-label position="floating">Email Address:</ion-label>
-          <ion-input type="email" [(ngModel)]="email" name="dispatcherEmail" required></ion-input>
+          <ion-input type="email" [(ngModel)]="email" name="email" required></ion-input>
         </ion-item>
 
         <ion-item>
           <ion-label position="floating">Phone Number:</ion-label>
-          <ion-input type="text" [(ngModel)]="phone" name="dispatcherPhone" required></ion-input>
+          <ion-input type="text" [(ngModel)]="phone" name="phone" required></ion-input>
         </ion-item>
 
         <ion-item>
           <ion-label position="floating">Password:</ion-label>
-          <ion-input type="password" [(ngModel)]="password" name="dispatcherPassword" required></ion-input>
+          <ion-input type="password" [(ngModel)]="password" name="password" required></ion-input>
         </ion-item>
 
         <ion-item>
           <ion-label position="floating">Confirm Password:</ion-label>
-          <ion-input type="password" [(ngModel)]="confirm_password" name="dispatcherConfirmPassword" required></ion-input>
+          <ion-input type="password" [(ngModel)]="confirm_password" name="confirm_password" required></ion-input>
         </ion-item>
 
         <ion-item>
@@ -319,7 +320,7 @@
     </ion-list>
 
     <div class="ion-padding">
-      <ion-button expand="block" type="submit" >Sign Up</ion-button>
+      <ion-button expand="block" type="submit">Sign Up</ion-button>
     </div>
 
   </form>
