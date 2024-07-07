@@ -5,6 +5,9 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Router } from '@angular/router';
 import { LoadingController, AlertController } from '@ionic/angular';
 import { MenuController, Platform } from '@ionic/angular';
+import { ToastController } from '@ionic/angular';
+import { ModalController} from '@ionic/angular';
+
 
 @Component({
   selector: 'app-register',
@@ -59,11 +62,14 @@ export class RegisterPage implements OnInit {
   dispatcherInsuranceDocuments: File | null = null;
 
   provinces: string[] = [
-    'KwaZulu-Natal', 'Eastern Cape', 'Free State', 'Gauteng',
-    'Limpopo', 'Mpumalanga', 'Northern Cape', 'North West', 'Western Cape'
+    'KwaZulu-Natal', 'Eastern Cape', 
+    'Free State', 'Gauteng',
+    'Limpopo', 'Mpumalanga', 
+    'Northern Cape', 'North West', 
+    'Western Cape'
   ];
 
-  regions: string[] = [
+  regions: string[]  = [
 
       '--Gauteng-- City of Johannesburg Metropolitan Municipality',
       '--Gauteng-- City of Tshwane Metropolitan Municipality',
@@ -121,7 +127,7 @@ export class RegisterPage implements OnInit {
     ];
 
 
-  pharmacyBrandTypes: string[] = [
+  pharmacyBrandTypes: string[]  = [
     'Dischem Pharmacy', 
     'Clicks Pharmacy', 
     'Medirite Pharmacy', 
@@ -134,10 +140,16 @@ export class RegisterPage implements OnInit {
     'Springbok Pharmacy'
   ];
 
-  times: string[] = [
-    '06:00', '07:00', '08:00', '09:00', '10:00',
-    '11:00', '12:00', '13:00', '14:00', '15:00',
-    '16:00', '17:00', '18:00', '19:00', '20:00'
+  times: string[]  = [
+    '00:00am', '01:00am', '02:00am',
+    '03:00am', '04:00am', '05:00am', 
+    '06:00am', '07:00am', '08:00am', 
+    '09:00am', '10:00am', '11:00am', 
+    '12:00pm', '13:00pm', '14:00pm', 
+    '15:00pm', '16:00pm', '17:00pm', 
+    '18:00pm', '19:00pm', '20:00pm',
+    '21:00pm', '22:00pm', '23:00pm',
+    '24:00pm'
   ];
 
   constructor(
@@ -219,9 +231,10 @@ export class RegisterPage implements OnInit {
     }
     if (this.selectedRole === 'Pharmacy' 
       && (
+        !this.PharmacyInsuranceDocuments ||
         !this.registrationDoc || 
-        !this.certificateDoc || 
-        !this.proofOfAddressDoc 
+        !this.certificateDoc ||
+        !this.proofOfAddressDoc
       )) {
       this.presentAlert("Please upload all required documents for Pharmacy role");
       return;
@@ -276,19 +289,19 @@ export class RegisterPage implements OnInit {
           userData.certificateDoc = this.certificateDoc ? await this.uploadFile(this.certificateDoc) : null;
           userData.proofOfAddressDoc = this.proofOfAddressDoc ? await this.uploadFile(this.proofOfAddressDoc) : null;
 
-          // Province, region, and working hours data
-          userData.province = this.selectedProvince;
-          userData.region = this.selectedRegion;
-          userData.streetAddress = this.streetAddress;
-          userData.pharmacyBrandType = this.pharmacyBrandType;
-          userData.openingHoursMonFri = this.openingHoursMonFri;
-          userData.closingHoursMonFri = this.closingHoursMonFri;
-          userData.openingHoursSat = this.openingHoursSat;
-          userData.closingHoursSat = this.closingHoursSat;
-          userData.openingHoursHolidays = this.openingHoursHolidays;
-          userData.closingHoursHolidays = this.closingHoursHolidays;
+        // Province, region, and working hours data
+        userData.province = this.selectedProvince,
+        userData.region = this.selectedRegion,
+        userData.streetAddress = this.streetAddress,
+        userData.pharmacyBrandType = this.pharmacyBrandType,
+        userData.openingHoursMonFri = this.openingHoursMonFri,
+        userData.closingHoursMonFri = this.closingHoursMonFri,
+        userData.openingHoursSat = this.openingHoursSat,
+        userData.closingHoursSat = this.closingHoursSat,
+        userData.openingHoursHolidays = this.openingHoursHolidays,
+        userData.closingHoursHolidays = this.closingHoursHolidays
         }
-        
+
         // DISPATCHER
         else if (this.selectedRole === 'Dispatcher') {
           userData.dispatcherResume = this.dispatcherResume ? await this.uploadFile(this.dispatcherResume) : null;
@@ -315,7 +328,7 @@ export class RegisterPage implements OnInit {
     const task = this.storage.upload(filePath, file);
 
     try {
-      await task;
+      await task.snapshotChanges().toPromise();
       const downloadURL = await fileRef.getDownloadURL().toPromise();
       return downloadURL;
     } catch (error) {
