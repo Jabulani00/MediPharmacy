@@ -7,8 +7,8 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-segment (ionChange)="segmentChanged($event)">
-    <ion-segment-button value="form" checked>
+  <ion-segment [(ngModel)]="segment" (ionChange)="segmentChanged($event)">
+    <ion-segment-button value="form">
       <ion-label>Form</ion-label>
     </ion-segment-button>
     <ion-segment-button value="table">
@@ -20,61 +20,57 @@
     <div *ngSwitchCase="'form'">
       <form [formGroup]="medForm" (ngSubmit)="onSubmit()">
         <ion-item>
-          <ion-label>Name</ion-label>
+          <ion-label position="floating">Name</ion-label>
           <ion-input formControlName="name" type="text"></ion-input>
         </ion-item>
-
         <ion-item>
-          <ion-label>Type</ion-label>
+          <ion-label position="floating">Type</ion-label>
           <ion-input formControlName="type" type="text"></ion-input>
         </ion-item>
-
         <ion-item>
-          <ion-label>Description</ion-label>
+          <ion-label position="floating">Description</ion-label>
           <ion-textarea formControlName="description"></ion-textarea>
         </ion-item>
-
         <ion-item>
-          <ion-label>Price</ion-label>
+          <ion-label position="floating">Price</ion-label>
           <ion-input formControlName="price" type="number"></ion-input>
         </ion-item>
-
         <ion-item>
           <ion-label>Prescription Required</ion-label>
           <ion-checkbox formControlName="prescriptionRequired"></ion-checkbox>
         </ion-item>
-
         <ion-item>
-          <ion-label>Size</ion-label>
+          <ion-label position="floating">Size</ion-label>
           <ion-input formControlName="size" type="text"></ion-input>
         </ion-item>
-
         <ion-item>
-          <ion-label>Discount (%)</ion-label>
+          <ion-label position="floating">Discount (%)</ion-label>
           <ion-input formControlName="discount" type="number"></ion-input>
         </ion-item>
-
         <ion-item>
-          <ion-label>Quantity</ion-label>
+          <ion-label position="floating">Quantity</ion-label>
           <ion-input formControlName="quantity" type="number"></ion-input>
         </ion-item>
-
-        <input type="file" (change)="onFileSelected($event)" accept="image/*">
-
-        <ion-button expand="block" type="submit">Submit</ion-button>
+        <ion-item>
+          <ion-label>Image</ion-label>
+          <input type="file" (change)="onFileSelected($event)" accept="image/*" #fileInput>
+        </ion-item>
+        <ion-button expand="block" type="submit" [disabled]="!medForm.valid">
+          {{ editMode ? 'Update' : 'Add' }} Medication
+        </ion-button>
       </form>
     </div>
 
     <div *ngSwitchCase="'table'" class="ion-margin-top">
-      <ion-list lines="full">
+      <ion-list>
         <ion-item *ngFor="let med of medications$ | async">
-          <ion-thumbnail slot="start">
-            <ion-img [src]="med.imageUrl" [alt]="med.name" loading="lazy"></ion-img>
+          <ion-thumbnail slot="start" (click)="openImageModal(med.imageUrl, med.name)">
+            <ion-img [src]="med.imageUrl" [alt]="med.name" loading="lazy" (ionError)="onImageError($event)"></ion-img>
           </ion-thumbnail>
           <ion-label>
             <h2>{{ med.name }}</h2>
             <p>Type: {{ med.type }}</p>
-            <p>Price: {{ med.price }}</p>
+            <p>Price: {{ med.price | currency:'ZAR':'symbol-narrow':'1.2-2' }}</p>
             <p>Quantity: {{ med.quantity }}</p>
           </ion-label>
           <ion-buttons slot="end">
@@ -90,3 +86,23 @@
     </div>
   </div>
 </ion-content>
+
+<ion-modal #imageModal>
+  <ng-template>
+    <ion-content>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title><h2>{{ selectedImageName }}</h2></ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeImageModal()">
+              <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="modal-content">
+        <ion-img [src]="selectedImageUrl" class="full-size-image"></ion-img>
+      </ion-content>
+    </ion-content>
+  </ng-template>
+</ion-modal>

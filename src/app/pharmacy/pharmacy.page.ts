@@ -1,9 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild  } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { LoadingController, ToastController } from '@ionic/angular';
 import { Observable } from 'rxjs'; 
+import { registerLocaleData } from '@angular/common';
+import localeZa from '@angular/common/locales/en-ZA';
+import { IonModal } from '@ionic/angular';
+
+registerLocaleData(localeZa);
 
 interface Medication {
   id?: string;
@@ -35,7 +40,9 @@ export class PharmacyPage implements OnInit {
   editFileUrl: string | null = null;
 
   medications$: Observable<Medication[]>;
-
+  @ViewChild('imageModal') imageModal!: IonModal;
+  selectedImageUrl: string | null = null;
+  selectedImageName: string | null = null; 
   constructor(
     private fb: FormBuilder,
     private firestore: AngularFirestore,
@@ -45,6 +52,19 @@ export class PharmacyPage implements OnInit {
   ) {
     this.medications$ = this.loadMedications();
   }
+
+  openImageModal(imageUrl?: string, imageName?: string) {
+    if (imageUrl && imageName) {
+      this.selectedImageUrl = imageUrl;
+      this.selectedImageName = imageName;
+      this.imageModal.present();
+    }
+  }
+
+  closeImageModal() {
+    this.imageModal.dismiss();
+  }
+
   loadMedications(): Observable<Medication[]> {
     return this.firestore.collection<Medication>('medications').valueChanges({ idField: 'id' });
   }
@@ -242,5 +262,9 @@ export class PharmacyPage implements OnInit {
     this.editMode = false;
     this.editId = null;
     this.editFileUrl = null;
+  }
+
+  onImageError(event: any) {
+    event.target.src = 'assets/placeholder-image.png'; // Make sure this placeholder image exists in your assets folder
   }
 }
