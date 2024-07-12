@@ -230,6 +230,9 @@ export class RegisterPage implements OnInit {
         !this.CustomerIDdoc ||
         !this.CustomerProofofAddress ||
         !this.CustomerBankStatement
+        // CustomerIDdoc: File | null = null;
+        // CustomerProofofAddress: File | null = null;
+        // CustomerBankStatement: File | null = null;
       )) {
         this.presentAlert("Please upload all required documents for Customer role");
         return;
@@ -240,7 +243,13 @@ export class RegisterPage implements OnInit {
         !this.vehicleDoc || 
         !this.driverIDdocument ||
         !this.licenseDoc || 
+        !this.DrievrInsuranceDocuments ||
         !this.pdpDoc
+        // vehicleDoc: File | null = null;
+        // driverIDdocument: File | null = null;
+        // licenseDoc: File | null = null;
+        // pdpDoc: File | null = null;
+        // DrievrInsuranceDocuments: File | null = null;
       )) {
       this.presentAlert("Please upload all required documents for Driver role");
       return;
@@ -249,7 +258,12 @@ export class RegisterPage implements OnInit {
       && (
         !this.registrationDoc || 
         !this.certificateDoc || 
+        !this.PharmacyInsuranceDocuments ||
         !this.proofOfAddressDoc 
+        // PharmacyInsuranceDocuments: File | null = null;
+        // registrationDoc: File | null = null;
+        // certificateDoc: File | null = null;
+        // proofOfAddressDoc: File | null = null;
       )) {
       this.presentAlert("Please upload all required documents for Pharmacy role");
       return;
@@ -260,6 +274,10 @@ export class RegisterPage implements OnInit {
         !this.dispatcherIDdocument ||
         !this.dispacherSAPSdocumnts ||
         !this.dispatcherInsuranceDocuments
+        // dispatcherResume: File | null = null;
+        // dispatcherIDdocument: File | null = null;
+        // dispacherSAPSdocumnts: File | null = null;
+        // dispatcherInsuranceDocuments: File | null = null;
       )) {
       this.presentAlert("Please upload all required documents for Dispatcher role");
       return;
@@ -290,12 +308,20 @@ export class RegisterPage implements OnInit {
           userData.licenseDoc = this.licenseDoc ? await this.uploadFile(this.licenseDoc) : null;
           userData.pdpDoc = this.pdpDoc ? await this.uploadFile(this.pdpDoc) : null;  
           userData.DrievrInsuranceDocuments = this.DrievrInsuranceDocuments ? await this.uploadFile(this.DrievrInsuranceDocuments) : null;
+        // vehicleDoc: File | null = null;
+        // driverIDdocument: File | null = null;
+        // licenseDoc: File | null = null;
+        // pdpDoc: File | null = null;
+        // DrievrInsuranceDocuments: File | null = null;
         } 
         // CUSTOMER DOC
         else if (this.selectedRole === 'Customer') {
           userData.CustomerIDdoc = this.CustomerIDdoc ? await this.uploadFile(this.CustomerIDdoc) : null;
           userData.CustomerProofofAddress = this.CustomerProofofAddress ? await this.uploadFile(this.CustomerProofofAddress) : null;
           userData.CustomerBankStatement = this.CustomerBankStatement ? await this.uploadFile(this.CustomerBankStatement) : null;
+        // CustomerIDdoc: File | null = null;
+        // CustomerProofofAddress: File | null = null;
+        // CustomerBankStatement: File | null = null;
         }
         // PHARMACY DOC
         else if (this.selectedRole === 'Pharmacy') {
@@ -303,6 +329,11 @@ export class RegisterPage implements OnInit {
           userData.registrationDoc = this.registrationDoc ? await this.uploadFile(this.registrationDoc) : null;
           userData.certificateDoc = this.certificateDoc ? await this.uploadFile(this.certificateDoc) : null;
           userData.proofOfAddressDoc = this.proofOfAddressDoc ? await this.uploadFile(this.proofOfAddressDoc) : null;
+
+        // PharmacyInsuranceDocuments: File | null = null;
+        // registrationDoc: File | null = null;
+        // certificateDoc: File | null = null;
+        // proofOfAddressDoc: File | null = null;
 
           // Add province, region, and working hours data
           userData.province = this.selectedProvince;
@@ -322,6 +353,10 @@ export class RegisterPage implements OnInit {
           userData.dispatcherIDdocument = this.dispatcherIDdocument ? await this.uploadFile(this.dispatcherIDdocument) : null;
           userData.dispacherSAPSdocumnts = this.dispacherSAPSdocumnts ? await this.uploadFile(this.dispacherSAPSdocumnts) : null;
           userData.dispatcherInsuranceDocuments = this.dispatcherInsuranceDocuments ? await this.uploadFile(this.dispatcherInsuranceDocuments) : null;
+        // dispatcherResume: File | null = null;
+        // dispatcherIDdocument: File | null = null;
+        // dispacherSAPSdocumnts: File | null = null;
+        // dispatcherInsuranceDocuments: File | null = null;
         }
 
         await this.db.collection('Users').add(userData);
