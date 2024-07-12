@@ -33,6 +33,11 @@ export class RegisterPage implements OnInit {
   licenseDoc: File | null = null;
   pdpDoc: File | null = null;
   DrievrInsuranceDocuments: File | null = null;
+     // vehicleDoc: File | null = null;
+        // driverIDdocument: File | null = null;
+        // licenseDoc: File | null = null;
+        // pdpDoc: File | null = null;
+        // DrievrInsuranceDocuments: File | null = null;
 
   // PHARMACY DOC
   PharmacyInsuranceDocuments: File | null = null;
