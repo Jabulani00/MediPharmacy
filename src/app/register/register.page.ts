@@ -235,29 +235,22 @@ export class RegisterPage implements OnInit {
         !this.CustomerIDdoc ||
         !this.CustomerProofofAddress ||
         !this.CustomerBankStatement
-        // CustomerIDdoc: File | null = null;
-        // CustomerProofofAddress: File | null = null;
-        // CustomerBankStatement: File | null = null;
       )) {
         this.presentAlert("Please upload all required documents for Customer role");
         return;
       }
 
+    // Validation check for Driver role
     if (this.selectedRole === 'Driver' 
       && (
-        !this.vehicleDoc || 
-        !this.driverIDdocument ||
-        !this.licenseDoc || 
-        !this.DrievrInsuranceDocuments ||
-        !this.pdpDoc
-        // vehicleDoc: File | null = null;
-        // driverIDdocument: File | null = null;
-        // licenseDoc: File | null = null;
-        // pdpDoc: File | null = null;
-        // DrievrInsuranceDocuments: File | null = null;
+      !this.vehicleDoc || 
+      !this.driverIDdocument ||
+      !this.licenseDoc || 
+      !this.DrievrInsuranceDocuments ||
+      !this.pdpDoc
       )) {
-      this.presentAlert("Please upload all required documents for Driver role");
-      return;
+        this.presentAlert('All documents must be uploaded for the Driver role');      
+        return;
     }
     if (this.selectedRole === 'Pharmacy' 
       && (
@@ -265,12 +258,8 @@ export class RegisterPage implements OnInit {
         !this.certificateDoc || 
         !this.PharmacyInsuranceDocuments ||
         !this.proofOfAddressDoc 
-        // PharmacyInsuranceDocuments: File | null = null;
-        // registrationDoc: File | null = null;
-        // certificateDoc: File | null = null;
-        // proofOfAddressDoc: File | null = null;
       )) {
-      this.presentAlert("Please upload all required documents for Pharmacy role");
+        this.presentAlert("Please upload all required documents for Pharmacy role");
       return;
     }
     if (this.selectedRole === 'Dispatcher' 
@@ -279,12 +268,8 @@ export class RegisterPage implements OnInit {
         !this.dispatcherIDdocument ||
         !this.dispacherSAPSdocumnts ||
         !this.dispatcherInsuranceDocuments
-        // dispatcherResume: File | null = null;
-        // dispatcherIDdocument: File | null = null;
-        // dispacherSAPSdocumnts: File | null = null;
-        // dispatcherInsuranceDocuments: File | null = null;
       )) {
-      this.presentAlert("Please upload all required documents for Dispatcher role");
+        this.presentAlert("Please upload all required documents for Dispatcher role");
       return;
     }
 
@@ -311,9 +296,9 @@ export class RegisterPage implements OnInit {
           userData.vehicleDoc = this.vehicleDoc ? await this.uploadFile(this.vehicleDoc) : null;
           userData.driverIDdocument = this.driverIDdocument ? await this.uploadFile(this.driverIDdocument) : null;
           userData.licenseDoc = this.licenseDoc ? await this.uploadFile(this.licenseDoc) : null;
-          userData.pdpDoc = this.pdpDoc ? await this.uploadFile(this.pdpDoc) : null;  
           userData.DrievrInsuranceDocuments = this.DrievrInsuranceDocuments ? await this.uploadFile(this.DrievrInsuranceDocuments) : null;
-        // vehicleDoc: File | null = null;
+          userData.pdpDoc = this.pdpDoc ? await this.uploadFile(this.pdpDoc) : null;  
+          // vehicleDoc: File | null = null;
         // driverIDdocument: File | null = null;
         // licenseDoc: File | null = null;
         // pdpDoc: File | null = null;
@@ -395,17 +380,17 @@ export class RegisterPage implements OnInit {
     const file = event.target.files[0];
     switch (docType) {
       // DRIVER DOC
-      case 'driverinsurance':
-        this.DrievrInsuranceDocuments = file;
-        break;
       case 'vehicle':
         this.vehicleDoc = file;
+        break;
+      case 'iddocument':
+        this.driverIDdocument = file;
         break;
       case 'license':
         this.licenseDoc = file;
         break;
-      case 'iddocument':
-        this.dispatcherIDdocument = file;
+      case 'driverinsurance':
+        this.DrievrInsuranceDocuments = file;
         break;
       case 'pdp':
         this.pdpDoc = file;
