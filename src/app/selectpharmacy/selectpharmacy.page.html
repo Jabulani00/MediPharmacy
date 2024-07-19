@@ -1,0 +1,66 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>selectpharmacy</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">selectpharmacy</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div class="list">
+    <div class="pair">
+      <section (click)="goToDischemPharmacy()" routerLink="/dischempharmacy'">
+        <img [src]="image1" alt="Dischem Pharmacy">
+        <div>Dischem Pharmacy</div>
+      </section>
+      <section (click)="goToClicksPharmacy()" routerLink="['/clickspharmacy']">
+        <img [src]="image2" alt="Clicks Pharmacy">
+        <div>Clicks Pharmacy</div>
+      </section>
+    </div>
+    <div class="pair">
+      <section (click)="goToMediritePharmacy()" routerLink="['/mediritepharmacy']">
+        <img [src]="image3" alt="Medirite Pharmacy">
+        <div>Medirite Pharmacy</div>
+      </section>
+      <section (click)="goToLinkPharmacy()" routerLink="['/linkpharmacy']">
+        <img [src]="image4" alt="Link Pharmacy">
+        <div>Link Pharmacy</div>
+      </section>
+    </div>
+    <div class="pair">
+      <section (click)="goToAlphaPharmacy()" routerLink="['/alphapharmacy']">
+        <img [src]="image5" alt="Alpha Pharmacy">
+        <div>Alpha Pharmacy</div>
+      </section>
+      <section (click)="goToPicknPayPharmacy()" routerLink="['/picknpaypharmacy']">
+        <img [src]="image6" alt="Pick n Pay Pharmacy">
+        <div>Pick n Pay Pharmacy</div>
+      </section>
+    </div>
+    <div class="pair">
+      <section (click)="goToNetcarePharmacy()" routerLink="['/netcarepharmacy']">
+        <img [src]="image7" alt="Netcare Pharmacy">
+        <div>Netcare Pharmacy</div>
+      </section>
+      <section (click)="goToMedicineShoppePharmacy()" routerLink="['/medicineshoppepharmacy']">
+        <img [src]="image8" alt="Medicine Shoppe Pharmacy">
+        <div>Medicine Shoppe Pharmacy</div>
+      </section>
+    </div>
+    <div class="pair">
+      <section (click)="goToPharmacistDirect()" routerLink="['/pharmacistdirect']">
+        <img [src]="image9" alt="Pharmacist Direct">
+        <div>Pharmacist Direct</div>
+      </section>
+      <section (click)="goToSpringbokPharmacy()" routerLink="['/springbokpharmacy']">
+        <img [src]="image10" alt="Springbok Pharmacy">
+        <div>Springbok Pharmacy</div>
+      </section>
+    </div>
+  </div>
+</ion-content>
