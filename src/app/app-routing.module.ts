@@ -141,6 +141,10 @@ const routes: Routes = [
   {
     path: 'selectpharmacy',
     loadChildren: () => import('./selectpharmacy/selectpharmacy.module').then( m => m.SelectpharmacyPageModule)
+  },
+  {
+    path: 'payments-question',
+    loadChildren: () => import('./payments-question/payments-question.module').then( m => m.PaymentsQUESTIONPageModule)
   }
 ];
 

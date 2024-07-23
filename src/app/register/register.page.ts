@@ -1,10 +1,17 @@
 import { Component, OnInit } from '@angular/core';
+
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+
 import { Router } from '@angular/router';
 import { LoadingController, AlertController } from '@ionic/angular';
 import { MenuController, Platform } from '@ionic/angular';
+
+import { Pharmacy } from 'src/app/dischempharmacy/models/pharmacy.model';
+import { PharmacyService } from 'src/app/services/pharmacy.service';
+
+
 
 @Component({
   selector: 'app-register',
@@ -12,7 +19,9 @@ import { MenuController, Platform } from '@ionic/angular';
   styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage implements OnInit {
+  
   selectedRole: string = '';
+  
   firstname: string = '';
   lastname: string = '';
   idnumber: string = '';
@@ -21,7 +30,6 @@ export class RegisterPage implements OnInit {
   password: string = '';
   confirm_password: string = '';
 
-  // Additional fields for document uploads
   // CUSTOMER DOC
   CustomerIDdoc: File | null = null;
   CustomerProofofAddress: File | null = null;
@@ -33,11 +41,6 @@ export class RegisterPage implements OnInit {
   licenseDoc: File | null = null;
   pdpDoc: File | null = null;
   DrievrInsuranceDocuments: File | null = null;
-     // vehicleDoc: File | null = null;
-        // driverIDdocument: File | null = null;
-        // licenseDoc: File | null = null;
-        // pdpDoc: File | null = null;
-        // DrievrInsuranceDocuments: File | null = null;
 
   // PHARMACY DOC
   PharmacyInsuranceDocuments: File | null = null;
@@ -51,7 +54,12 @@ export class RegisterPage implements OnInit {
   dispacherSAPSdocumnts: File | null = null;
   dispatcherInsuranceDocuments: File | null = null;
 
-  // Additional fields for province, region, and working hours
+  /*********************FIELDS FOR PHARMACY REGISTRATION*********************/
+  
+  // province, 
+  // region, 
+  // street address 
+  // working hours.
   selectedProvince: string = '';
   selectedRegion: string = '';
   streetAddress: string = '';
@@ -63,6 +71,7 @@ export class RegisterPage implements OnInit {
   openingHoursHolidays: string = '';
   closingHoursHolidays: string = '';
 
+  /********************************************PHARMACY BY PROVINCES**************************************/
   provinces = [
     { label: 'Province 1', value: 'KwaZulu-Natal' },
     { label: 'Province 2', value: 'Eastern Cape' },
@@ -74,7 +83,10 @@ export class RegisterPage implements OnInit {
     { label: 'Province 8', value: 'North West' },
     { label: 'Province 9', value: 'Western Cape' },
   ];
+  /********************************************PHARMACY BY PROVINCES**************************************/
 
+
+  /********************************************PHARMACY BY REGIONS**************************************/
   regions = [
     { label: 'Region 1', value: '--Gauteng-- City of Johannesburg Metropolitan Municipality' },
     { label: 'Region 2', value: '--Gauteng-- City of Tshwane Metropolitan Municipality' },
@@ -122,7 +134,9 @@ export class RegisterPage implements OnInit {
     { label: 'Region 44', value: '--Western Cape-- Overberg District Municipality' },
     { label: 'Region 45', value: '--Western Cape-- West Coast District Municipality' },
   ];
+  /********************************************PHARMACY BY REGIONS**************************************/
 
+  /*************PHARMACY BRANDTYPES***********/
   pharmacyBrandTypes = [
     {value:'Dischem Pharmacy'}, 
     {value:'Clicks Pharmacy'}, 
@@ -135,7 +149,9 @@ export class RegisterPage implements OnInit {
     {value:'Pharmacist Direct'}, 
     {value:'Springbok Pharmacy'},
   ];
+  /*************PHARMACY BRANDTYPES***********/
 
+  /*************WORKING HOURS***********/
   times: Array<{ value: string }> = [
     { value: '00:00 AM' },
     { value: '01:00 AM' },
@@ -160,24 +176,25 @@ export class RegisterPage implements OnInit {
     { value: '21:00 PM' },
     { value: '22:00 PM' },
     { value: '23:00 PM' },
-    
   ];
+  /*************WORKING HOURS***********/
 
-  // times = [
-  //   '06:00', '07:00', '08:00', '09:00', '10:00',
-  //   '11:00', '12:00', '13:00', '14:00', '15:00',
-  //   '16:00', '17:00', '18:00', '19:00', '20:00'
-  // ];
+  /*********************FIELDS FOR PHARMACY REGISTRATION*********************/
 
   constructor(
     private db: AngularFirestore,
+    
     private Auth: AngularFireAuth,
     private storage: AngularFireStorage,
     private router: Router,
     private loadingController: LoadingController,
     private alertController: AlertController,
     private menu: MenuController,
-    private platform: Platform
+    private platform: Platform, 
+    
+    private pharmacyService: PharmacyService,
+    //private pharmacy: Pharmacy 
+
   ) {}
 
   ngOnInit() {
@@ -194,6 +211,20 @@ export class RegisterPage implements OnInit {
     this.menu.close('main-content');
     event.stopPropagation();
   }
+
+
+  // async register() {
+  //   this.pharmacyService.registerPharmacy(this.pharmacy)
+  //     .then(() => {
+  //       console.log('Pharmacy registered successfully');
+  //       // Handle successful registration (e.g., navigate to a different page)
+  //     })
+  //     .catch(error => {
+  //       console.error('Error registering pharmacy: ', error);
+  //       // Handle registration errors
+  //     });
+  // }
+  
 
   async Register() {
     if (this.selectedRole == '') {
@@ -290,7 +321,6 @@ export class RegisterPage implements OnInit {
           role: this.selectedRole,
         };
 
-        // Add role-specific data
         // DRIVER DOC
         if (this.selectedRole === 'Driver') {
           userData.vehicleDoc = this.vehicleDoc ? await this.uploadFile(this.vehicleDoc) : null;
@@ -298,21 +328,15 @@ export class RegisterPage implements OnInit {
           userData.licenseDoc = this.licenseDoc ? await this.uploadFile(this.licenseDoc) : null;
           userData.DrievrInsuranceDocuments = this.DrievrInsuranceDocuments ? await this.uploadFile(this.DrievrInsuranceDocuments) : null;
           userData.pdpDoc = this.pdpDoc ? await this.uploadFile(this.pdpDoc) : null;  
-          // vehicleDoc: File | null = null;
-        // driverIDdocument: File | null = null;
-        // licenseDoc: File | null = null;
-        // pdpDoc: File | null = null;
-        // DrievrInsuranceDocuments: File | null = null;
         } 
+
         // CUSTOMER DOC
         else if (this.selectedRole === 'Customer') {
           userData.CustomerIDdoc = this.CustomerIDdoc ? await this.uploadFile(this.CustomerIDdoc) : null;
           userData.CustomerProofofAddress = this.CustomerProofofAddress ? await this.uploadFile(this.CustomerProofofAddress) : null;
           userData.CustomerBankStatement = this.CustomerBankStatement ? await this.uploadFile(this.CustomerBankStatement) : null;
-        // CustomerIDdoc: File | null = null;
-        // CustomerProofofAddress: File | null = null;
-        // CustomerBankStatement: File | null = null;
         }
+
         // PHARMACY DOC
         else if (this.selectedRole === 'Pharmacy') {
           userData.PharmacyInsuranceDocuments = this.PharmacyInsuranceDocuments ? await this.uploadFile(this.PharmacyInsuranceDocuments) : null;
@@ -320,12 +344,10 @@ export class RegisterPage implements OnInit {
           userData.certificateDoc = this.certificateDoc ? await this.uploadFile(this.certificateDoc) : null;
           userData.proofOfAddressDoc = this.proofOfAddressDoc ? await this.uploadFile(this.proofOfAddressDoc) : null;
 
-        // PharmacyInsuranceDocuments: File | null = null;
-        // registrationDoc: File | null = null;
-        // certificateDoc: File | null = null;
-        // proofOfAddressDoc: File | null = null;
-
-          // Add province, region, and working hours data
+          // province, 
+          // region, 
+          // street address 
+          // working hours.
           userData.province = this.selectedProvince;
           userData.region = this.selectedRegion;
           userData.streetAddress = this.streetAddress;
@@ -337,16 +359,13 @@ export class RegisterPage implements OnInit {
           userData.openingHoursHolidays = this.openingHoursHolidays;
           userData.closingHoursHolidays = this.closingHoursHolidays;
         }
+
         // DISPATCHER
         else if (this.selectedRole === 'Dispatcher') {
           userData.dispatcherResume = this.dispatcherResume ? await this.uploadFile(this.dispatcherResume) : null;
           userData.dispatcherIDdocument = this.dispatcherIDdocument ? await this.uploadFile(this.dispatcherIDdocument) : null;
           userData.dispacherSAPSdocumnts = this.dispacherSAPSdocumnts ? await this.uploadFile(this.dispacherSAPSdocumnts) : null;
           userData.dispatcherInsuranceDocuments = this.dispatcherInsuranceDocuments ? await this.uploadFile(this.dispatcherInsuranceDocuments) : null;
-        // dispatcherResume: File | null = null;
-        // dispatcherIDdocument: File | null = null;
-        // dispacherSAPSdocumnts: File | null = null;
-        // dispatcherInsuranceDocuments: File | null = null;
         }
 
         await this.db.collection('Users').add(userData);
@@ -360,6 +379,7 @@ export class RegisterPage implements OnInit {
       this.presentAlert(error.message);
     }
   }
+  
 
   async uploadFile(file: File): Promise<string> {
     const filePath = `documents/${new Date().getTime()}_${file.name}`;

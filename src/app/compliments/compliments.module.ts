@@ -4,18 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { DischempharmacyPageRoutingModule } from './dischempharmacy-routing.module';
+import { ComplimentsPageRoutingModule } from './compliments-routing.module';
 
-import { DischempharmacyPage } from './dischempharmacy.page';
-
+import { ComplimentsPage } from './compliments.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    DischempharmacyPageRoutingModule
+    ComplimentsPageRoutingModule
   ],
-  declarations: [DischempharmacyPage]
+  declarations: [ComplimentsPage]
 })
-export class DischempharmacyPageModule {}
+export class ComplimentsPageModule {}

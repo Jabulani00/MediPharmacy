@@ -4,18 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { DischempharmacyPageRoutingModule } from './dischempharmacy-routing.module';
+import { WebPageRoutingModule } from './web-routing.module';
 
-import { DischempharmacyPage } from './dischempharmacy.page';
-
+import { WebPage } from './web.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    DischempharmacyPageRoutingModule
+    WebPageRoutingModule
   ],
-  declarations: [DischempharmacyPage]
+  declarations: [WebPage]
 })
-export class DischempharmacyPageModule {}
+export class WebPageModule {}

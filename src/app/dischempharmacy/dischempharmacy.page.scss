@@ -1,0 +1,44 @@
+ion-header {
+  .nav-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 16px;
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+
+      .nav-image {
+        height: 40px;
+        margin-right: 8px;
+      }
+
+      .nav-label {
+        font-size: 18px;
+        font-weight: bold;
+      }
+    }
+
+    .nav-center {
+      text-align: center;
+
+      .logo {
+        font-size: 24px;
+        font-weight: bold;
+      }
+
+      .slogan {
+        font-size: 14px;
+        font-style: italic;
+      }
+    }
+
+    .nav-right {
+      ion-menu-button {
+        --icon-size: 28px;
+      }
+    }
+  }
+}
