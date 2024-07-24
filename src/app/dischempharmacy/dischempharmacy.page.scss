@@ -1,3 +1,4 @@
+/* Header styles */
 ion-header {
   .nav-bar {
     display: flex;
@@ -40,5 +41,156 @@ ion-header {
         --icon-size: 28px;
       }
     }
+  }
+}
+
+/* Main content styles */
+#main-content {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+}
+
+/* Container styles */
+.container {
+  display: flex;
+  width: 100%;
+  height: calc(100vh - 56px); /* Adjust based on header height */
+}
+
+/* Pharmacy list styles */
+.pharmacy-list-container {
+  width: 30%;
+  border-right: 1px solid #ddd;
+  padding-right: 16px;
+  overflow-y: auto;
+}
+
+.pharmacy-list {
+  width: 100%;
+}
+
+.list-item {
+  --background: #f9f9f9;
+  --border-color: #ddd;
+  margin: 10px 0;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+ion-label h2 {
+  font-weight: bold;
+  color: #333;
+}
+
+ion-label p {
+  color: #666;
+  margin: 5px 0;
+}
+
+/* Product section styles */
+.product-section {
+  width: 70%;
+  display: flex;
+  gap: 16px;
+  padding-left: 16px;
+}
+
+.category-list {
+  width: 25%;
+  border-right: 1px solid #ddd;
+  padding-right: 16px;
+}
+
+.category-list ion-item {
+  cursor: pointer;
+}
+
+.product-display {
+  width: 75%;
+  padding-left: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.product-display ion-card {
+  flex: 1 1 calc(33.333% - 32px); /* 3 per row with 16px gap */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.product-display img {
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* Modal styles */
+.modal-content {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
+}
+
+.modal-left {
+  width: 40%;
+}
+
+.modal-right {
+  width: 60%;
+}
+
+textarea {
+  width: 100%;
+  height: 100px;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.footer-details {
+  p {
+    margin: 0;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .pharmacy-list-container, .product-section {
+    width: 100%;
+    border-right: none;
+    padding-right: 0;
+  }
+
+  .product-section {
+    padding-left: 0;
+  }
+
+  .category-list, .product-display {
+    width: 100%;
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  .product-display ion-card {
+    flex: 1 1 100%; /* 1 per row on smaller screens */
+    max-width: 100%;
   }
 }

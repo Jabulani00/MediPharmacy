@@ -6,7 +6,8 @@ import { IonicModule } from '@ionic/angular';
 
 import { DischempharmacyPageRoutingModule } from './dischempharmacy-routing.module';
 
-import { DischempharmacyPage } from './dischempharmacy.page';
+import { DischemPharmacyPage } from './dischempharmacy.page';
+
 
 
 @NgModule({
@@ -14,8 +15,8 @@ import { DischempharmacyPage } from './dischempharmacy.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    DischempharmacyPageRoutingModule
+    DischempharmacyPageRoutingModule,
   ],
-  declarations: [DischempharmacyPage]
+  declarations: [DischemPharmacyPage],
 })
-export class DischempharmacyPageModule {}
+export class DischemPharmacyPageModule {}

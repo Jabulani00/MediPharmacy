@@ -26,6 +26,10 @@ export class SelectpharmacyPage implements OnInit {
   ngOnInit() {
   }
 
+  goToPharmacyPage(brand: string) {
+    this.router.navigate([`/${brand.toLowerCase().replace(/\s/g, '')}pharmacy`]);
+  }
+
   goToDischemPharmacy()
   {
     this.router.navigate(['/dischempharmacy']).then(() => {window.location.reload();});

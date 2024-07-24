@@ -96,7 +96,7 @@ const routes: Routes = [
   },
   {
     path: 'dischempharmacy',
-    loadChildren: () => import('./dischempharmacy/dischempharmacy.module').then( m => m.DischempharmacyPageModule)
+    loadChildren: () => import('./dischempharmacy/dischempharmacy.module').then(m => m.DischemPharmacyPageModule)
   },
   {
     path: 'clickspharmacy',

@@ -191,9 +191,7 @@ export class RegisterPage implements OnInit {
     private alertController: AlertController,
     private menu: MenuController,
     private platform: Platform, 
-    
-    private pharmacyService: PharmacyService,
-    //private pharmacy: Pharmacy 
+    private pharmacyService: PharmacyService
 
   ) {}
 
@@ -211,20 +209,6 @@ export class RegisterPage implements OnInit {
     this.menu.close('main-content');
     event.stopPropagation();
   }
-
-
-  // async register() {
-  //   this.pharmacyService.registerPharmacy(this.pharmacy)
-  //     .then(() => {
-  //       console.log('Pharmacy registered successfully');
-  //       // Handle successful registration (e.g., navigate to a different page)
-  //     })
-  //     .catch(error => {
-  //       console.error('Error registering pharmacy: ', error);
-  //       // Handle registration errors
-  //     });
-  // }
-  
 
   async Register() {
     if (this.selectedRole == '') {

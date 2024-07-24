@@ -1,37 +1,20 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Pharmacy } from 'src/app/dischempharmacy/models/pharmacy.model';
-
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PharmacyService {
+  constructor(private firestore: AngularFirestore) { }
 
-  constructor(
-    private db: AngularFirestore,
-   // private pharmacy: Pharmacy 
-  ) { }
-
-  // Method to register a new pharmacy
-  registerPharmacy(pharmacy: Pharmacy) {
-    return this.db.collection
-    (
-      'users'
-    )
-    .add(pharmacy);
+  // Method to get pharmacies by brand from Firestore
+  getPharmaciesByBrand(brand: string): Observable<any[]> {
+    return this.firestore.collection('Users', ref => ref.where('pharmacyBrandType', '==', brand)).valueChanges();
   }
 
-  // src/app/pharmacy.service.ts
-getPharmacies() {
-  return this.db.collection
-  (
-    'users', ref => ref.where
-    (
-      'role', '==', 'Pharmacy'
-    )
-  )
-  .valueChanges();
-}
-
+  // Method to get all products from Firestore
+  getProducts(): Observable<any[]> {
+    return this.firestore.collection('Products').valueChanges(); // Adjust 'Products' to your Firestore collection name
+  }
 }
