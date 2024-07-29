@@ -1,0 +1,5 @@
+npm install chart.js@latest @types/chart.js@latest
+npm install chart.js
+npm install chart.js@latest
+npm install chartjs-plugin-datalabels
+npm install @types/chartjs-plugin-datalabels --legacy-peer-deps

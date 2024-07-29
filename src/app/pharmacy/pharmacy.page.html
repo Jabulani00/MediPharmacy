@@ -72,6 +72,7 @@
             <p>Type: {{ med.type }}</p>
             <p>Price: {{ med.price | currency:'ZAR':'symbol-narrow':'1.2-2' }}</p>
             <p>Quantity: {{ med.quantity }}</p>
+            <p>Discount: {{ med.discount }}</p>
           </ion-label>
           <ion-buttons slot="end">
             <ion-button (click)="editMedication(med)">

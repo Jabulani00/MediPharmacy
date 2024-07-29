@@ -1,13 +1,80 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>driver</ion-title>
+  <ion-toolbar color="primary">
+    <ion-title>Driver Dashboard</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">driver</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="speedometer">
+    <div class="dial">
+      <div class="indicator" [style.transform]="'rotate(' + getStatusDegrees() + 'deg)'"></div>
+      <div class="center-point"></div>
+      <div class="status-markers">
+        <div class="marker" *ngFor="let status of statuses; let i = index" [style.transform]="'rotate(' + (i * 72) + 'deg)'">
+          <div class="dot" [class.active]="driverStatus === status"></div>
+        </div>
+      </div>
+    </div>
+    <div class="status-labels">
+      <span class="status-label" *ngFor="let status of statuses; let i = index" 
+            [class.active]="driverStatus === status"
+            [style.transform]="'rotate(' + (i * 72) + 'deg) translateX(140px) rotate(-' + (i * 72) + 'deg)'">
+        {{ getStatusLabel(status) }}
+      </span>
+    </div>
+  </div>
+
+  <ion-card *ngIf="hasDelivery" class="animated-card">
+    <ion-card-header>
+      <ion-card-title>Current Delivery</ion-card-title>
+      <ion-card-subtitle>{{ deliveryAddress }}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <div class="progress-container">
+        <div class="progress-bar">
+          <div class="progress" [style.width.%]="deliveryProgress">
+            <div class="progress-glow"></div>
+          </div>
+        </div>
+        <div class="progress-steps">
+          <div *ngFor="let step of deliverySteps; let i = index" 
+               class="step" 
+               [class.completed]="i <= currentStep">
+            <div class="step-icon">
+              <ion-icon [name]="getStepIcon(i)"></ion-icon>
+            </div>
+            <span>{{ step }}</span>
+          </div>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="!hasDelivery" class="animated-card">
+    <ion-card-header>
+      <ion-card-title>No Active Deliveries</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>You are currently not assigned to any deliveries.</p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-button expand="block" (click)="toggleStatusForm()">Update Status</ion-button>
+
+  <ion-card *ngIf="showStatusForm">
+    <ion-card-header>
+      <ion-card-title>Update Driver Status</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label>Status</ion-label>
+        <ion-select [(ngModel)]="selectedStatus">
+          <ion-select-option *ngFor="let status of statuses" [value]="status">
+            {{ getStatusLabel(status) }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-button expand="block" (click)="updateDriverStatus(selectedStatus)">Submit</ion-button>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
