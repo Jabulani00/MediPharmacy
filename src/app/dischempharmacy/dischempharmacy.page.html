@@ -1,0 +1,140 @@
+
+  <ion-header>
+  <ion-toolbar>
+    <ion-title>
+      <div class="nav-bar">
+        <div class="nav-left">
+          <img [src]="image1" alt="Dis-Chem Logo" class="nav-image">
+          <label class="nav-label">Dis-Chem Pharmacies</label>
+        </div>
+        <div class="nav-center">
+          <div class="logo">Med-Dash</div>
+          <div class="slogan">Delivered to your doorstep</div>
+        </div>
+        <div class="nav-right">
+          <ion-menu-button></ion-menu-button>
+        </div>
+      </div>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-menu side="end" menuId="first" contentId="main-content">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-title>Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-item>
+        <ion-icon name="home" slot="start"></ion-icon>
+        <ion-label>Home</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="information-circle" slot="start"></ion-icon>
+        <ion-label>About</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="call" slot="start"></ion-icon>
+        <ion-label>Contact</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="log-out" slot="start"></ion-icon>
+        <ion-label>Logout</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<ion-content id="main-content">
+  <div class="container">
+    <div class="pharmacy-list-container">
+      <ion-list class="pharmacy-list">
+        <ion-item class="list-item" *ngFor="let pharmacy of pharmacies" (click)="openProductSection(pharmacy)">
+          <ion-label>
+            <h2>{{ pharmacy.name }}</h2>
+            <p>{{ pharmacy.streetAddress }}</p>
+            <p>{{ pharmacy.region }}, {{ pharmacy.province }}</p>
+            <p>Open: {{ pharmacy.openingHoursMonFri }} - Close: {{ pharmacy.closingHoursMonFri }}</p>
+            <ion-button color="primary" (click)="goToShop(pharmacy)">Go to Shop</ion-button>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </div>
+
+    <div *ngIf="showProductSection" class="product-section">
+      <div class="category-list">
+        <ion-list>
+          <ion-item *ngFor="let category of categories" (click)="selectCategory(category)">
+            {{ category }}
+          </ion-item>
+        </ion-list>
+      </div>
+
+      <div class="product-display">
+        <ion-grid>
+          <ion-row>
+            <ion-col size="4" *ngFor="let product of filteredProducts">
+              <ion-card>
+                <img [src]="product.imageUrl" alt="{{ product.name }}">
+                <ion-card-header>
+                  <ion-card-title>{{ product.name }}</ion-card-title>
+                  <ion-card-subtitle>{{ product.price }}</ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>
+                  <!-- <p>{{ product.description }}</p> -->
+                  <ion-button expand="full" (click)="openProductModal(product)">Select Product</ion-button>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+
+    </div>
+  </div>
+</ion-content>
+
+<!-- Product Modal -->
+<ion-modal [isOpen]="isProductModalOpen" (didDismiss)="closeProductModal()">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="end">
+          <ion-button (click)="closeProductModal()">X</ion-button>
+        </ion-buttons>
+        <ion-title>{{ selectedProduct?.name }}</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <div class="modal-content">
+        <div class="modal-left">
+          <img [src]="selectedProduct?.imageUrl" alt="{{ selectedProduct?.name }}">
+          <p></p>
+          <textarea placeholder="Special instructions" [(ngModel)]="specialInstructions"></textarea>
+        </div>
+        <div class="modal-right">
+          <h2>{{ selectedProduct?.name }}</h2>
+          <p>Price: {{ selectedProduct?.price }}</p>
+          <p>{{ selectedProduct?.description }}</p>
+          
+          <ion-item>
+            <ion-label>Quantity</ion-label>
+            <ion-select [(ngModel)]="quantity" (ionChange)="updateTotal()">
+              <ion-select-option *ngFor="let qty of [1,2,3,4,5]" [value]="qty">{{ qty }}</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <div class="modal-footer">
+            
+            <div class="footer-details">
+              <p>Quantity: {{ quantity }}</p>
+              <ion-button expand="full" (click)="addToCart()">Add to cart</ion-button>
+              <p>Total: {{ totalAmount }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>

@@ -114,23 +114,29 @@
 
         <ion-item>
           <ion-label>Upload Vehicle Document:</ion-label>
-          <ion-input type="file" (change)="onFileSelected($event, 'vehicle')" required></ion-input>
+          <ion-input type="file" (Change)="onFileSelected($event, 'vehicle')" required></ion-input>
         </ion-item>
-
+        
+        <ion-item>
+          <ion-label>Upload Driver's ID Document:</ion-label>
+          <ion-input type="file" (Change)="onFileSelected($event, 'iddocument')" required></ion-input>
+        </ion-item>
+        
         <ion-item>
           <ion-label>Upload Driver's License Document:</ion-label>
-          <ion-input type="file" (change)="onFileSelected($event, 'iddocument')" required></ion-input>
-        </ion-item>
-
-        <ion-item>
-          <ion-label>Upload PDP Document:</ion-label>
-          <ion-input type="file" (change)="onFileSelected($event, 'pdp')" required></ion-input>
+          <ion-input type="file" (Change)="onFileSelected($event, 'license')" required></ion-input>
         </ion-item>
         
         <ion-item>
           <ion-label>Upload Vehicle Insurance Document:</ion-label>
-          <ion-input type="file" (change)="onFileSelected($event, 'driverinsurance')" required></ion-input>
+          <ion-input type="file" (Change)="onFileSelected($event, 'driverinsurance')" required></ion-input>
         </ion-item>
+        
+        <ion-item>
+          <ion-label>Upload PDP Document:</ion-label>
+          <ion-input type="file" (Change)="onFileSelected($event, 'pdp')" required></ion-input>
+        </ion-item>
+        
       </ng-container>
 
       <!-- Pharmacy specific fields -->
@@ -190,9 +196,6 @@
           <ion-input type="file" (change)="onFileSelected($event, 'proofOfAddress')" required></ion-input>
         </ion-item>
 
-        <!-- Province Selection -->
-        <!-- (ionChange)="onProvinceChange()" TOOK IT OUT -->
-            <!-- Address Information -->
     <ion-item>
       <ion-label>Street Address</ion-label>
       <ion-input [(ngModel)]="streetAddress" name="streetAddress" required></ion-input>

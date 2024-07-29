@@ -114,7 +114,7 @@ export class LoginPage implements OnInit {
                 this.router.navigate(['/dispatcher']).then(() => {window.location.reload();});
                 break;
               default:
-                this.router.navigate(['/home']).then(() => {window.location.reload();});
+                this.router.navigate(['/home']);
                 break;
             }
           })

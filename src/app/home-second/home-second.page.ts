@@ -38,6 +38,11 @@ export class HomeSecondPage implements OnInit {
     this.router.navigate(['/signup']);
   }
 
+  goToSelectPharmacy(){
+    {this.router.navigate(['/selectpharmacy']).then(() => {window.location.reload();});
+  }
+  }
+
   goToPROFILE(){
     {this.router.navigate(['/profile']).then(() => {window.location.reload();});  
   }}  

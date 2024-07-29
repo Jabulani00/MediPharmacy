@@ -93,6 +93,58 @@ const routes: Routes = [
   {
     path: 'prescription-modal',
     loadChildren: () => import('./prescription-modal/prescription-modal.module').then(m => m.PrescriptionModalPageModule)
+  },
+  {
+    path: 'dischempharmacy',
+    loadChildren: () => import('./dischempharmacy/dischempharmacy.module').then(m => m.DischemPharmacyPageModule)
+  },
+  {
+    path: 'clickspharmacy',
+    loadChildren: () => import('./clickspharmacy/clickspharmacy.module').then( m => m.ClickspharmacyPageModule)
+  },
+  {
+    path: 'mediritepharmacy',
+    loadChildren: () => import('./mediritepharmacy/mediritepharmacy.module').then( m => m.MediritepharmacyPageModule)
+  },
+  {
+    path: 'linkpharmacy',
+    loadChildren: () => import('./linkpharmacy/linkpharmacy.module').then( m => m.LinkpharmacyPageModule)
+  },
+  {
+    path: 'alphapharmacy',
+    loadChildren: () => import('./alphapharmacy/alphapharmacy.module').then( m => m.AlphapharmacyPageModule)
+  },
+  {
+    path: 'picknpaypharmacy',
+    loadChildren: () => import('./picknpaypharmacy/picknpaypharmacy.module').then( m => m.PicknpaypharmacyPageModule)
+  },
+  {
+    path: 'netcarepharmacy',
+    loadChildren: () => import('./netcarepharmacy/netcarepharmacy.module').then( m => m.NetcarepharmacyPageModule)
+  },
+  {
+    path: 'medicineshoppepharmacy',
+    loadChildren: () => import('./medicineshoppepharmacy/medicineshoppepharmacy.module').then( m => m.MedicineshoppepharmacyPageModule)
+  },
+  {
+    path: 'pharmacistdirect',
+    loadChildren: () => import('./pharmacistdirect/pharmacistdirect.module').then( m => m.PharmacistdirectPageModule)
+  },
+  {
+    path: 'springbokpharmacy',
+    loadChildren: () => import('./springbokpharmacy/springbokpharmacy.module').then( m => m.SpringbokpharmacyPageModule)
+  },
+  {
+    path: 'shoppingcart',
+    loadChildren: () => import('./shoppingcart/shoppingcart.module').then( m => m.ShoppingcartPageModule)
+  },
+  {
+    path: 'selectpharmacy',
+    loadChildren: () => import('./selectpharmacy/selectpharmacy.module').then( m => m.SelectpharmacyPageModule)
+  },
+  {
+    path: 'payments-question',
+    loadChildren: () => import('./payments-question/payments-question.module').then( m => m.PaymentsQUESTIONPageModule)
   }
 ];
 
