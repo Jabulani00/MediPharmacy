@@ -264,7 +264,7 @@ export class RegisterPage implements OnInit {
       !this.DrievrInsuranceDocuments ||
       !this.pdpDoc
       )) {
-        this.presentAlert('All documents must be uploaded for the Driver role');      
+        this.presentAlert("Please upload all required documents for the Driver role");      
         return;
     }
     if (this.selectedRole === 'Pharmacy' 
