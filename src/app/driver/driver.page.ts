@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 @Component({
   selector: 'app-driver',
@@ -15,21 +17,32 @@ export class DriverPage implements OnInit {
   statuses: string[] = ['available', 'shipping', 'on_leave', 'health_issue', 'vehicle_issue'];
   showStatusForm: boolean = false;
   selectedStatus: string = 'available';
+  medications: any[] = [];
 
-  constructor() { }
+  constructor(
+    private firestore: AngularFirestore,
+    private afAuth: AngularFireAuth
+  ) {}
 
   ngOnInit() {
-    this.checkDriverAssignment();
+    this.afAuth.user.subscribe(user => {
+      if (user && user.email) {
+        this.fetchMedications(user.email);
+      }
+    });
     this.updateDeliveryProgress();
   }
+  
+  
 
-  checkDriverAssignment() {
-    setTimeout(() => {
-      this.hasDelivery = true;
-      this.deliveryAddress = '123 Main St, Anytown, USA';
-      this.driverStatus = 'shipping';
-    }, 2000);
+  fetchMedications(driverEmail: string) {
+    this.firestore.collection('medications', ref => ref.where('driver', '==', driverEmail))
+      .valueChanges()
+      .subscribe(medications => {
+        this.medications = medications;
+      });
   }
+  
 
   updateDeliveryProgress() {
     const interval = setInterval(() => {

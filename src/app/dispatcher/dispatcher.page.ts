@@ -1,20 +1,30 @@
 import { Component, OnInit } from '@angular/core';
-import { Chart, ChartConfiguration, ChartData, registerables } from 'chart.js';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Observable } from 'rxjs';
+import { Chart, ChartConfiguration, registerables } from 'chart.js';
 
 Chart.register(...registerables);
 
 interface Driver {
-  id: number;
+  id: string;
   name: string;
   status: 'available' | 'on delivery' | 'off duty' | 'finished';
   deliveries: number;
   avatar: string;
+  email: string;
 }
 
-interface Item {
-  id: number;
+interface Medication {
+  id: string;
   name: string;
+  description: string;
+  discount: number;
+  imageUrl: string;
+  price: number;
   quantity: number;
+  size: string;
+  type: string;
+  prescriptionRequired: boolean;
 }
 
 @Component({
@@ -23,27 +33,21 @@ interface Item {
   styleUrls: ['./dispatcher.page.scss'],
 })
 export class DispatcherPage implements OnInit {
-  selectedSegment: string = 'drivers'; // Declare selectedSegment property
+  selectedSegment: string = 'drivers';
+  drivers$: Observable<Driver[]>;
+  medications$: Observable<Medication[]>;
+  selectedDriver: Driver | null = null;
 
-  drivers: Driver[] = [
-    { id: 1, name: 'John Doe', status: 'available', deliveries: 5, avatar: 'assets/er.jpg' },
-    { id: 2, name: 'Jane Smith', status: 'on delivery', deliveries: 3, avatar: 'assets/ffdg.jpg' },
-    { id: 3, name: 'Mike Johnson', status: 'off duty', deliveries: 7, avatar: 'assets/er.jpg' },
-    { id: 4, name: 'Emily Brown', status: 'finished', deliveries: 4, avatar: 'assets/ffdg.jpg' },
-  ];
+  constructor(private firestore: AngularFirestore) {
+    this.drivers$ = this.firestore.collection<Driver>('Users', ref => ref.where('role', '==', 'Driver'))
+      .valueChanges({ idField: 'id' }) as Observable<Driver[]>;
 
-  items: Item[] = [
-    { id: 1, name: 'Aspirin', quantity: 50 },
-    { id: 2, name: 'Ibuprofen', quantity: 30 },
-    { id: 3, name: 'Antibiotics', quantity: 20 },
-    { id: 4, name: 'Vitamins', quantity: 40 },
-  ];
-
-  constructor() { }
+    this.medications$ = this.firestore.collection<Medication>('medications')
+      .valueChanges({ idField: 'id' }) as Observable<Medication[]>;
+  }
 
   ngOnInit() {
     console.log('DispatcherPage initialized');
-    this.createCharts();
   }
 
   getStatusColor(status: string): string {
@@ -57,91 +61,31 @@ export class DispatcherPage implements OnInit {
   }
 
   assignDelivery(driver: Driver) {
-    if (driver.status === 'available' && this.items.length > 0) {
-      const item = this.items.pop();
-      if (item) {
-        console.log(`Assigning ${item.name} to ${driver.name}`);
-        driver.status = 'on delivery';
-        driver.deliveries++;
-        this.createCharts();
-      }
+    this.selectedDriver = driver;
+  }
+
+  confirmDelivery(medication: Medication) {
+    if (this.selectedDriver) {
+      const updateData = {
+        driver: this.selectedDriver.email,
+        orderDelivery: 'driver fetching',
+      };
+
+      this.firestore.collection('medications').doc(medication.id).update(updateData)
+        .then(() => {
+          console.log(`Assigned ${medication.name} to ${this.selectedDriver!.name}`);
+          this.firestore.collection('users').doc(this.selectedDriver!.id).update({
+            status: 'on delivery',
+            deliveries: this.selectedDriver!.deliveries + 1,
+          });
+        })
+        .catch(error => console.error('Error updating medication:', error));
     }
+
+    this.selectedDriver = null; // Close the card after assigning
   }
 
-  getTotalDeliveries(): number {
-    return this.drivers.reduce((total, driver) => total + driver.deliveries, 0);
-  }
-
-  getAvailableDrivers(): number {
-    return this.drivers.filter(driver => driver.status === 'available').length;
-  }
-
-  createCharts() {
-    this.createItemChart();
-    this.createPerformanceChart();
-  }
-
-  createItemChart() {
-    const itemChartElement = document.getElementById('itemChart') as HTMLCanvasElement;
-    if (itemChartElement) {
-      new Chart(itemChartElement, {
-        type: 'bar',
-        data: {
-          labels: this.items.map(item => item.name),
-          datasets: [{
-            label: 'Item Quantity',
-            data: this.items.map(item => item.quantity),
-            backgroundColor: 'rgba(75, 192, 192, 0.6)',
-          }]
-        },
-        options: {
-          responsive: true,
-          scales: {
-            y: {
-              beginAtZero: true
-            }
-          }
-        }
-      } as ChartConfiguration);
-    } else {
-      console.error('Item chart canvas not found');
-    }
-  }
-
-  createPerformanceChart() {
-    const performanceChartElement = document.getElementById('performanceChart') as HTMLCanvasElement;
-    if (performanceChartElement) {
-      new Chart(performanceChartElement, {
-        type: 'pie',
-        data: {
-          labels: this.drivers.map(driver => driver.name),
-          datasets: [{
-            data: this.drivers.map(driver => driver.deliveries),
-            backgroundColor: [
-              'rgba(255, 99, 132, 0.8)',
-              'rgba(54, 162, 235, 0.8)',
-              'rgba(255, 206, 86, 0.8)',
-              'rgba(75, 192, 192, 0.8)',
-            ],
-          }]
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            title: {
-              display: true,
-              text: 'Driver Performance',
-              color: '#044a42',
-              font: { size: 16, weight: 'bold' }
-            },
-            legend: {
-              display: true
-            }
-          }
-        }
-      } as ChartConfiguration);
-    } else {
-      console.error('Performance chart canvas not found');
-    }
+  cancelAssignment() {
+    this.selectedDriver = null; // Close the card without assigning
   }
 }

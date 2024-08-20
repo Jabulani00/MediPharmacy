@@ -5,6 +5,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding">
+  <!-- Speedometer Section -->
   <div class="speedometer">
     <div class="dial">
       <div class="indicator" [style.transform]="'rotate(' + getStatusDegrees() + 'deg)'"></div>
@@ -16,7 +17,7 @@
       </div>
     </div>
     <div class="status-labels">
-      <span class="status-label" *ngFor="let status of statuses; let i = index" 
+      <span class="status-label" *ngFor="let status of statuses; let i = index"
             [class.active]="driverStatus === status"
             [style.transform]="'rotate(' + (i * 72) + 'deg) translateX(140px) rotate(-' + (i * 72) + 'deg)'">
         {{ getStatusLabel(status) }}
@@ -24,6 +25,7 @@
     </div>
   </div>
 
+  <!-- Delivery Information -->
   <ion-card *ngIf="hasDelivery" class="animated-card">
     <ion-card-header>
       <ion-card-title>Current Delivery</ion-card-title>
@@ -37,8 +39,8 @@
           </div>
         </div>
         <div class="progress-steps">
-          <div *ngFor="let step of deliverySteps; let i = index" 
-               class="step" 
+          <div *ngFor="let step of deliverySteps; let i = index"
+               class="step"
                [class.completed]="i <= currentStep">
             <div class="step-icon">
               <ion-icon [name]="getStepIcon(i)"></ion-icon>
@@ -59,8 +61,10 @@
     </ion-card-content>
   </ion-card>
 
+  <!-- Update Status Button -->
   <ion-button expand="block" (click)="toggleStatusForm()">Update Status</ion-button>
 
+  <!-- Status Update Form -->
   <ion-card *ngIf="showStatusForm">
     <ion-card-header>
       <ion-card-title>Update Driver Status</ion-card-title>
@@ -75,6 +79,35 @@
         </ion-select>
       </ion-item>
       <ion-button expand="block" (click)="updateDriverStatus(selectedStatus)">Submit</ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Assigned Medications -->
+  <ion-card *ngIf="medications.length > 0" class="animated-card">
+    <ion-card-header>
+      <ion-card-title>Assigned Medications</ion-card-title>
+    </ion-card-header>
+    <ion-card-content *ngFor="let medication of medications">
+      <ion-item>
+        <ion-thumbnail slot="start">
+          <img [src]="medication.imageUrl" />
+        </ion-thumbnail>
+        <ion-label>
+          <h2>{{ medication.name }}</h2>
+          <p>{{ medication.description }}</p>
+          <p>Price: {{ medication.price }}</p>
+          <p>Quantity: {{ medication.quantity }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="medications.length === 0" class="animated-card">
+    <ion-card-header>
+      <ion-card-title>No Assigned Medications</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>No medications assigned to you at the moment.</p>
     </ion-card-content>
   </ion-card>
 </ion-content>
