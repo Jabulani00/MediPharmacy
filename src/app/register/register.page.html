@@ -75,69 +75,72 @@
         </ion-item>
       </ng-container>
 
-      <!-- Driver specific fields -->
-      <ng-container *ngIf="selectedRole === 'Driver'">
-        <ion-item>
-          <ion-label position="floating">First Name:</ion-label>
-          <ion-input type="text" [(ngModel)]="firstname" name="firstname" required></ion-input>
-        </ion-item>
+<!-- Driver specific fields -->
+<ng-container *ngIf="selectedRole === 'Driver'">
+  <ion-item>
+    <ion-label position="floating">First Name:</ion-label>
+    <ion-input type="text" [(ngModel)]="firstname" name="firstname" required></ion-input>
+  </ion-item>
 
-        <ion-item>
-          <ion-label position="floating">Last Name:</ion-label>
-          <ion-input type="text" [(ngModel)]="lastname" name="lastname" required></ion-input>
-        </ion-item>
+  <ion-item>
+    <ion-label position="floating">Last Name:</ion-label>
+    <ion-input type="text" [(ngModel)]="lastname" name="lastname" required></ion-input>
+  </ion-item>
 
-        <ion-item>
-          <ion-label position="floating">ID Number:</ion-label>
-          <ion-input type="text" [(ngModel)]="idnumber" name="idnumber" required></ion-input>
-        </ion-item>
+  <ion-item>
+    <ion-label position="floating">ID Number:</ion-label>
+    <ion-input type="text" [(ngModel)]="idnumber" name="idnumber" required></ion-input>
+  </ion-item>
 
-        <ion-item>
-          <ion-label position="floating">Email Address:</ion-label>
-          <ion-input type="email" [(ngModel)]="email" name="email" required></ion-input>
-        </ion-item>
+  <ion-item>
+    <ion-label position="floating">Email Address:</ion-label>
+    <ion-input type="email" [(ngModel)]="email" name="email" required></ion-input>
+  </ion-item>
 
-        <ion-item>
-          <ion-label position="floating">Phone Number:</ion-label>
-          <ion-input type="text" [(ngModel)]="phone" name="phone" required></ion-input>
-        </ion-item>
+  <ion-item>
+    <ion-label position="floating">Phone Number:</ion-label>
+    <ion-input type="text" [(ngModel)]="phone" name="phone" required></ion-input>
+  </ion-item>
 
-        <ion-item>
-          <ion-label position="floating">Password:</ion-label>
-          <ion-input type="password" [(ngModel)]="password" name="password" required></ion-input>
-        </ion-item>
+  <ion-item>
+    <ion-label position="floating">Password:</ion-label>
+    <ion-input type="password" [(ngModel)]="password" name="password" required></ion-input>
+  </ion-item>
 
-        <ion-item>
-          <ion-label position="floating">Confirm Password:</ion-label>
-          <ion-input type="password" [(ngModel)]="confirm_password" name="confirm_password" required></ion-input>
-        </ion-item>
+  <ion-item>
+    <ion-label position="floating">Confirm Password:</ion-label>
+    <ion-input type="password" [(ngModel)]="confirm_password" name="confirm_password" required></ion-input>
+  </ion-item>
 
-        <ion-item>
-          <ion-label>Upload Vehicle Document:</ion-label>
-          <ion-input type="file" (Change)="onFileSelected($event, 'vehicle')" required></ion-input>
-        </ion-item>
-        
-        <ion-item>
-          <ion-label>Upload Driver's ID Document:</ion-label>
-          <ion-input type="file" (Change)="onFileSelected($event, 'iddocument')" required></ion-input>
-        </ion-item>
-        
-        <ion-item>
-          <ion-label>Upload Driver's License Document:</ion-label>
-          <ion-input type="file" (Change)="onFileSelected($event, 'license')" required></ion-input>
-        </ion-item>
-        
-        <ion-item>
-          <ion-label>Upload Vehicle Insurance Document:</ion-label>
-          <ion-input type="file" (Change)="onFileSelected($event, 'driverinsurance')" required></ion-input>
-        </ion-item>
-        
-        <ion-item>
-          <ion-label>Upload PDP Document:</ion-label>
-          <ion-input type="file" (Change)="onFileSelected($event, 'pdp')" required></ion-input>
-        </ion-item>
-        
-      </ng-container>
+  <ion-item>
+    <ion-label position="floating">Upload Vehicle Document:</ion-label>
+    <ion-input type="file" (change)="onFileSelected($event, 'vehicle')" required ></ion-input>
+  </ion-item>
+  
+  <ion-item>
+    <ion-label position="floating">Upload Driver's ID Document:</ion-label>
+    <ion-input type="file" (change)="onFileSelected($event, 'iddocumentDriver')" required ></ion-input>
+  </ion-item>
+  
+  <ion-item>
+    <ion-label position="floating">Upload Driver's License Document:</ion-label>
+    <ion-input type="file" (change)="onFileSelected($event, 'license')" required ></ion-input>
+  </ion-item>
+  
+  <ion-item>
+    <ion-label position="floating">Upload Vehicle Insurance Document:</ion-label>
+    <ion-input type="file" (change)="onFileSelected($event, 'driverinsurance')" required ></ion-input>
+  </ion-item>
+
+  <!-- <ion-input type="file" (change)="onFileSelected($event, 'bankingdetails')" required></ion-input> -->
+
+  <ion-item>
+    <ion-label position="floating">Upload PDP Document:</ion-label>
+    <ion-input type="file" (change)="onFileSelected($event, 'pdp')" required ></ion-input>
+  </ion-item>
+  
+</ng-container>
+
 
       <!-- Pharmacy specific fields -->
       <ng-container *ngIf="selectedRole === 'Pharmacy'">
@@ -180,6 +183,9 @@
           <ion-label position="floating">Upload Pharmacy Insurance Document:</ion-label>
           <ion-input type="file" (change)="onFileSelected($event, 'pharmacyinsurance')" required></ion-input>
         </ion-item>
+
+  <!-- <ion-input type="file" (change)="onFileSelected($event, 'bankingdetails')" required></ion-input> -->
+
 
         <ion-item>
           <ion-label position="floating">Upload Registration Document:</ion-label>

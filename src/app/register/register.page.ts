@@ -40,7 +40,7 @@ export class RegisterPage implements OnInit {
   driverIDdocument: File | null = null;
   licenseDoc: File | null = null;
   pdpDoc: File | null = null;
-  DrievrInsuranceDocuments: File | null = null;
+  DriverInsuranceDocuments: File | null = null;
 
   // PHARMACY DOC
   PharmacyInsuranceDocuments: File | null = null;
@@ -51,7 +51,7 @@ export class RegisterPage implements OnInit {
   // DISPATCHER DOC
   dispatcherResume: File | null = null;
   dispatcherIDdocument: File | null = null;
-  dispacherSAPSdocumnts: File | null = null;
+  dispatcherSAPSdocuments: File | null = null;
   dispatcherInsuranceDocuments: File | null = null;
 
   /*********************FIELDS FOR PHARMACY REGISTRATION*********************/
@@ -261,7 +261,7 @@ export class RegisterPage implements OnInit {
       !this.vehicleDoc || 
       !this.driverIDdocument ||
       !this.licenseDoc || 
-      !this.DrievrInsuranceDocuments ||
+      !this.DriverInsuranceDocuments ||
       !this.pdpDoc
       )) {
         this.presentAlert("Please upload all required documents for the Driver role");      
@@ -281,7 +281,7 @@ export class RegisterPage implements OnInit {
       && (
         !this.dispatcherResume ||
         !this.dispatcherIDdocument ||
-        !this.dispacherSAPSdocumnts ||
+        !this.dispatcherSAPSdocuments ||
         !this.dispatcherInsuranceDocuments
       )) {
         this.presentAlert("Please upload all required documents for Dispatcher role");
@@ -305,21 +305,22 @@ export class RegisterPage implements OnInit {
           role: this.selectedRole,
         };
 
-        // DRIVER DOC
-        if (this.selectedRole === 'Driver') {
-          userData.vehicleDoc = this.vehicleDoc ? await this.uploadFile(this.vehicleDoc) : null;
-          userData.driverIDdocument = this.driverIDdocument ? await this.uploadFile(this.driverIDdocument) : null;
-          userData.licenseDoc = this.licenseDoc ? await this.uploadFile(this.licenseDoc) : null;
-          userData.DrievrInsuranceDocuments = this.DrievrInsuranceDocuments ? await this.uploadFile(this.DrievrInsuranceDocuments) : null;
-          userData.pdpDoc = this.pdpDoc ? await this.uploadFile(this.pdpDoc) : null;  
-        } 
-
-        // CUSTOMER DOC
-        else if (this.selectedRole === 'Customer') {
+        if (this.selectedRole === 'Customer') {
           userData.CustomerIDdoc = this.CustomerIDdoc ? await this.uploadFile(this.CustomerIDdoc) : null;
           userData.CustomerProofofAddress = this.CustomerProofofAddress ? await this.uploadFile(this.CustomerProofofAddress) : null;
           userData.CustomerBankStatement = this.CustomerBankStatement ? await this.uploadFile(this.CustomerBankStatement) : null;
         }
+        // DRIVER DOC
+        else if (this.selectedRole === 'Driver') {
+          userData.vehicleDoc = this.vehicleDoc ? await this.uploadFile(this.vehicleDoc) : null;
+          userData.driverIDdocument = this.driverIDdocument ? await this.uploadFile(this.driverIDdocument) : null;
+          userData.licenseDoc = this.licenseDoc ? await this.uploadFile(this.licenseDoc) : null;
+          userData.DriverInsuranceDocuments = this.DriverInsuranceDocuments ? await this.uploadFile(this.DriverInsuranceDocuments) : null;
+          userData.pdpDoc = this.pdpDoc ? await this.uploadFile(this.pdpDoc) : null;  
+        } 
+
+        // CUSTOMER DOC
+        
 
         // PHARMACY DOC
         else if (this.selectedRole === 'Pharmacy') {
@@ -348,7 +349,7 @@ export class RegisterPage implements OnInit {
         else if (this.selectedRole === 'Dispatcher') {
           userData.dispatcherResume = this.dispatcherResume ? await this.uploadFile(this.dispatcherResume) : null;
           userData.dispatcherIDdocument = this.dispatcherIDdocument ? await this.uploadFile(this.dispatcherIDdocument) : null;
-          userData.dispacherSAPSdocumnts = this.dispacherSAPSdocumnts ? await this.uploadFile(this.dispacherSAPSdocumnts) : null;
+          userData.dispatcherSAPSdocuments = this.dispatcherSAPSdocuments ? await this.uploadFile(this.dispatcherSAPSdocuments) : null;
           userData.dispatcherInsuranceDocuments = this.dispatcherInsuranceDocuments ? await this.uploadFile(this.dispatcherInsuranceDocuments) : null;
         }
 
@@ -387,14 +388,14 @@ export class RegisterPage implements OnInit {
       case 'vehicle':
         this.vehicleDoc = file;
         break;
-      case 'iddocument':
+      case 'iddocumentDriver':
         this.driverIDdocument = file;
         break;
       case 'license':
         this.licenseDoc = file;
         break;
       case 'driverinsurance':
-        this.DrievrInsuranceDocuments = file;
+        this.DriverInsuranceDocuments = file;
         break;
       case 'pdp':
         this.pdpDoc = file;
@@ -422,7 +423,7 @@ export class RegisterPage implements OnInit {
         this.dispatcherIDdocument = file;
         break;
       case 'sapsdocument':
-        this.dispacherSAPSdocumnts = file;
+        this.dispatcherSAPSdocuments = file;
         break;  
       case 'dispactherinsurance':
         this.dispatcherInsuranceDocuments = file;
