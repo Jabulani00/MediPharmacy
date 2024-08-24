@@ -111,30 +111,28 @@
       <div class="modal-content">
         <div class="modal-left">
           <img [src]="selectedProduct?.imageUrl" alt="{{ selectedProduct?.name }}">
-          <p></p>
           <textarea placeholder="Special instructions" [(ngModel)]="specialInstructions"></textarea>
         </div>
         <div class="modal-right">
           <h2>{{ selectedProduct?.name }}</h2>
-          <p>Price: {{ selectedProduct?.price }}</p>
+          <p>Price: {{ selectedProduct?.price | currency:'ZAR' }}</p>
           <p>{{ selectedProduct?.description }}</p>
-          
+    
+          <ion-label>Quantity</ion-label>
           <ion-item>
-            <ion-label>Quantity</ion-label>
-            <ion-select [(ngModel)]="quantity" (ionChange)="updateTotal()">
-              <ion-select-option *ngFor="let qty of [1,2,3,4,5]" [value]="qty">{{ qty }}</ion-select-option>
-            </ion-select>
+            <ion-input type="number" min="1" max="5" [(ngModel)]="quantity" (ionChange)="updateTotal()"></ion-input>
           </ion-item>
+          
           <div class="modal-footer">
-            
             <div class="footer-details">
               <p>Quantity: {{ quantity }}</p>
+              <p>Total: {{ totalAmount | currency:'ZAR' }}</p>
               <ion-button expand="full" (click)="addToCart()">Add to cart</ion-button>
-              <p>Total: {{ totalAmount }}</p>
             </div>
           </div>
         </div>
       </div>
     </ion-content>
+    
   </ng-template>
 </ion-modal>

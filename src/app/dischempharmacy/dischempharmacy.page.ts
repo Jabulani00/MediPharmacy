@@ -10,7 +10,7 @@ import { ModalController } from '@ionic/angular';
 export class DischemPharmacyPage implements OnInit {
   pharmacies: any[] = [];
   categories: string[] = ['Anti-inflammatory', 'Pain and fever', 'Suppositories', 'Rubs & Ointments', 'Gout', 'Migraine', 'Aspirins'];
-  products: any[] = []; // Full list of products
+  products: any[] = [];
   filteredProducts: any[] = [];
   showProductSection: boolean = false;
   selectedPharmacy: any = null;
@@ -27,8 +27,10 @@ export class DischemPharmacyPage implements OnInit {
 
   ngOnInit() {
     this.getDischemPharmacies();
-    this.getProducts(); // Load products when component initializes
+    this.getProducts();
   }
+
+  image1 = "https://static.za-specials.com/images/shops/dis-chem-thumbnail.png";
 
   getDischemPharmacies() {
     this.pharmacyService.getPharmaciesByBrand('Dischem Pharmacy').subscribe(data => {
@@ -39,7 +41,7 @@ export class DischemPharmacyPage implements OnInit {
   getProducts() {
     this.pharmacyService.getProducts().subscribe(data => {
       this.products = data;
-      this.filteredProducts = data; // Initialize filteredProducts with all products
+      this.filteredProducts = data;
     });
   }
 
@@ -58,8 +60,7 @@ export class DischemPharmacyPage implements OnInit {
     console.log('Opening product section for:', pharmacy.name);
     this.selectedPharmacy = pharmacy;
     this.showProductSection = true;
-    // You might need to filter or load products based on the selected pharmacy
-    this.filteredProducts = this.products; // Initially show all products
+    this.filteredProducts = this.products;
   }
 
   selectCategory(category: string) {
@@ -68,11 +69,10 @@ export class DischemPharmacyPage implements OnInit {
     this.showProductSection = true;
   }
 
-  image1 = "https://static.za-specials.com/images/shops/dis-chem-thumbnail.png";
-  
   async openProductModal(product: any) {
     this.selectedProduct = product;
-    this.totalAmount = product.price;
+    this.quantity = 1; // Default quantity is 1
+    this.totalAmount = product.price; // Initialize totalAmount to the product price
     this.isProductModalOpen = true;
   }
 
@@ -81,14 +81,17 @@ export class DischemPharmacyPage implements OnInit {
   }
 
   updateTotal() {
-    this.totalAmount = this.selectedProduct.price * this.quantity;
+    if (this.selectedProduct && typeof this.selectedProduct.price === 'number') {
+      this.totalAmount = this.selectedProduct.price * this.quantity;
+    } else {
+      console.error('Invalid price or quantity:', this.selectedProduct.price, this.quantity);
+      this.totalAmount = 0; // Default to 0 or some other fallback value
+    }
   }
 
   addToCart() {
-    // Implement the logic to add product to cart
     console.log(`Added ${this.quantity} of ${this.selectedProduct.name} to cart.`);
     this.closeProductModal();
-    // Display toast notification (implement as needed)
+    // Additional logic to add the item to the cart
   }
-  
 }
