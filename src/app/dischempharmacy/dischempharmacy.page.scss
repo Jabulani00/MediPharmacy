@@ -44,6 +44,26 @@ ion-header {
   }
 }
 
+#backButton {
+  margin: 1em;
+  border-radius: 20px;
+  background-color: #ef252c;
+  color: white;
+}
+
+.menu {
+  background: none;
+  color: rgb(21, 133, 202);
+  text-align:left;
+  --cursor: hand;
+
+}
+
+.menu:hover{
+  --cursor: hand;
+  transition: background-color 0.3s ease, #da1a20 0.3s ease;
+}
+
 /* Main content styles */
 #main-content {
   display: flex;

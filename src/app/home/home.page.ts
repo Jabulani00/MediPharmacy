@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuController, Platform } from '@ionic/angular';
-//import { FireauthService } from '../services/fireauth.service';
+//import { FireauthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -35,9 +35,9 @@ export class HomePage implements OnInit {
   }
 
   //Logout Method
-  // logout(){
-  //   this.fireAuth.logout();
-  // }
+  //  logout(){
+  //    this.fireAuth.logout();
+  //  }
 
   // goToLOGIN(){
   //   {this.router.navigate(['/login']).then(() => {window.location.reload();});  
