@@ -1,12 +1,14 @@
-import { Component, OnInit,ViewChild  } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { LoadingController, ToastController } from '@ionic/angular';
 import { Observable } from 'rxjs'; 
+import { map } from 'rxjs/operators';
 import { registerLocaleData } from '@angular/common';
 import localeZa from '@angular/common/locales/en-ZA';
 import { IonModal } from '@ionic/angular';
+import { Chart } from 'chart.js/auto';
 
 registerLocaleData(localeZa);
 
@@ -29,9 +31,8 @@ interface Medication {
   styleUrls: ['./pharmacy.page.scss'],
 })
 export class PharmacyPage implements OnInit {
-
   selectedCard: string = '';
-  segment: string = 'form';
+  segment: string = 'dashboard';
   medications: Medication[] = [];
   medForm!: FormGroup;
   selectedFile: File | null = null;
@@ -43,6 +44,14 @@ export class PharmacyPage implements OnInit {
   @ViewChild('imageModal') imageModal!: IonModal;
   selectedImageUrl: string | null = null;
   selectedImageName: string | null = null; 
+
+  dashboardStats: any = {};
+  @ViewChild('medicationTypeChart') medicationTypeChart!: ElementRef;
+  @ViewChild('prescriptionRequiredChart') prescriptionRequiredChart!: ElementRef;
+
+  @ViewChild('medicationTypeQuantityChart') medicationTypeQuantityChart!: ElementRef;
+  @ViewChild('prescriptionQuantityChart') prescriptionQuantityChart!: ElementRef;
+
   constructor(
     private fb: FormBuilder,
     private firestore: AngularFirestore,
@@ -51,26 +60,16 @@ export class PharmacyPage implements OnInit {
     private toastController: ToastController
   ) {
     this.medications$ = this.loadMedications();
+    this.loadDashboardStats();
   }
 
-  openImageModal(imageUrl?: string, imageName?: string) {
-    if (imageUrl && imageName) {
-      this.selectedImageUrl = imageUrl;
-      this.selectedImageName = imageName;
-      this.imageModal.present();
-    }
-  }
-
-  closeImageModal() {
-    this.imageModal.dismiss();
-  }
-
-  loadMedications(): Observable<Medication[]> {
-    return this.firestore.collection<Medication>('medications').valueChanges({ idField: 'id' });
-  }
   ngOnInit() {
     this.initForm();
     this.loadMedications();
+  }
+
+  ngAfterViewInit() {
+    this.createCharts();
   }
 
   initForm() {
@@ -86,6 +85,188 @@ export class PharmacyPage implements OnInit {
     });
   }
 
+  loadMedications(): Observable<Medication[]> {
+    return this.firestore.collection<Medication>('medications').valueChanges({ idField: 'id' });
+  }
+
+  loadDashboardStats() {
+    this.medications$.pipe(
+      map(medications => {
+        const totalMeds = medications.length;
+        const totalQuantity = medications.reduce((sum, med) => sum + med.quantity, 0);
+        const prescriptionRequired = medications.filter(med => med.prescriptionRequired).length;
+        const medicationTypes = this.getMedicationTypes(medications);
+        const medicationTypeQuantities = this.getMedicationTypeQuantities(medications);
+        const prescriptionQuantities = this.getPrescriptionQuantities(medications);
+
+        return {
+          totalMeds,
+          totalQuantity,
+          prescriptionRequired,
+          medicationTypes,
+          medicationTypeQuantities,
+          prescriptionQuantities
+        };
+      })
+    ).subscribe(stats => {
+      this.dashboardStats = stats;
+      this.createCharts();
+    });
+  }
+
+  getMedicationTypeQuantities(medications: Medication[]): { [key: string]: number } {
+    return medications.reduce((types, med) => {
+      types[med.type] = (types[med.type] || 0) + med.quantity;
+      return types;
+    }, {} as { [key: string]: number });
+  }
+
+  getPrescriptionQuantities(medications: Medication[]): { prescription: number, nonPrescription: number } {
+    return medications.reduce((result, med) => {
+      if (med.prescriptionRequired) {
+        result.prescription += med.quantity;
+      } else {
+        result.nonPrescription += med.quantity;
+      }
+      return result;
+    }, { prescription: 0, nonPrescription: 0 });
+  }
+  getMedicationTypes(medications: Medication[]): { [key: string]: number } {
+    return medications.reduce((types, med) => {
+      types[med.type] = (types[med.type] || 0) + 1;
+      return types;
+    }, {} as { [key: string]: number });
+  }
+
+  createCharts() {
+    if (this.dashboardStats.medicationTypes && this.medicationTypeChart) {
+      new Chart(this.medicationTypeChart.nativeElement, {
+        type: 'doughnut',
+        data: {
+          labels: Object.keys(this.dashboardStats.medicationTypes),
+          datasets: [{
+            data: Object.values(this.dashboardStats.medicationTypes),
+            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'bottom',
+            },
+            title: {
+              display: true,
+              text: 'Medication Types'
+            }
+          }
+        }
+      });
+    }
+
+    if (this.dashboardStats.prescriptionRequired !== undefined && this.prescriptionRequiredChart) {
+      new Chart(this.prescriptionRequiredChart.nativeElement, {
+        type: 'pie',
+        data: {
+          labels: ['Prescription Required', 'No Prescription'],
+          datasets: [{
+            data: [this.dashboardStats.prescriptionRequired, this.dashboardStats.totalMeds - this.dashboardStats.prescriptionRequired],
+            backgroundColor: ['#FF6384', '#36A2EB']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'bottom',
+            },
+            title: {
+              display: true,
+              text: 'Prescription Requirements'
+            }
+          }
+        }
+      });
+    }
+    this.createMedicationTypeQuantityChart();
+    this.createPrescriptionQuantityChart();
+  }
+  createMedicationTypeQuantityChart() {
+    if (this.dashboardStats.medicationTypeQuantities && this.medicationTypeQuantityChart) {
+      const ctx = this.medicationTypeQuantityChart.nativeElement.getContext('2d');
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: Object.keys(this.dashboardStats.medicationTypeQuantities),
+          datasets: [{
+            label: 'Quantity',
+            data: Object.values(this.dashboardStats.medicationTypeQuantities),
+            backgroundColor: 'rgba(173, 217, 208, 0.7)',
+            borderColor: 'rgba(173, 217, 208, 1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          },
+          plugins: {
+            legend: {
+              display: false
+            },
+            title: {
+              display: true,
+              text: 'Medication Types Quantity'
+            }
+          }
+        }
+      });
+    }
+  }
+
+  createPrescriptionQuantityChart() {
+    if (this.dashboardStats.prescriptionQuantities && this.prescriptionQuantityChart) {
+      const ctx = this.prescriptionQuantityChart.nativeElement.getContext('2d');
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Prescription', 'Non-Prescription'],
+          datasets: [{
+            label: 'Quantity',
+            data: [
+              this.dashboardStats.prescriptionQuantities.prescription,
+              this.dashboardStats.prescriptionQuantities.nonPrescription
+            ],
+            backgroundColor: ['rgba(127, 191, 180, 0.7)', 'rgba(95, 166, 155, 0.7)'],
+            borderColor: ['rgba(127, 191, 180, 1)', 'rgba(95, 166, 155, 1)'],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          },
+          plugins: {
+            legend: {
+              display: false
+            },
+            title: {
+              display: true,
+              text: 'Prescription vs Non-Prescription Quantity'
+            }
+          }
+        }
+      });
+    }
+  }
+
+
   selectCard(card: string) {
     this.selectedCard = card;
   }
@@ -93,8 +274,6 @@ export class PharmacyPage implements OnInit {
   segmentChanged(event: any) {
     this.segment = event.detail.value;
   }
-
- 
 
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
@@ -159,10 +338,9 @@ export class PharmacyPage implements OnInit {
     const loading = await this.presentLoading('Updating Medication...');
   
     try {
-      let imageUrl = this.editFileUrl ?? undefined;  // Use nullish coalescing
+      let imageUrl = this.editFileUrl ?? undefined;
   
       if (this.selectedFile) {
-        // A new file was selected, so upload it
         const filePath = `medications/${new Date().getTime()}_${this.selectedFile.name}`;
         const fileRef = this.storage.ref(filePath);
         const task = this.storage.upload(filePath, this.selectedFile);
@@ -170,13 +348,11 @@ export class PharmacyPage implements OnInit {
         await task.snapshotChanges().toPromise();
         imageUrl = await fileRef.getDownloadURL().toPromise();
   
-        // Delete the old image if it exists
         if (this.editFileUrl) {
           try {
             await this.storage.refFromURL(this.editFileUrl).delete().toPromise();
           } catch (deleteError) {
             console.error('Error deleting old image:', deleteError);
-            // Continue with the update even if delete fails
           }
         }
       }
@@ -190,7 +366,7 @@ export class PharmacyPage implements OnInit {
   
         await medicationRef.update({
           ...formValue,
-          imageUrl, // This will be either the new URL, the existing one, or undefined
+          imageUrl,
           quantity: updatedQuantity,
         });
   
@@ -206,11 +382,12 @@ export class PharmacyPage implements OnInit {
       await loading.dismiss();
     }
   }
+
   editMedication(med: Medication) {
     this.segment = 'form';
     this.editMode = true;
     this.editId = med.id ?? null;
-    this.editFileUrl = med.imageUrl ?? null;  // Use nullish coalescing
+    this.editFileUrl = med.imageUrl ?? null;
   
     this.medForm.patchValue({
       name: med.name,
@@ -220,16 +397,12 @@ export class PharmacyPage implements OnInit {
       prescriptionRequired: med.prescriptionRequired,
       size: med.size,
       discount: med.discount,
-      quantity: 0, // Set to 0 as we're adding to the existing quantity
+      quantity: 0,
     });
   
-    // Reset the file input
     this.selectedFile = null;
-    // You might need to reset the file input in the HTML as well
-    // You can do this by adding #fileInput to your file input element and then:
-    // const fileInput: HTMLInputElement = this.elementRef.nativeElement.querySelector('#fileInput');
-    // if (fileInput) fileInput.value = '';
   }
+
   async deleteMedication(med: Medication) {
     const loading = await this.presentLoading('Deleting Medication...');
 
@@ -265,6 +438,18 @@ export class PharmacyPage implements OnInit {
   }
 
   onImageError(event: any) {
-    event.target.src = 'assets/placeholder-image.png'; // Make sure this placeholder image exists in your assets folder
+    event.target.src = 'assets/placeholder-image.png';
+  }
+
+  openImageModal(imageUrl?: string, imageName?: string) {
+    if (imageUrl && imageName) {
+      this.selectedImageUrl = imageUrl;
+      this.selectedImageName = imageName;
+      this.imageModal.present();
+    }
+  }
+
+  closeImageModal() {
+    this.imageModal.dismiss();
   }
 }

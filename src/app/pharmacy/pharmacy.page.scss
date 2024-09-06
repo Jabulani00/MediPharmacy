@@ -1,80 +1,104 @@
 :root {
-  --ion-color-primary: #4CAF50;
-  --ion-color-secondary: #8BC34A;
-  --ion-color-tertiary: #CDDC39;
-  --ion-background-color: #E8F5E9;
-  --ion-text-color: #1B5E20;
-  --ion-toolbar-background: #4CAF50;
-  --ion-toolbar-color: #FFFFFF;
+  --ion-color-primary: #ADD9D0;
+  --ion-color-primary-rgb: 173, 217, 208;
+  --ion-color-primary-contrast: #000000;
+  --ion-color-primary-contrast-rgb: 0, 0, 0;
+  --ion-color-primary-shade: #98bfb7;
+  --ion-color-primary-tint: #b5ddd5;
+  
+  --ion-color-secondary: #7FBFB4;
+  --ion-color-tertiary: #5FA69B;
+  --ion-background-color: #F0F7F5;
+  --ion-text-color: #333333;
 }
 
 /* General styles */
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
 ion-content {
-  --background: linear-gradient(135deg, #E8F5E9, #C8E6C9);
+  --background: linear-gradient(135deg, #F0F7F5, #E0F0ED);
 }
 
-ion-item {
-  --background: rgba(255, 255, 255, 0.7);
-  margin-bottom: 10px;
-  border-radius: 10px;
-  --border-radius: 10px;
+ion-card {
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
 }
 
-ion-item:hover {
-  --background: rgba(255, 255, 255, 0.9);
-  transform: translateY(-3px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+ion-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
-ion-label {
+ion-card-header {
+  background-color:  #88ccbe;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+
+ion-card-title {
+  color: var(--ion-color-primary-contrast);
   font-weight: bold;
-  color: var(--ion-text-color);
+  font-size: 1.2em;
 }
 
-/* Segment styles */
-ion-segment {
-  background: var(--ion-color-primary);
-  border-radius: 20px;
-  margin-bottom: 20px;
+ion-card-content {
+  padding: 20px;
 }
 
-ion-segment-button {
-  --background-checked: var(--ion-color-secondary);
-  --color-checked: #FFFFFF;
-  --indicator-color: var(--ion-color-tertiary);
-  transition: all 0.3s ease;
+ion-card-content h2 {
+  font-size: 2.5em;
+  color: var(--ion-color-secondary);
+  margin: 10px 0;
+  text-align: center;
 }
 
-ion-segment-button::part(indicator-background) {
-  background: var(--ion-color-tertiary);
+/* Menu styles */
+ion-menu {
+  --background: #88ccbe;
+  --width: 250px;
+}
+
+ion-menu ion-content {
+  --background: linear-gradient(135deg,  #88ccbe, var(--ion-color-secondary));
+}
+
+ion-menu ion-item {
+  --background: transparent;
+  --color: var(--ion-color-primary-contrast);
+}
+
+ion-menu ion-item:hover {
+  --background: rgba(255, 255, 255, 0.1);
 }
 
 /* Form styles */
-form {
-  animation: fadeIn 1s ease-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+ion-item {
+  --background: rgba(255, 255, 255, 0.7);
+  border-radius: 10px;
+  margin-bottom: 10px;
 }
 
 ion-input, ion-textarea {
-  --background: rgba(255, 255, 255, 0.5);
-  --padding-start: 10px;
-  border-radius: 5px;
+  --padding-start: 15px;
+  --padding-end: 15px;
+}
+
+ion-checkbox {
+  --size: 25px;
+  --background-checked: var(--ion-color-secondary);
+  --border-color-checked: var(--ion-color-secondary);
 }
 
 ion-button[type="submit"] {
   margin-top: 20px;
-  --background: var(--ion-color-primary);
-  --background-hover: var(--ion-color-secondary);
-  transition: all 0.3s ease;
-}
-
-ion-button[type="submit"]:hover {
-  transform: scale(1.05);
+  --background: var(--ion-color-secondary);
+  --background-hover: var(--ion-color-tertiary);
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 /* Table styles */
@@ -82,138 +106,143 @@ ion-list {
   background: transparent;
 }
 
-ion-thumbnail {
-  --size: 80px;
-  --border-radius: 10px;
-  margin-right: 15px;
-}
-
-ion-thumbnail img {
-  border-radius: 10px;
-  transition: all 0.3s ease;
-}
-
-ion-thumbnail img:hover {
-  transform: scale(1.1);
-}
-
 ion-item ion-label h2 {
   font-size: 1.2em;
   font-weight: bold;
-  color: var(--ion-color-primary);
+  color: var(--ion-color-tertiary);
 }
 
-ion-item ion-label p {
-  color: var(--ion-text-color);
+ion-thumbnail {
+  --size: 80px;
+  --border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-ion-button ion-icon {
-  font-size: 1.2em;
+.edit, .delete {
+  font-size: 1.5em;
+  padding: 10px;
+}
+
+.edit {
+  color: var(--ion-color-secondary);
+}
+
+.delete {
+  color: #ff4444;
+}
+
+/* Modal styles */
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.full-size-image {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
 /* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+ion-card {
+  animation: fadeIn 0.5s ease-out;
+}
+
 @keyframes pulse {
   0% { transform: scale(1); }
   50% { transform: scale(1.05); }
   100% { transform: scale(1); }
 }
 
-.ion-activated {
+ion-button:active {
   animation: pulse 0.3s linear;
 }
 
-/* Custom loading animation */
-ion-loading.custom-loading {
-  --background: rgba(76, 175, 80, 0.8);
-  --spinner-color: #FFFFFF;
-}
-
-/* Toast styles */
-ion-toast {
-  --background: var(--ion-color-primary);
-  --color: #FFFFFF;
-  --border-radius: 10px;
-  --box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* File input styling */
-input[type="file"] {
-  margin: 20px 0;
-  padding: 10px;
-  background: rgba(255, 255, 255, 0.7);
-  border-radius: 5px;
-  border: 2px dashed var(--ion-color-primary);
-  transition: all 0.3s ease;
-}
-
-input[type="file"]:hover {
-  background: rgba(255, 255, 255, 0.9);
-  border-color: var(--ion-color-secondary);
-}
-
 /* Responsive adjustments */
-@media (max-width: 576px) {
+@media (max-width: 768px) {
+  ion-card-content h2 {
+    font-size: 2em;
+  }
+  
   ion-thumbnail {
     --size: 60px;
   }
-  
-  ion-item ion-label h2 {
-    font-size: 1em;
-  }
 }
 
-/* pharmacy-page.page.scss */
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
 
-.modal-content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  background: linear-gradient(to bottom, #f0f0f0, #e0e0e0);
-  padding: 20px;
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background:  #88ccbe;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ion-color-secondary);
+}
+
+/* Additional enhancements */
+ion-toolbar {
+  --background:#88ccbe;
+  --color: var(--ion-color-primary-contrast);
+}
+
+ion-title {
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+ion-segment {
+  background: var(--ion-color-primary-shade);
+  border-radius: 20px;
+  margin-bottom: 20px;
+  padding: 5px;
+}
+
+ion-segment-button {
+  --background-checked: var(--ion-color-secondary);
+  --color-checked: var(--ion-color-primary-contrast);
+  --indicator-color: transparent;
   border-radius: 15px;
 }
 
-.full-size-image {
-  max-width: 100%;
-  max-height: 80vh;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease-in-out;
+ion-segment-button::part(indicator-background) {
+  background: var(--ion-color-secondary);
 }
 
-.full-size-image:hover {
-  transform: scale(1.05);
+/* Chart enhancements */
+canvas {
+  margin-top: 20px;
 }
 
-ion-toolbar {
-  --background: #044a42;
-  color: #fff;
-  text-align: center;
-  font-weight: bold;
+/* Loading animation */
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
-ion-title h2 {
-  font-size: 1.5rem;
-  margin: 0;
+.custom-loading .loading-wrapper {
+  background:  #88ccbe;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-ion-button {
-  --background: transparent;
-  --color: #fff;
-  --icon-size: 1.5rem;
-}
-
-ion-button:hover {
-  --color: #ffd700;
-}
-.delete{
-  color: #ff1100;
-  font-size: 20px;
-  font-weight: bold;
-}
-.edit{
-  color: #48ff00;
-  font-size: 20px;
-  font-weight: bold;
+.custom-loading .loading-spinner {
+  animation: rotate 1s linear infinite;
 }

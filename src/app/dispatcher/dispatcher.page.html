@@ -1,36 +1,67 @@
+<ion-split-pane contentId="main-content">
+  <ion-menu contentId="main-content" type="overlay">
+    <ion-content>
+      <ion-list id="inbox-list">
+        <ion-list-header>Dispatcher Dashboard</ion-list-header>
+        <ion-note>Welcome, Dispatcher</ion-note>
+
+        <ion-menu-toggle auto-hide="false">
+          <ion-item routerDirection="root" routerLink="/dispatcher" lines="none" detail="false" routerLinkActive="selected">
+            <ion-icon slot="start" name="home-outline"></ion-icon>
+            <ion-label>Dashboard</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle auto-hide="false">
+          <ion-item routerDirection="root" routerLink="/dispatcher/drivers" lines="none" detail="false" routerLinkActive="selected">
+            <ion-icon slot="start" name="people-outline"></ion-icon>
+            <ion-label>Drivers</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle auto-hide="false">
+          <ion-item routerDirection="root" routerLink="/dispatcher/medications" lines="none" detail="false" routerLinkActive="selected">
+            <ion-icon slot="start" name="medical-outline"></ion-icon>
+            <ion-label>Medications</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+  <ion-router-outlet id="main-content"></ion-router-outlet>
+</ion-split-pane>
+
 <ion-content class="ion-padding">
-  <ion-segment [(ngModel)]="selectedSegment">
+  <ion-segment [(ngModel)]="selectedSegment" class="custom-segment">
+    <ion-segment-button value="dashboard">
+      <ion-label>Dashboard</ion-label>
+    </ion-segment-button>
     <ion-segment-button value="drivers">
       <ion-label>Drivers</ion-label>
     </ion-segment-button>
-    <ion-segment-button value="stats">
-      <ion-label>Statistics</ion-label>
+    <ion-segment-button value="medications">
+      <ion-label>Medications</ion-label>
     </ion-segment-button>
   </ion-segment>
 
-  <div *ngIf="selectedSegment === 'drivers'">
+  <div *ngIf="selectedSegment === 'dashboard'" class="dashboard-container">
     <ion-grid>
       <ion-row>
-        <ion-col size="12" size-md="6" *ngFor="let driver of drivers$ | async">
-          <ion-card>
+        <ion-col size="12" size-md="6">
+          <ion-card class="hover-effect fancy-shadow">
             <ion-card-header>
-              <ion-avatar>
-                <img [src]="driver.avatar" alt="Driver avatar">
-              </ion-avatar>
-              <ion-card-title>{{ driver.name }}</ion-card-title>
-              <ion-card-subtitle>
-                <ion-badge [color]="getStatusColor(driver.status)">{{ driver.status }}</ion-badge>
-              </ion-card-subtitle>
+              <ion-card-title>Driver Status</ion-card-title>
             </ion-card-header>
             <ion-card-content>
-              <ion-item lines="none">
-                <ion-icon name="bicycle-outline" slot="start"></ion-icon>
-                <ion-label>Deliveries: {{ driver.deliveries }}</ion-label>
-              </ion-item>
-              <ion-button expand="block" (click)="assignDelivery(driver)">
-                Assign Delivery
-              </ion-button>
-              
+              <canvas #driverStatusChart></canvas>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ion-col size="12" size-md="6">
+          <ion-card class="hover-effect fancy-shadow">
+            <ion-card-header>
+              <ion-card-title>Medication Requests</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <canvas #medicationRequestsChart></canvas>
             </ion-card-content>
           </ion-card>
         </ion-col>
@@ -38,11 +69,58 @@
     </ion-grid>
   </div>
 
-  <div *ngIf="selectedSegment === 'stats'">
-    <!-- Existing statistics content -->
+  <div *ngIf="selectedSegment === 'drivers'" class="drivers-container">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12" size-md="6" *ngFor="let driver of drivers$ | async">
+          <ion-card class="hover-effect fancy-shadow">
+            <ion-card-header>
+              <ion-avatar>
+                <img [src]="driver.avatar" alt="Driver avatar">
+              </ion-avatar>
+              <ion-card-title>{{ driver.name }}</ion-card-title>
+              <ion-card-subtitle>
+                <ion-badge [class]="'status-' + driver.status.toLowerCase()">{{ driver.status }}</ion-badge>
+              </ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-item lines="none">
+                <ion-icon name="bicycle-outline" slot="start"></ion-icon>
+                <ion-label>Deliveries: {{ driver.deliveries }}</ion-label>
+              </ion-item>
+              <ion-button expand="block" (click)="assignDelivery(driver)" class="custom-button">
+                Assign Delivery
+              </ion-button>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </div>
 
-  <ion-card *ngIf="selectedDriver">
+  <div *ngIf="selectedSegment === 'medications'" class="medications-container">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12" size-md="6" *ngFor="let medication of medications$ | async">
+          <ion-card class="hover-effect fancy-shadow">
+            <ion-img [src]="medication.imageUrl"></ion-img>
+            <ion-card-header>
+              <ion-card-title>{{ medication.name }}</ion-card-title>
+              <ion-card-subtitle>{{ medication.type }}</ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content>
+              <p>{{ medication.description }}</p>
+              <p>Price: {{ medication.price | currency }}</p>
+              <p>Quantity: {{ medication.quantity }}</p>
+              <p>Status: {{ medication.orderDelivery }}</p>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <ion-card *ngIf="selectedDriver" class="assignment-card hover-effect fancy-shadow">
     <ion-card-header>
       <ion-card-title>Select Medication for {{ selectedDriver.name }}</ion-card-title>
     </ion-card-header>
@@ -50,7 +128,7 @@
       <ion-grid>
         <ion-row>
           <ion-col size="12" size-md="6" *ngFor="let medication of medications$ | async">
-            <ion-card>
+            <ion-card class="medication-selection-card hover-effect">
               <ion-img [src]="medication.imageUrl"></ion-img>
               <ion-card-header>
                 <ion-card-title>{{ medication.name }}</ion-card-title>
@@ -60,7 +138,7 @@
                 <p>{{ medication.description }}</p>
                 <p>Price: {{ medication.price | currency }}</p>
                 <p>Quantity: {{ medication.quantity }}</p>
-                <ion-button expand="block" (click)="confirmDelivery(medication)">
+                <ion-button expand="block" (click)="confirmDelivery(medication)" class="custom-button">
                   Confirm Delivery
                 </ion-button>
               </ion-card-content>
@@ -68,7 +146,7 @@
           </ion-col>
         </ion-row>
       </ion-grid>
-      <ion-button expand="block" color="danger" (click)="cancelAssignment()">Cancel</ion-button>
+      <ion-button expand="block" color="danger" (click)="cancelAssignment()" class="custom-button">Cancel</ion-button>
     </ion-card-content>
   </ion-card>
 </ion-content>

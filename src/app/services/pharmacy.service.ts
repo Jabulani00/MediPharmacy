@@ -15,6 +15,6 @@ export class PharmacyService {
 
   // Method to get all products from Firestore
   getProducts(): Observable<any[]> {
-    return this.firestore.collection('Products').valueChanges(); // Adjust 'Products' to your Firestore collection name
+    return this.firestore.collection('medications').valueChanges(); // Adjust 'Products' to your Firestore collection name
   }
 }

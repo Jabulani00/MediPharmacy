@@ -1,109 +1,208 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>
-      Pharmacy Page
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-menu contentId="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Pharmacy Dashboard</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="ion-padding">
+    <ion-list>
+      <ion-item button (click)="segment = 'dashboard'">
+        <ion-icon name="speedometer-outline" slot="start"></ion-icon>
+        <ion-label>Dashboard</ion-label>
+      </ion-item>
+      <ion-item button (click)="segment = 'form'">
+        <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+        <ion-label>Add Medication</ion-label>
+      </ion-item>
+      <ion-item button (click)="segment = 'table'">
+        <ion-icon name="list-outline" slot="start"></ion-icon>
+        <ion-label>Medication List</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
 
-<ion-content class="ion-padding">
-  <ion-segment [(ngModel)]="segment" (ionChange)="segmentChanged($event)">
-    <ion-segment-button value="form">
-      <ion-label>Form</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="table">
-      <ion-label>Medications</ion-label>
-    </ion-segment-button>
-  </ion-segment>
+<div class="ion-page" id="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>Pharmacy Dashboard</ion-title>
+    </ion-toolbar>
+  </ion-header>
 
-  <div [ngSwitch]="segment">
-    <div *ngSwitchCase="'form'">
-      <form [formGroup]="medForm" (ngSubmit)="onSubmit()">
-        <ion-item>
-          <ion-label position="floating">Name</ion-label>
-          <ion-input formControlName="name" type="text"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label position="floating">Type</ion-label>
-          <ion-input formControlName="type" type="text"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label position="floating">Description</ion-label>
-          <ion-textarea formControlName="description"></ion-textarea>
-        </ion-item>
-        <ion-item>
-          <ion-label position="floating">Price</ion-label>
-          <ion-input formControlName="price" type="number"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label>Prescription Required</ion-label>
-          <ion-checkbox formControlName="prescriptionRequired"></ion-checkbox>
-        </ion-item>
-        <ion-item>
-          <ion-label position="floating">Size</ion-label>
-          <ion-input formControlName="size" type="text"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label position="floating">Discount (%)</ion-label>
-          <ion-input formControlName="discount" type="number"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label position="floating">Quantity</ion-label>
-          <ion-input formControlName="quantity" type="number"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-label>Image</ion-label>
-          <input type="file" (change)="onFileSelected($event)" accept="image/*" #fileInput>
-        </ion-item>
-        <ion-button expand="block" type="submit" [disabled]="!medForm.valid">
-          {{ editMode ? 'Update' : 'Add' }} Medication
-        </ion-button>
-      </form>
+  <ion-content class="ion-padding">
+    <div [ngSwitch]="segment">
+      <div *ngSwitchCase="'dashboard'">
+        <ion-grid>
+          <ion-row>
+            <ion-col size="12" size-md="6" size-lg="4">
+              <ion-card>
+                <ion-card-header>
+                  <ion-card-title>Total Medications</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                  <h2>{{ dashboardStats.totalMeds }}</h2>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+            <ion-col size="12" size-md="6" size-lg="4">
+              <ion-card>
+                <ion-card-header>
+                  <ion-card-title>Total Quantity</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                  <h2>{{ dashboardStats.totalQuantity }}</h2>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+            <ion-col size="12" size-md="6" size-lg="4">
+              <ion-card>
+                <ion-card-header>
+                  <ion-card-title>Prescription Required</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                  <h2>{{ dashboardStats.prescriptionRequired }}</h2>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="12" size-md="6">
+              <ion-card>
+                <ion-card-header>
+                  <ion-card-title>Medication Types</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                  <canvas #medicationTypeChart></canvas>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+            <ion-col size="12" size-md="6">
+              <ion-card>
+                <ion-card-header>
+                  <ion-card-title>Prescription Requirements</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                  <canvas #prescriptionRequiredChart></canvas>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="12" size-md="6">
+              <ion-card>
+                <ion-card-header>
+                  <ion-card-title>Medication Types Quantity</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                  <canvas #medicationTypeQuantityChart></canvas>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+            <ion-col size="12" size-md="6">
+              <ion-card>
+                <ion-card-header>
+                  <ion-card-title>Prescription vs Non-Prescription Quantity</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                  <canvas #prescriptionQuantityChart></canvas>
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+
+      <div *ngSwitchCase="'form'">
+        <form [formGroup]="medForm" (ngSubmit)="onSubmit()">
+          <ion-item>
+            <ion-label position="floating">Name</ion-label>
+            <ion-input formControlName="name" type="text"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Type</ion-label>
+            <ion-input formControlName="type" type="text"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Description</ion-label>
+            <ion-textarea formControlName="description"></ion-textarea>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Price</ion-label>
+            <ion-input formControlName="price" type="number"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label>Prescription Required</ion-label>
+            <ion-checkbox formControlName="prescriptionRequired"></ion-checkbox>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Size</ion-label>
+            <ion-input formControlName="size" type="text"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Discount (%)</ion-label>
+            <ion-input formControlName="discount" type="number"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Quantity</ion-label>
+            <ion-input formControlName="quantity" type="number"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label>Image</ion-label>
+            <input type="file" (change)="onFileSelected($event)" accept="image/*" #fileInput>
+          </ion-item>
+          <ion-button expand="block" type="submit" [disabled]="!medForm.valid">
+            {{ editMode ? 'Update' : 'Add' }} Medication
+          </ion-button>
+        </form>
+      </div>
+
+      <div *ngSwitchCase="'table'">
+        <ion-list>
+          <ion-item *ngFor="let med of medications$ | async">
+            <ion-thumbnail slot="start" (click)="openImageModal(med.imageUrl, med.name)">
+              <ion-img [src]="med.imageUrl" [alt]="med.name" loading="lazy" (ionError)="onImageError($event)"></ion-img>
+            </ion-thumbnail>
+            <ion-label>
+              <h2>{{ med.name }}</h2>
+              <p>Type: {{ med.type }}</p>
+              <p>Price: {{ med.price | currency:'ZAR':'symbol-narrow':'1.2-2' }}</p>
+              <p>Quantity: {{ med.quantity }}</p>
+              <p>Discount: {{ med.discount }}%</p>
+            </ion-label>
+            <ion-buttons slot="end">
+              <ion-button (click)="editMedication(med)">
+                <ion-icon class="edit" name="create-outline"></ion-icon>
+              </ion-button>
+              <ion-button (click)="deleteMedication(med)">
+                <ion-icon class="delete" name="trash-outline"></ion-icon>
+              </ion-button>
+            </ion-buttons>
+          </ion-item>
+        </ion-list>
+      </div>
     </div>
-
-    <div *ngSwitchCase="'table'" class="ion-margin-top">
-      <ion-list>
-        <ion-item *ngFor="let med of medications$ | async">
-          <ion-thumbnail slot="start" (click)="openImageModal(med.imageUrl, med.name)">
-            <ion-img [src]="med.imageUrl" [alt]="med.name" loading="lazy" (ionError)="onImageError($event)"></ion-img>
-          </ion-thumbnail>
-          <ion-label>
-            <h2>{{ med.name }}</h2>
-            <p>Type: {{ med.type }}</p>
-            <p>Price: {{ med.price | currency:'ZAR':'symbol-narrow':'1.2-2' }}</p>
-            <p>Quantity: {{ med.quantity }}</p>
-            <p>Discount: {{ med.discount }}</p>
-          </ion-label>
-          <ion-buttons slot="end">
-            <ion-button (click)="editMedication(med)">
-              <ion-icon class="edit" name="create-outline"></ion-icon>
-            </ion-button>
-            <ion-button (click)="deleteMedication(med)">
-              <ion-icon class="delete" name="trash-outline"></ion-icon>
-            </ion-button>
-          </ion-buttons>
-        </ion-item>
-      </ion-list>
-    </div>
-  </div>
-</ion-content>
+  </ion-content>
+</div>
 
 <ion-modal #imageModal>
   <ng-template>
-    <ion-content>
-      <ion-header>
-        <ion-toolbar>
-          <ion-title><h2>{{ selectedImageName }}</h2></ion-title>
-          <ion-buttons slot="end">
-            <ion-button (click)="closeImageModal()">
-              <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
-            </ion-button>
-          </ion-buttons>
-        </ion-toolbar>
-      </ion-header>
-      <ion-content class="modal-content">
-        <ion-img [src]="selectedImageUrl" class="full-size-image"></ion-img>
-      </ion-content>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>{{ selectedImageName }}</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="closeImageModal()">
+            <ion-icon slot="icon-only" name="close"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <div class="image-container">
+        <img [src]="selectedImageUrl" [alt]="selectedImageName" class="full-size-image">
+      </div>
     </ion-content>
   </ng-template>
 </ion-modal>
