@@ -1,42 +1,63 @@
-$order-background: #f0f4f8;
-$order-card-background: #ffffff;
-$order-card-border: #d1d5db;
-$order-header-color: #4a90e2;
-$order-text-color: #333;
-$order-note-color: #757575;
-$order-shadow: rgba(0, 0, 0, 0.1);
+$order-background: #f5f7fa; // Soft background color
+$order-card-background: #ffffff; // Card background
+$order-card-border: #e0e0e0; // Card border color
+$order-header-color: linear-gradient(135deg, #4a90e2, #0056b3); // Gradient for header
+$order-text-color: #333; // Main text color
+$order-note-color: #757575; // Note color
+$order-shadow: rgba(0, 0, 0, 0.15); // Shadow for cards
+$order-transition: all 0.3s ease; // Transition for smooth effects
+$order-highlight: rgba(74, 144, 226, 0.2); // Highlight color
 
 .order-history-container {
   padding: 20px;
   background-color: $order-background;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px $order-shadow;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 
   ion-list {
     margin: 0;
 
     ion-card {
-      margin-bottom: 20px;
       border: 1px solid $order-card-border;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px $order-shadow;
-      transition: transform 0.2s, box-shadow 0.2s;
+      border-radius: 15px;
+      box-shadow: 0 6px 16px $order-shadow;
+      transition: $order-transition;
 
       &:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 20px $order-shadow;
+        transform: translateY(-4px);
+        box-shadow: 0 10px 24px $order-shadow;
+        border-color: #4a90e2; // Change border color on hover
       }
 
       ion-card-header {
-        background-color: $order-header-color;
+        background: $order-header-color;
         color: #ffffff;
         padding: 16px;
-        border-top-left-radius: 12px;
-        border-top-right-radius: 12px;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+        position: relative;
+
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 5px;
+          background: rgba(255, 255, 255, 0.3);
+          border-radius: 0 0 15px 15px;
+        }
 
         ion-card-title {
-          font-size: 1.5rem;
+          font-size: 1.6rem;
           font-weight: bold;
-          text-align: center;
           text-transform: uppercase;
+          letter-spacing: 1px;
+          text-align: center;
+          animation: fadeIn 0.5s; // Fade-in animation
         }
       }
 
@@ -48,24 +69,36 @@ $order-shadow: rgba(0, 0, 0, 0.1);
 
           ion-item {
             --inner-padding-end: 0;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             border-bottom: 1px solid $order-card-border;
+            position: relative;
+            transition: background $order-transition;
+
+            &:hover {
+              background: $order-highlight; // Highlight on hover
+              transition: background $order-transition;
+            }
 
             ion-label {
               color: $order-text-color;
 
               h2 {
-                font-size: 1.2rem;
+                font-size: 1.4rem;
                 font-weight: 600;
                 margin: 0;
-                color: $order-header-color;
+                color: #4a90e2; // Color for product names
+                transition: color $order-transition;
+
+                &:hover {
+                  color: #0056b3; // Change color on hover
+                }
               }
 
               p {
-                font-size: 0.95rem;
+                font-size: 1rem;
                 color: $order-note-color;
                 margin: 0;
-                opacity: 0.8;
+                opacity: 0.85;
               }
             }
           }
@@ -83,6 +116,12 @@ $order-shadow: rgba(0, 0, 0, 0.1);
             color: $order-note-color;
             text-align: right;
             padding: 0;
+            font-style: italic;
+            transition: color $order-transition;
+
+            &:hover {
+              color: $order-header-color; // Change color on hover
+            }
           }
         }
       }
@@ -95,5 +134,17 @@ $order-shadow: rgba(0, 0, 0, 0.1);
     color: $order-note-color;
     padding: 20px;
     font-style: italic;
+    margin-top: 20px;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }
