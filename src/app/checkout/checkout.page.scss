@@ -1,0 +1,22 @@
+.card-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
+}
+
+.order-summary-card, .bank-details-card {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.order-summary-card {
+  max-width: 45%; /* Limit width of the order summary card */
+}
+
+.bank-details-card {
+  max-width: 45%; /* Limit width of the bank details card */
+}
+
+ion-button {
+  margin-top: 20px;
+}

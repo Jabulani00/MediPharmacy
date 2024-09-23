@@ -1,13 +1,36 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>order-history</ion-title>
+    <ion-title>Order History</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">order-history</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <div class="order-history-container">
+    <ion-list>
+      <ion-item *ngFor="let order of orders">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Order Date: {{ order.timestamp.toDate() | date:'medium' }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-list>
+              <ion-item *ngFor="let item of order.items">
+                <ion-label>
+                  <h2>{{ item.product.name }}</h2>
+                  <p>Quantity: {{ item.quantity }} - Price: R {{ item.product.price }}</p>
+                </ion-label>
+              </ion-item>
+            </ion-list>
+            <ion-item>
+              <ion-label>Total Amount:</ion-label>
+              <ion-note slot="end">R {{ calculateTotal(order) }}</ion-note>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+      </ion-item>
+    </ion-list>
+    <ion-note *ngIf="orders.length === 0" color="medium">
+      No orders found.
+    </ion-note>
+  </div>
 </ion-content>

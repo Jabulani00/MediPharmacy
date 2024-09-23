@@ -145,7 +145,11 @@ const routes: Routes = [
   {
     path: 'payments-question',
     loadChildren: () => import('./payments-question/payments-question.module').then( m => m.PaymentsQUESTIONPageModule)
+  },  {
+    path: 'checkout',
+    loadChildren: () => import('./checkout/checkout.module').then( m => m.CheckoutPageModule)
   }
+
 ];
 
 @NgModule({

@@ -1,0 +1,80 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Checkout</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="card-container">
+    <!-- First Card: Order Summary -->
+    <ion-card class="order-summary-card">
+      <ion-card-header>
+        <ion-card-title>Order Summary</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-list>
+          <ion-item *ngFor="let item of cartItems">
+            <ion-label>
+              <h2>{{ item.product.name }}</h2>
+              <p>{{ item.quantity }} x  R {{ item.product.price }}</p>
+            </ion-label>
+            <ion-note slot="end">R {{ (item.product.price * item.quantity) }}</ion-note>
+          </ion-item>
+        </ion-list>
+
+        <ion-item>
+          <ion-label>
+            <h2>Total Amount</h2>
+          </ion-label>
+          <ion-note slot="end">R {{ totalAmount }}</ion-note>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Second Card: Bank Details -->
+    <ion-card class="bank-details-card">
+      <ion-card-header>
+        <ion-card-title>Payment Details</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <form [formGroup]="bankForm">
+          <!-- Bank Type Dropdown -->
+          <ion-item>
+            <ion-label>Bank</ion-label>
+            <ion-select placeholder="Select Bank" formControlName="bankType">
+              <ion-select-option *ngFor="let bank of banks" [value]="bank">{{ bank }}</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-note *ngIf="bankType?.invalid && bankType?.touched" color="danger">
+            Please select a bank.
+          </ion-note>
+
+          <!-- Account Number -->
+          <ion-item>
+            <ion-label position="floating">Account Number</ion-label>
+            <ion-input type="text" formControlName="accountNumber" maxlength="12" inputmode="numeric"></ion-input>
+          </ion-item>
+          <ion-note *ngIf="accountNumber?.invalid && accountNumber?.touched" color="danger">
+            Please enter a valid account number (8-12 digits).
+          </ion-note>
+
+          <!-- Card Holder Name -->
+          <ion-item>
+            <ion-label position="floating">Card Holder Name</ion-label>
+            <ion-input type="text" formControlName="cardHolderName"></ion-input>
+          </ion-item>
+          <ion-note *ngIf="cardHolderName?.invalid && cardHolderName?.touched" color="danger">
+            Please enter a valid cardholder name (alphabets only).
+          </ion-note>
+
+          <!-- Proceed Button -->
+          <ion-button expand="block" (click)="proceedToPayment()">
+            Proceed to Payment
+          </ion-button>
+        </form>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
