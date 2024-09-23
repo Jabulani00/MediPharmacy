@@ -75,8 +75,8 @@
         </ion-item>
       </ng-container>
 
-<!-- Driver specific fields -->
-<ng-container *ngIf="selectedRole === 'Driver'">
+      <!-- Driver specific fields -->
+      <ng-container *ngIf="selectedRole === 'Driver'">
   <ion-item>
     <ion-label position="floating">First Name:</ion-label>
     <ion-input type="text" [(ngModel)]="firstname" name="firstname" required></ion-input>
@@ -139,7 +139,7 @@
     <ion-input type="file" (change)="onFileSelected($event, 'pdp')" required ></ion-input>
   </ion-item>
   
-</ng-container>
+      </ng-container>
 
 
       <!-- Pharmacy specific fields -->
@@ -311,18 +311,28 @@
         </ion-item>
 
         <ion-item>
+          <ion-label>Upload Resume:</ion-label>
+          <ion-input type="file" (change)="onFileSelected($event, 'resume')" required></ion-input>
+        </ion-item>
+
+        <!-- <ion-item>
           <ion-label>Upload ID Document:</ion-label>
-          <ion-input type="file" (change)="onFileSelected($event, 'dispatcheriddocucment')" required></ion-input>
+          <ion-input type="file" (change)="onFileSelected($event, 'customeriddocucment')" required></ion-input>
+        </ion-item> -->
+
+        <ion-item>
+          <ion-label>Upload ID  Document:</ion-label>
+          <ion-input type="file" (change)="onFileSelected($event, 'iddocument')" required></ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-label>Upload Proof of Address Document:</ion-label>
-          <ion-input type="file" (change)="onFileSelected($event, 'dispatcherproofofaddress')" required></ion-input>
+          <ion-label>Upload SAPS Background Check Document:</ion-label>
+          <ion-input type="file" (change)="onFileSelected($event, 'sapsdocument')" required></ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-label>Upload Bank Statement Document:</ion-label>
-          <ion-input type="file" (change)="onFileSelected($event, 'dispatcherbankingdetails')" required></ion-input>
+          <ion-label>Upload Vehicle Insurance Document:</ion-label>
+          <ion-input type="file" (change)="onFileSelected($event, 'dispactherinsurance')" required></ion-input>
         </ion-item>
       </ng-container>
 

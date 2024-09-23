@@ -53,6 +53,7 @@ export class RegisterPage implements OnInit {
   dispatcherIDdocument: File | null = null;
   dispatcherSAPSdocuments: File | null = null;
   dispatcherInsuranceDocuments: File | null = null;
+  
 
   /*********************FIELDS FOR PHARMACY REGISTRATION*********************/
   
