@@ -1,8 +1,99 @@
+$order-background: #f0f4f8;
+$order-card-background: #ffffff;
+$order-card-border: #d1d5db;
+$order-header-color: #4a90e2;
+$order-text-color: #333;
+$order-note-color: #757575;
+$order-shadow: rgba(0, 0, 0, 0.1);
+
 .order-history-container {
-    padding: 16px;
-  
+  padding: 20px;
+  background-color: $order-background;
+
+  ion-list {
+    margin: 0;
+
     ion-card {
-      margin-bottom: 16px;
+      margin-bottom: 20px;
+      border: 1px solid $order-card-border;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px $order-shadow;
+      transition: transform 0.2s, box-shadow 0.2s;
+
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px $order-shadow;
+      }
+
+      ion-card-header {
+        background-color: $order-header-color;
+        color: #ffffff;
+        padding: 16px;
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+
+        ion-card-title {
+          font-size: 1.5rem;
+          font-weight: bold;
+          text-align: center;
+          text-transform: uppercase;
+        }
+      }
+
+      ion-card-content {
+        padding: 20px;
+
+        ion-list {
+          margin: 0;
+
+          ion-item {
+            --inner-padding-end: 0;
+            margin-bottom: 10px;
+            border-bottom: 1px solid $order-card-border;
+
+            ion-label {
+              color: $order-text-color;
+
+              h2 {
+                font-size: 1.2rem;
+                font-weight: 600;
+                margin: 0;
+                color: $order-header-color;
+              }
+
+              p {
+                font-size: 0.95rem;
+                color: $order-note-color;
+                margin: 0;
+                opacity: 0.8;
+              }
+            }
+          }
+        }
+
+        ion-item:last-child {
+          border-bottom: none;
+        }
+
+        ion-item {
+          font-weight: bold;
+
+          ion-note {
+            font-size: 1.1rem;
+            color: $order-note-color;
+            text-align: right;
+            padding: 0;
+          }
+        }
+      }
     }
   }
-  
+
+  ion-note {
+    text-align: center;
+    font-size: 1.2rem;
+    color: $order-note-color;
+    padding: 20px;
+    font-style: italic;
+  }
+}
