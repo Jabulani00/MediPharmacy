@@ -88,9 +88,6 @@
                 <ion-icon name="bicycle-outline" slot="start"></ion-icon>
                 <ion-label>Deliveries: {{ driver.deliveries }}</ion-label>
               </ion-item>
-              <ion-button expand="block" (click)="assignDelivery(driver)" class="custom-button">
-                Assign Delivery
-              </ion-button>
             </ion-card-content>
           </ion-card>
         </ion-col>
@@ -113,6 +110,12 @@
               <p>Price: {{ medication.price | currency }}</p>
               <p>Quantity: {{ medication.quantity }}</p>
               <p>Status: {{ medication.orderDelivery }}</p>
+              <p *ngIf="medication.driver">Assigned to: {{ medication.driver }}</p>
+              <ion-button expand="block" (click)="openDriverSelection(medication)" 
+                          [disabled]="medication.driver"
+                          class="custom-button">
+                {{ medication.driver ? 'Assigned' : 'Assign Delivery' }}
+              </ion-button>
             </ion-card-content>
           </ion-card>
         </ion-col>
@@ -120,32 +123,25 @@
     </ion-grid>
   </div>
 
-  <ion-card *ngIf="selectedDriver" class="assignment-card hover-effect fancy-shadow">
+  <ion-card *ngIf="selectedMedication" class="assignment-card hover-effect fancy-shadow">
     <ion-card-header>
-      <ion-card-title>Select Medication for {{ selectedDriver.name }}</ion-card-title>
+      <ion-card-title>Select Driver for {{ selectedMedication.name }}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-grid>
-        <ion-row>
-          <ion-col size="12" size-md="6" *ngFor="let medication of medications$ | async">
-            <ion-card class="medication-selection-card hover-effect">
-              <ion-img [src]="medication.imageUrl"></ion-img>
-              <ion-card-header>
-                <ion-card-title>{{ medication.name }}</ion-card-title>
-                <ion-card-subtitle>{{ medication.type }}</ion-card-subtitle>
-              </ion-card-header>
-              <ion-card-content>
-                <p>{{ medication.description }}</p>
-                <p>Price: {{ medication.price | currency }}</p>
-                <p>Quantity: {{ medication.quantity }}</p>
-                <ion-button expand="block" (click)="confirmDelivery(medication)" class="custom-button">
-                  Confirm Delivery
-                </ion-button>
-              </ion-card-content>
-            </ion-card>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
+      <ion-list>
+        <ion-item *ngFor="let driver of availableDrivers">
+          <ion-avatar slot="start">
+            <img [src]="driver.avatar" alt="Driver avatar">
+          </ion-avatar>
+          <ion-label>
+            <h2>{{ driver.name }}</h2>
+            <p>Deliveries: {{ driver.deliveries }}</p>
+          </ion-label>
+          <ion-button slot="end" (click)="assignDelivery(driver)" class="custom-button">
+            Assign
+          </ion-button>
+        </ion-item>
+      </ion-list>
       <ion-button expand="block" color="danger" (click)="cancelAssignment()" class="custom-button">Cancel</ion-button>
     </ion-card-content>
   </ion-card>

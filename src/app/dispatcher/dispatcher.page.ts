@@ -24,6 +24,7 @@ interface Medication {
   type: string;
   prescriptionRequired: boolean;
   orderDelivery: string;
+  driver?: string;
 }
 
 @Component({
@@ -38,7 +39,9 @@ export class DispatcherPage implements OnInit, AfterViewInit {
   selectedSegment: string = 'dashboard';
   drivers$: Observable<Driver[]>;
   medications$: Observable<Medication[]>;
-  selectedDriver: Driver | null = null;
+  availableMedications: Medication[] = [];
+  availableDrivers: Driver[] = [];
+  selectedMedication: Medication | null = null;
 
   driverStats = {
     pending: 5,
@@ -61,6 +64,8 @@ export class DispatcherPage implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.loadStats();
+    this.loadAvailableMedications();
+    this.loadAvailableDrivers();
   }
 
   ngAfterViewInit() {
@@ -86,28 +91,28 @@ export class DispatcherPage implements OnInit, AfterViewInit {
   createCharts() {
     if (this.driverStatusChart && this.medicationRequestsChart) {
       new Chart(this.driverStatusChart.nativeElement, {
-      type: 'doughnut',
-      data: {
-        labels: ['Active', 'Pending', 'Denied'],
-        datasets: [{
-          data: [this.driverStats.active, this.driverStats.pending, this.driverStats.denied],
-          backgroundColor: ['#36A2EB', '#FFCE56', '#FF6384']
-        }]
-      }
-    });
+        type: 'doughnut',
+        data: {
+          labels: ['Active', 'Pending', 'Denied'],
+          datasets: [{
+            data: [this.driverStats.active, this.driverStats.pending, this.driverStats.denied],
+            backgroundColor: ['#36A2EB', '#FFCE56', '#FF6384']
+          }]
+        }
+      });
 
-    new Chart(this.medicationRequestsChart.nativeElement, {
-      type: 'bar',
-      data: {
-        labels: ['Total', 'Delivered', 'In Progress'],
-        datasets: [{
-          label: 'Medication Requests',
-          data: [this.medicationStats.total, this.medicationStats.delivered, this.medicationStats.inProgress],
-          backgroundColor: ['#4BC0C0', '#36A2EB', '#FFCE56']
-        }]
-      }
-    });
-  }
+      new Chart(this.medicationRequestsChart.nativeElement, {
+        type: 'bar',
+        data: {
+          labels: ['Total', 'Delivered', 'In Progress'],
+          datasets: [{
+            label: 'Medication Requests',
+            data: [this.medicationStats.total, this.medicationStats.delivered, this.medicationStats.inProgress],
+            backgroundColor: ['#4BC0C0', '#36A2EB', '#FFCE56']
+          }]
+        }
+      });
+    }
   }
 
   updateDriverChart() {
@@ -140,30 +145,44 @@ export class DispatcherPage implements OnInit, AfterViewInit {
     }
   }
 
-  assignDelivery(driver: Driver) {
-    this.selectedDriver = driver;
+  loadAvailableMedications() {
+    this.medications$.subscribe(medications => {
+      this.availableMedications = medications.filter(m => !m.driver);
+    });
   }
 
-  confirmDelivery(medication: Medication) {
-    if (this.selectedDriver) {
+  loadAvailableDrivers() {
+    this.drivers$.subscribe(drivers => {
+      this.availableDrivers = drivers.filter(d => d.status === 'available');
+    });
+  }
+
+  openDriverSelection(medication: Medication) {
+    this.selectedMedication = medication;
+  }
+
+  assignDelivery(driver: Driver) {
+    if (this.selectedMedication) {
       const updateData = {
-        driver: this.selectedDriver.email,
+        driver: driver.email,
         orderDelivery: 'driver fetching',
       };
-      this.firestore.collection('medications').doc(medication.id).update(updateData)
+      this.firestore.collection('medications').doc(this.selectedMedication.id).update(updateData)
         .then(() => {
-          console.log(`Assigned ${medication.name} to ${this.selectedDriver!.name}`);
-          this.firestore.collection('Users').doc(this.selectedDriver!.id).update({
+          console.log(`Assigned ${this.selectedMedication!.name} to ${driver.name}`);
+          this.firestore.collection('Users').doc(driver.id).update({
             status: 'on delivery',
-            deliveries: this.selectedDriver!.deliveries + 1,
+            deliveries: driver.deliveries + 1,
           });
+          this.loadAvailableMedications();
+          this.loadAvailableDrivers();
         })
         .catch(error => console.error('Error updating medication:', error));
     }
-    this.selectedDriver = null; // Close the card after assigning
+    this.selectedMedication = null;
   }
 
   cancelAssignment() {
-    this.selectedDriver = null; // Close the card without assigning
+    this.selectedMedication = null;
   }
 }
