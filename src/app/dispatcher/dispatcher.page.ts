@@ -7,7 +7,7 @@ import { AlertController } from '@ionic/angular';
 interface Driver {
   id: string;
   name: string;
-  status: 'available' | 'shipping' | 'on_leave' | 'health_issue' | 'vehicle_issue';
+  status: 'available' | 'shipping' | 'on_leave' | 'health_issue' | 'vehicle_issue' | 'active';
   deliveries: number;
   avatar: string;
   email: string;
@@ -165,9 +165,23 @@ export class DispatcherPage implements OnInit, AfterViewInit {
 
   loadAvailableDrivers() {
     this.drivers$.subscribe(drivers => {
-      this.availableDrivers = drivers.filter(d => d.status === 'available' || d.status === 'shipping');
+      // Log the full list of drivers received
+      console.log("All drivers fetched:", drivers);
+      // Filter only available and shipping drivers
+      this.availableDrivers = drivers.filter(d => d.status === 'active' || d.status === 'shipping');
+      // Log the available drivers after filtering
+      console.log("Available drivers after filtering:", this.availableDrivers);
+      // Additional check if no drivers are available
+      if (this.availableDrivers.length === 0) {
+        console.warn("No available drivers found!");
+      }
+    }, error => {
+      // Log an error if there is an issue fetching drivers
+      console.error("Error fetching drivers:", error);
     });
   }
+  
+  
 
   async assignDelivery(medication: Medication, driverId: string) {
     const driver = this.availableDrivers.find(d => d.id === driverId);
