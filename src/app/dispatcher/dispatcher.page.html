@@ -111,10 +111,18 @@
               <p>Quantity: {{ medication.quantity }}</p>
               <p>Status: {{ medication.orderDelivery }}</p>
               <p *ngIf="medication.driver">Assigned to: {{ medication.driver }}</p>
-              <ion-button expand="block" (click)="openDriverSelection(medication)" 
-                          [disabled]="medication.driver"
-                          class="custom-button">
-                {{ medication.driver ? 'Assigned' : 'Assign Delivery' }}
+              
+              <!-- Updated assignment dropdown -->
+              <ion-item *ngIf="!medication.driver">
+                <ion-label>Assign Driver</ion-label>
+                <ion-select placeholder="Select Driver" (ionChange)="assignDelivery(medication, $event.detail.value)">
+                  <ion-select-option *ngFor="let driver of availableDrivers" [value]="driver.id">
+                    {{ driver.name }} ({{ getDriverStatus(driver) }})
+                  </ion-select-option>
+                </ion-select>
+              </ion-item>
+              <ion-button *ngIf="medication.driver" expand="block" disabled class="custom-button">
+                Assigned
               </ion-button>
             </ion-card-content>
           </ion-card>
@@ -123,26 +131,5 @@
     </ion-grid>
   </div>
 
-  <ion-card *ngIf="selectedMedication" class="assignment-card hover-effect fancy-shadow">
-    <ion-card-header>
-      <ion-card-title>Select Driver for {{ selectedMedication.name }}</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-list>
-        <ion-item *ngFor="let driver of availableDrivers">
-          <ion-avatar slot="start">
-            <img [src]="driver.avatar" alt="Driver avatar">
-          </ion-avatar>
-          <ion-label>
-            <h2>{{ driver.name }}</h2>
-            <p>Deliveries: {{ driver.deliveries }}</p>
-          </ion-label>
-          <ion-button slot="end" (click)="assignDelivery(driver)" class="custom-button">
-            Assign
-          </ion-button>
-        </ion-item>
-      </ion-list>
-      <ion-button expand="block" color="danger" (click)="cancelAssignment()" class="custom-button">Cancel</ion-button>
-    </ion-card-content>
-  </ion-card>
+  <!-- Removed the assignment card as it's no longer needed -->
 </ion-content>

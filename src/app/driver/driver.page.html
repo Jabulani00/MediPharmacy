@@ -87,18 +87,21 @@
     <ion-card-header>
       <ion-card-title>Assigned Medications</ion-card-title>
     </ion-card-header>
-    <ion-card-content *ngFor="let medication of medications">
-      <ion-item>
-        <ion-thumbnail slot="start">
-          <img [src]="medication.imageUrl" />
-        </ion-thumbnail>
-        <ion-label>
-          <h2>{{ medication.name }}</h2>
-          <p>{{ medication.description }}</p>
-          <p>Price: {{ medication.price }}</p>
-          <p>Quantity: {{ medication.quantity }}</p>
-        </ion-label>
-      </ion-item>
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let medication of medications">
+          <ion-thumbnail slot="start">
+            <img [src]="medication.imageUrl || 'assets/placeholder-image.jpg'" alt="Medication Image">
+          </ion-thumbnail>
+          <ion-label>
+            <h2>{{ medication.name }}</h2>
+            <p>{{ medication.description }}</p>
+            <p>Price: {{ medication.price | currency }}</p>
+            <p>Quantity: {{ medication.quantity }}</p>
+          </ion-label>
+          <ion-button slot="end" (click)="deliverMedication(medication)">Deliver</ion-button>
+        </ion-item>
+      </ion-list>
     </ion-card-content>
   </ion-card>
 
